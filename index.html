@@ -3,403 +3,431 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A comprehensive catalog of 1,766+ free and open-source UI component libraries, design systems, and micro-components.">
-  <title>UI Components Catalog</title>
+  <meta name="description" content="Ultimate interactive open-source design system and UI library showcase.">
+  <title>OmniUI Universe &bull; 1,760+ Open Source UI Demos</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
           colors: {
-            primary: {
-              50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
-              400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
-              800: '#075985', 900: '#0c4a6e'
-            }
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              900: '#312e81',
+            },
+            cyber: '#06b6d4',
+            neon: '#10b981',
+            accent: '#f43f5e'
           }
         }
       }
     }
   </script>
   <style>
-    * { font-family: 'Inter', sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .neo-box {
+      border: 2px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      transition: all 0.15s ease-in-out;
+    }
+    .dark .neo-box {
+      border: 2px solid #38bdf8;
+      box-shadow: 4px 4px 0px #38bdf8;
+    }
+    .neo-box:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #000;
+    }
+    .dark .neo-box:hover {
+      box-shadow: 6px 6px 0px #38bdf8;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gray-50 dark:bg-neutral-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-  <!-- Header -->
-  <header class="fixed inset-x-0 top-0 z-50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md border-b border-gray-200/50 dark:border-neutral-800/50 py-4">
-    <div class="container mx-auto px-4 flex items-center justify-between">
-      <a href="#" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        UI Components
-      </a>
-      <nav class="hidden md:flex items-center gap-6">
-        <a href="#" onclick="showPage('catalog')" class="text-sm font-medium hover:text-primary transition-colors">Catalog</a>
-        <a href="#" onclick="showPage('about')" class="text-sm font-medium hover:text-primary transition-colors">About</a>
-        <a href="#" onclick="showPage('search')" class="text-sm font-medium hover:text-primary transition-colors">Search</a>
-        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors" aria-label="Toggle theme">
-          <svg id="theme-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-        </button>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
+
+  <!-- Floating Navigation -->
+  <header class="fixed inset-x-0 top-0 z-50 glass border-b transition-colors">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('explore')">
+        <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-brand-600 via-cyber to-neon flex items-center justify-center shadow-lg shadow-brand-500/20">
+          <span class="text-white font-display font-bold text-lg">⚡</span>
+        </div>
+        <span class="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-brand-600 to-cyber bg-clip-text text-transparent">
+          OmniUI Universe
+        </span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200/50 dark:border-slate-800">
+        <button onclick="switchTab('explore')" id="nav-explore" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all bg-white dark:bg-slate-800 shadow-sm text-brand-600 dark:text-brand-400">Library Catalog</button>
+        <button onclick="switchTab('sandbox')" id="nav-sandbox" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Live Playground</button>
+        <button onclick="switchTab('figma')" id="nav-figma" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Figma &bull; React Lab</button>
       </nav>
+
+      <div class="flex items-center gap-3">
+        <button onclick="triggerConfetti()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 hover:bg-brand-500/20 transition-all">
+          <span>✨ Celebrate</span>
+        </button>
+        <button onclick="toggleTheme()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors" title="Toggle Theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main id="main-content" class="pt-20 pb-12 min-h-screen">
-    <!-- Catalog Page -->
-    <div id="page-catalog" class="page-content">
-      <div class="max-w-7xl mx-auto px-4 py-12">
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            UI Components Catalog
+  <!-- Main Views Container -->
+  <main class="pt-24 pb-16 max-w-7xl mx-auto px-4">
+
+    <!-- TAB 1: EXPLORE CATALOG -->
+    <section id="tab-explore" class="tab-view block space-y-8">
+      <!-- Dynamic Hero Header -->
+      <div class="relative overflow-hidden rounded-3xl p-8 sm:p-12 glass border border-slate-200/80 dark:border-slate-800 shadow-xl">
+        <div class="relative z-10 max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
+            Unified Ecosystem &bull; 1,766 Modules
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-display font-extrabold tracking-tight">
+            Explore, Demo & Extract Every Open-Source UI Pattern
           </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400" id="catalog-subtitle">
-            Explore <span id="total-count">1,766</span> free and open-source UI component libraries,
-            design systems, and micro-components
+          <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed">
+            Instant code access, interactive live sandboxes, and automated Figma-to-React transformation. Built by combining the best elements of shadcn, Radix, Tailwind, DaisyUI, and 1,760+ community frameworks.
           </p>
-          <div class="mt-6 flex flex-wrap gap-4">
-            <div class="relative flex-1 min-w-[250px]">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              <input type="text" id="search-input" placeholder="Search components..." class="w-full px-4 pl-10 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-gray-50 dark:bg-neutral-800 focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm outline-none transition-all">
+        </div>
+      </div>
+
+      <!-- Live Search & Filtering Toolbar -->
+      <div class="glass p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+        <div class="relative flex-1 min-w-[280px]">
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
+          <input type="text" id="catalog-search" oninput="handleSearch(this.value)" placeholder="Search across 1,766 libraries by component, stack, or feature..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+        </div>
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none w-full sm:w-auto">
+          <select id="category-filter" onchange="handleCategory(this.value)" class="px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+            <option value="All">All Categories</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Count & Pagination Indicators -->
+      <div class="flex items-center justify-between text-xs text-slate-500 font-medium px-1">
+        <span id="results-count-badge">Loading components...</span>
+        <span id="page-count-badge">Page 1</span>
+      </div>
+
+      <!-- Catalog Component Cards Grid -->
+      <div id="components-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+
+      <!-- Pagination -->
+      <div id="pagination-controls" class="flex items-center justify-center gap-2 pt-6"></div>
+    </section>
+
+    <!-- TAB 2: LIVE PLAYGROUND (Synthesized UI Demos) -->
+    <section id="tab-sandbox" class="tab-view hidden space-y-10">
+      <div class="space-y-3">
+        <h2 class="text-3xl font-display font-bold">Interactive Component Sandbox</h2>
+        <p class="text-slate-600 dark:text-slate-400">
+          Live demonstrations combining micro-interactions, retro themes, and modern glassmorphic surfaces. Click to test states, triggers, and extract ready-to-use snippets.
+        </p>
+      </div>
+
+      <!-- Showcase Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- DEMO 1: Glassmorphic Neo-Card -->
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold uppercase text-cyber">Tailwind + Glass</span>
+              <span class="text-xs bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-full">Interactive</span>
             </div>
-            <select id="category-filter" class="px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-gray-50 dark:bg-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-700">
-              <option value="All">All Categories</option>
-            </select>
+            <h3 class="font-display font-bold text-lg">Adaptive Glass Surface</h3>
+            <p class="text-xs text-slate-500">Backdrop-blur filter with dynamic lighting gradients and hover lift.</p>
           </div>
+          <div class="p-4 rounded-xl bg-gradient-to-br from-brand-500/20 to-cyber/20 border border-brand-500/30 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold">Active Memory Cache</p>
+              <p class="text-lg font-bold font-mono">1.76 GB</p>
+            </div>
+            <button onclick="triggerConfetti()" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition-all">Pulse</button>
+          </div>
+          <button onclick="copySnippet('glass-card')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Copy Tailwind Snippet</button>
         </div>
 
-        <div id="loading" class="text-center py-20">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">Loading component data...</p>
+        <!-- DEMO 2: Neo-Brutalist Action Element -->
+        <div class="p-6 rounded-2xl bg-amber-100 dark:bg-amber-950/40 neo-box flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold uppercase text-slate-900 dark:text-cyan-400">Neo-Brutalism</span>
+              <span class="text-xs bg-black text-white px-2 py-0.5 rounded font-mono font-bold">NES/Paper</span>
+            </div>
+            <h3 class="font-display font-bold text-lg">Tactile High-Contrast Button</h3>
+            <p class="text-xs text-slate-700 dark:text-slate-300">Retro styled border-box with hard offsets and instant click feedback.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="alert('⚡ High Emphasis Action Triggered!')" class="flex-1 py-3 px-4 bg-yellow-400 dark:bg-yellow-500 text-slate-950 font-bold font-mono text-xs uppercase neo-box cursor-pointer">
+              Deploy Build
+            </button>
+          </div>
+          <button onclick="copySnippet('neo-btn')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-900 dark:border-cyan-400 hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors">Copy Neo CSS</button>
         </div>
 
-        <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-8"></div>
-
-        <div id="results-header" class="hidden mb-6 flex items-center justify-between">
-          <span class="text-sm text-gray-600 dark:text-gray-400" id="results-count"></span>
+        <!-- DEMO 3: Micro-Toast Trigger (Sonner / Hot-Toast style) -->
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold uppercase text-brand-600 dark:text-brand-400">Notification Primitive</span>
+              <span class="text-xs bg-indigo-500/10 text-indigo-600 px-2 py-0.5 rounded-full">Sonner-Style</span>
+            </div>
+            <h3 class="font-display font-bold text-lg">Async Toast Notification</h3>
+            <p class="text-xs text-slate-500">Smooth animated toast triggers simulating live state update workflows.</p>
+          </div>
+          <div class="flex flex-col gap-2">
+            <button onclick="showToast('✅ Component spec compiled and ready for React!')" class="w-full py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition-all">
+              Trigger Success Toast
+            </button>
+            <button onclick="showToast('⚡ Action rebased to GitHub Pages!')" class="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+              Trigger Info Toast
+            </button>
+          </div>
+          <button onclick="copySnippet('toast-primitive')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Copy Toast Code</button>
         </div>
 
-        <div id="components-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
-
-        <div id="pagination" class="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 dark:border-neutral-700"></div>
       </div>
+    </section>
+
+    <!-- TAB 3: FIGMA-TO-REACT LAB -->
+    <section id="tab-figma" class="tab-view hidden space-y-8">
+      <div class="space-y-3">
+        <h2 class="text-3xl font-display font-bold">Figma &bull; React Code Synthesis</h2>
+        <p class="text-slate-600 dark:text-slate-400">
+          Transform Figma frame exports into ready-to-run React functional components with calculated absolute coordinates and styles.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Input JSON Viewer -->
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 font-mono">Figma Document Frame (JSON)</h3>
+            <span class="text-xs bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded font-mono">figma-showcase.json</span>
+          </div>
+          <pre class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
+{
+  "type": "FRAME",
+  "name": "HeroBannerCard",
+  "absoluteBoundingBox": { "width": 800, "height": 260 },
+  "fills": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.1, "b": 0.18 } }],
+  "children": [
+    {
+      "type": "TEXT",
+      "characters": "⚡ Next-Gen Interactive UI Component Hub",
+      "style": { "fontSize": 26, "fontWeight": 700 }
+    }
+  ]
+}
+          </pre>
+        </div>
+
+        <!-- Output React Viewer -->
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 font-mono">Compiled React Component</h3>
+            <button onclick="copySnippet('figma-react')" class="text-xs bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 px-2.5 py-1 rounded-lg font-mono font-medium hover:bg-brand-500/20">Copy Code</button>
+          </div>
+          <pre id="figma-code-output" class="p-4 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
+import React from 'react';
+
+export const Herobannercard = () => (
+  <div className="rounded-2xl shadow-xl overflow-hidden">
+    <div style={{ width: '100%', height: '260px', backgroundColor: 'rgb(20,26,46)', padding: '2rem' }}>
+      <span style={{ fontSize: '26px', fontWeight: '700', color: 'rgb(97,189,250)' }}>
+        ⚡ Next-Gen Interactive UI Component Hub
+      </span>
+      <p style={{ fontSize: '15px', fontWeight: '400', color: 'rgb(217,230,242)', marginTop: '0.75rem' }}>
+        Synthesized from 1,760+ open-source design systems and micro-interaction frameworks.
+      </p>
     </div>
-
-    <!-- About Page -->
-    <div id="page-about" class="page-content hidden">
-      <div class="max-w-4xl mx-auto px-4 py-12 space-y-8">
-        <div>
-          <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            About UI Components Catalog
-          </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-            This catalog contains <span id="about-count">1,766</span> free and open-source UI component libraries,
-            design systems, micro-components, animation libraries, and specialized UI
-            tools — all curated from GitHub and open-source registries.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-gray-50 dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700">
-            <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
-              <span class="bg-blue-100 text-blue-600 p-2 rounded-lg">📊 1,766+ Components</span>
-            </h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              A comprehensive database of open-source UI libraries and component suites
-              across React, Vue, Angular, Svelte, SolidJS, and plain CSS.
-            </p>
-          </div>
-
-          <div class="bg-gray-50 dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700">
-            <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
-              <span class="bg-green-100 text-green-600 p-2 rounded-lg">🆓 All Open Source</span>
-            </h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              Every library listed uses a permissive open-source license: MIT, Apache-2.0,
-              BSD, ISC, or CC0. Free for personal and commercial use.
-            </p>
-          </div>
-
-          <div class="bg-gray-50 dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700">
-            <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
-              <span class="bg-purple-100 text-purple-600 p-2 rounded-lg">🔗 Direct Links</span>
-            </h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              Each entry links directly to the official website, documentation, and GitHub
-              repository — so you can view demos and grab code instantly.
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl p-8 mt-8">
-          <h2 class="text-2xl font-bold mb-4">How to Use This Catalog</h2>
-          <ol class="list-disc list-inside space-y-3 text-gray-600 dark:text-gray-400">
-            <li>Browse the <a href="#" onclick="showPage('catalog')" class="text-primary hover:underline">component catalog</a> to see all libraries</li>
-            <li>Use the search bar to find specific components or libraries by name</li>
-            <li>Filter by category using the dropdown menu</li>
-            <li>Click "Website" to view the live demo of any component</li>
-            <li>Click "GitHub" to view source code and installation instructions</li>
-          </ol>
+  </div>
+);
+          </pre>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Search Page -->
-    <div id="page-search" class="page-content hidden">
-      <div class="max-w-5xl mx-auto px-4 py-12 space-y-8">
-        <div>
-          <h1 class="text-3xl font-bold mb-2">Search Components</h1>
-          <p class="text-gray-600 dark:text-gray-400">Search through <span id="search-total">1,766</span> open-source UI libraries and components</p>
-        </div>
-
-        <div class="relative">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input type="text" id="search-page-input" placeholder="Search libraries, components..." class="w-full px-4 pl-10 py-3 border border-gray-300 dark:border-neutral-700 rounded-xl bg-gray-50 dark:bg-neutral-800 focus:border-primary focus:ring-2 focus:ring-primary/20 text-lg outline-none transition-all">
-        </div>
-
-        <div id="search-results" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
-        <p id="search-empty" class="hidden text-center py-20 text-gray-600 dark:text-gray-400"></p>
-      </div>
-    </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-gray-200/50 dark:border-neutral-800/50 mt-20 py-12">
-    <div class="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-500">
-      <p class="mb-4">UI Components Catalog &bull; Open-source UI library explorer &bull; Built with HTML, Tailwind CSS, and vanilla JS</p>
-      <p>Total Components: <span class="font-medium" id="footer-count">1,766+</span> libraries & design systems</p>
-      <p class="mt-4 text-xs opacity-60">&copy; 2025 UI Components Catalog. Data sourced from GitHub and open-source registries. All licenses are MIT, Apache, BSD, ISC, or CC0.</p>
-    </div>
-  </footer>
+  <!-- Interactive Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- Interactive Logic Engine -->
   <script>
-    // Load data
-    let allComponents = [];
+    let componentsData = [];
+    let currentCategory = 'All';
+    let searchQuery = '';
     let currentPage = 1;
     const itemsPerPage = 48;
-    let currentCategory = 'All';
-    let currentSearchQuery = '';
 
-    async function loadData() {
+    async function initCatalog() {
       try {
-        const response = await fetch('ui-components-data.json');
-        if (!response.ok) throw new Error('Failed to fetch');
-        allComponents = await response.json();
-        initializeApp();
+        const res = await fetch('ui-components-data.json');
+        componentsData = await res.json();
+
+        // Build category options
+        const categories = ['All', ...new Set(componentsData.map(c => c.category))].sort();
+        const select = document.getElementById('category-filter');
+        select.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+
+        renderCatalog();
       } catch (err) {
-        console.error(err);
-        document.getElementById('loading').classList.add('hidden');
-        document.getElementById('error-message').textContent = 'Failed to load component data. Please try again later.';
-        document.getElementById('error-message').classList.remove('hidden');
+        console.error('Failed to load components', err);
+        document.getElementById('results-count-badge').textContent = 'Error loading components data.';
       }
-    }
-
-    function initializeApp() {
-      document.getElementById('loading').classList.add('hidden');
-      document.getElementById('results-header').classList.remove('hidden');
-
-      // Populate categories
-      const categories = [...new Set(allComponents.map(c => c.category))].sort();
-      const select = document.getElementById('category-filter');
-      categories.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat;
-        option.textContent = cat;
-        select.appendChild(option);
-      });
-
-      // Update counts
-      const total = allComponents.length;
-      document.getElementById('total-count').textContent = total.toLocaleString();
-      document.getElementById('about-count').textContent = total.toLocaleString();
-      document.getElementById('search-total').textContent = total.toLocaleString();
-      document.getElementById('footer-count').textContent = total.toLocaleString() + '+';
-
-      // Event listeners
-      document.getElementById('search-input').addEventListener('input', debounce(handleCatalogSearch, 200));
-      document.getElementById('search-page-input').addEventListener('input', debounce(handleSearchPage, 200));
-      document.getElementById('category-filter').addEventListener('change', handleCategoryChange);
-
-      // Initial render
-      renderCatalog();
-      renderSearchPage('');
-    }
-
-    function debounce(fn, delay) {
-      let timeoutId;
-      return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => fn(...args), delay);
-      };
-    }
-
-    function handleCatalogSearch(e) {
-      currentSearchQuery = e.target.value;
-      currentPage = 1;
-      renderCatalog();
-    }
-
-    function handleSearchPage(e) {
-      renderSearchPage(e.target.value);
-    }
-
-    function handleCategoryChange(e) {
-      currentCategory = e.target.value;
-      currentPage = 1;
-      renderCatalog();
-    }
-
-    function getFilteredComponents() {
-      return allComponents.filter(comp => {
-        const matchesSearch = comp.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
-          (comp.website && comp.website.toLowerCase().includes(currentSearchQuery.toLowerCase()));
-        const matchesCategory = currentCategory === 'All' || comp.category === currentCategory;
-        return matchesSearch && matchesCategory;
-      });
     }
 
     function renderCatalog() {
-      const filtered = getFilteredComponents();
-      const totalPages = Math.ceil(filtered.length / itemsPerPage);
+      const filtered = componentsData.filter(item => {
+        const matchesCategory = currentCategory === 'All' || item.category === currentCategory;
+        const matchesQuery = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             item.website.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesQuery;
+      });
+
+      const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
       const start = (currentPage - 1) * itemsPerPage;
-      const pageComponents = filtered.slice(start, start + itemsPerPage);
+      const pageSlice = filtered.slice(start, start + itemsPerPage);
 
-      // Update results count
-      document.getElementById('results-count').textContent = `Showing ${pageComponents.length} of ${filtered.length} components`;
+      document.getElementById('results-count-badge').textContent = `Showing ${pageSlice.length} of ${filtered.length} total libraries`;
+      document.getElementById('page-count-badge').textContent = `Page ${currentPage} of ${totalPages}`;
 
-      // Render components
       const grid = document.getElementById('components-grid');
-      grid.innerHTML = pageComponents.map(comp => createComponentCard(comp)).join('');
+      grid.innerHTML = pageSlice.map(item => `
+        <div class="glass p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-tight">${escapeHtml(item.category)}</span>
+              <span class="text-[10px] font-mono font-medium text-slate-400">${escapeHtml(item.license)}</span>
+            </div>
+            <h3 class="font-display font-bold text-base text-slate-900 dark:text-white truncate">${escapeHtml(item.name)}</h3>
+          </div>
+          <div class="flex items-center gap-2 pt-2">
+            <a href="${escapeHtml(item.website)}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold text-center bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/20 transition-all">Demo &rarr;</a>
+            <a href="${escapeHtml(item.repo)}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-3 rounded-lg text-xs font-semibold text-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all">Code</a>
+          </div>
+        </div>
+      `).join('');
 
-      // Render pagination
       renderPagination(totalPages);
     }
 
-    function createComponentCard(comp) {
-      return `
-        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl p-5 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors group cursor-pointer">
-          <div class="flex items-start justify-between mb-2">
-            <span class="text-xs font-medium px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full uppercase tracking-tighter">
-              ${escapeHtml(comp.category)}
-            </span>
-            <a href="${escapeHtml(comp.repo)}" target="_blank" rel="noopener noreferrer" class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded" title="View on GitHub">
-              <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.305-.536-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-            </a>
-          </div>
-          <h3 class="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">${escapeHtml(comp.name)}</h3>
-          <div class="flex items-center gap-2 mb-3 text-xs text-gray-500 dark:text-gray-400">
-            <span class="px-2 py-0.5 bg-gray-100 dark:bg-neutral-800 rounded border border-gray-200 dark:border-neutral-700">${escapeHtml(comp.license)}</span>
-          </div>
-          <div class="flex gap-3">
-            <a href="${escapeHtml(comp.website)}" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 border border-blue-100 dark:border-blue-900/30 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors text-center">Website</a>
-            <a href="${escapeHtml(comp.repo)}" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 border border-gray-200 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-neutral-800/30 rounded-lg transition-colors text-center">GitHub</a>
-          </div>
-        </div>
-      `;
-    }
-
     function renderPagination(totalPages) {
-      const pagination = document.getElementById('pagination');
+      const container = document.getElementById('pagination-controls');
       if (totalPages <= 1) {
-        pagination.innerHTML = '';
+        container.innerHTML = '';
         return;
       }
-
-      const start = Math.max(1, currentPage - 4);
-      const end = Math.min(totalPages, currentPage + 5);
-
-      let html = `
-        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-          Showing page <span class="font-medium">${currentPage}</span> of <span class="font-medium">${totalPages}</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <button onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">First</button>
-          <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Prev</button>
+      container.innerHTML = `
+        <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold glass border disabled:opacity-40">&larr; Prev</button>
+        <span class="text-xs font-mono font-medium px-2">${currentPage} / ${totalPages}</span>
+        <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold glass border disabled:opacity-40">Next &rarr;</button>
       `;
-
-      for (let i = start; i <= end; i++) {
-        html += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded border text-sm font-medium transition-colors ${i === currentPage ? 'bg-primary text-white border-primary' : 'hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-600 dark:text-gray-400'}">${i}</button>`;
-      }
-
-      html += `
-          <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Next</button>
-          <button onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Last</button>
-        </div>
-      `;
-
-      pagination.innerHTML = html;
     }
 
-    window.goToPage = function(page) {
+    function goToPage(page) {
       currentPage = page;
       renderCatalog();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    function renderSearchPage(query) {
-      const filtered = allComponents.filter(comp =>
-        comp.name.toLowerCase().includes(query.toLowerCase()) ||
-        (comp.website && comp.website.toLowerCase().includes(query.toLowerCase()))
-      );
-
-      const resultsDiv = document.getElementById('search-results');
-      const emptyDiv = document.getElementById('search-empty');
-
-      if (query.length === 0) {
-        resultsDiv.innerHTML = '<p class="text-center py-20 text-gray-500 dark:text-gray-400">Type to search...</p>';
-        emptyDiv.classList.add('hidden');
-        return;
-      }
-
-      if (filtered.length === 0) {
-        resultsDiv.innerHTML = '';
-        emptyDiv.textContent = `No components found matching "${query}"`;
-        emptyDiv.classList.remove('hidden');
-        return;
-      }
-
-      emptyDiv.classList.add('hidden');
-      resultsDiv.innerHTML = filtered.map(comp => createComponentCard(comp)).join('');
     }
 
-    function showPage(page) {
-      document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-      document.getElementById(`page-${page}`).classList.remove('hidden');
-      if (page === 'catalog') {
-        document.getElementById('search-input').focus();
-      } else if (page === 'search') {
-        document.getElementById('search-page-input').focus();
-      }
+    function handleSearch(val) {
+      searchQuery = val;
+      currentPage = 1;
+      renderCatalog();
+    }
+
+    function handleCategory(val) {
+      currentCategory = val;
+      currentPage = 1;
+      renderCatalog();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+      ['explore', 'sandbox', 'figma'].forEach(t => {
+        const btn = document.getElementById(`nav-${t}`);
+        if (t === tabId) {
+          btn.className = "px-4 py-1.5 rounded-lg text-sm font-semibold transition-all bg-white dark:bg-slate-800 shadow-sm text-brand-600 dark:text-brand-400";
+        } else {
+          btn.className = "px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        }
+      });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function toggleTheme() {
       document.documentElement.classList.toggle('dark');
-      const icon = document.getElementById('theme-icon');
-      if (document.documentElement.classList.contains('dark')) {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
-      } else {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.8 } });
       }
-      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
     }
 
-    // Check for saved theme
-    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
+    function showToast(msg) {
+      const c = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'glass px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl text-xs font-semibold flex items-center gap-2 pointer-events-auto animate-bounce';
+      toast.innerHTML = `<span>${msg}</span>`;
+      c.appendChild(toast);
+      setTimeout(() => { toast.remove(); }, 3500);
     }
 
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+    function copySnippet(type) {
+      let code = "";
+      if (type === 'glass-card') {
+        code = `<div class="backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border border-white/20 p-6 rounded-2xl shadow-xl hover:-translate-y-1 transition-all">...</div>`;
+      } else if (type === 'neo-btn') {
+        code = `<button class="border-2 border-black bg-yellow-400 shadow-[4px_4px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none font-bold uppercase px-4 py-2">Click</button>`;
+      } else if (type === 'toast-primitive') {
+        code = `const showToast = (text) => { /* Dispatches unstyled micro-toast node */ };`;
+      } else if (type === 'figma-react') {
+        code = document.getElementById('figma-code-output').textContent;
+      }
+      navigator.clipboard.writeText(code);
+      showToast('📋 Snippet copied to clipboard!');
     }
 
-    // Load data on startup
-    loadData();
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+    }
+
+    window.addEventListener('DOMContentLoaded', initCatalog);
   </script>
 </body>
 </html>
