@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A comprehensive catalog of 1,766+ free and open-source UI component libraries, design systems, and micro-components.">
+  <title>UI Components Catalog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
+              400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
+              800: '#075985', 900: '#0c4a6e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-neutral-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+  <!-- Header -->
+  <header class="fixed inset-x-0 top-0 z-50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md border-b border-gray-200/50 dark:border-neutral-800/50 py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <a href="#" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        UI Components
+      </a>
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#" onclick="showPage('catalog')" class="text-sm font-medium hover:text-primary transition-colors">Catalog</a>
+        <a href="#" onclick="showPage('about')" class="text-sm font-medium hover:text-primary transition-colors">About</a>
+        <a href="#" onclick="showPage('search')" class="text-sm font-medium hover:text-primary transition-colors">Search</a>
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors" aria-label="Toggle theme">
+          <svg id="theme-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="pt-20 pb-12 min-h-screen">
+    <!-- Catalog Page -->
+    <div id="page-catalog" class="page-content">
+      <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            UI Components Catalog
+          </h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400" id="catalog-subtitle">
+            Explore <span id="total-count">1,766</span> free and open-source UI component libraries,
+            design systems, and micro-components
+          </p>
+          <div class="mt-6 flex flex-wrap gap-4">
+            <div class="relative flex-1 min-w-[250px]">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="search-input" placeholder="Search components..." class="w-full px-4 pl-10 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-gray-50 dark:bg-neutral-800 focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm outline-none transition-all">
+            </div>
+            <select id="category-filter" class="px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-gray-50 dark:bg-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-700">
+              <option value="All">All Categories</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="loading" class="text-center py-20">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">Loading component data...</p>
+        </div>
+
+        <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-8"></div>
+
+        <div id="results-header" class="hidden mb-6 flex items-center justify-between">
+          <span class="text-sm text-gray-600 dark:text-gray-400" id="results-count"></span>
+        </div>
+
+        <div id="components-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+
+        <div id="pagination" class="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 dark:border-neutral-700"></div>
+      </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="page-about" class="page-content hidden">
+      <div class="max-w-4xl mx-auto px-4 py-12 space-y-8">
+        <div>
+          <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            About UI Components Catalog
+          </h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+            This catalog contains <span id="about-count">1,766</span> free and open-source UI component libraries,
+            design systems, micro-components, animation libraries, and specialized UI
+            tools — all curated from GitHub and open-source registries.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-gray-50 dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700">
+            <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+              <span class="bg-blue-100 text-blue-600 p-2 rounded-lg">📊 1,766+ Components</span>
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              A comprehensive database of open-source UI libraries and component suites
+              across React, Vue, Angular, Svelte, SolidJS, and plain CSS.
+            </p>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700">
+            <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+              <span class="bg-green-100 text-green-600 p-2 rounded-lg">🆓 All Open Source</span>
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              Every library listed uses a permissive open-source license: MIT, Apache-2.0,
+              BSD, ISC, or CC0. Free for personal and commercial use.
+            </p>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700">
+            <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
+              <span class="bg-purple-100 text-purple-600 p-2 rounded-lg">🔗 Direct Links</span>
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              Each entry links directly to the official website, documentation, and GitHub
+              repository — so you can view demos and grab code instantly.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl p-8 mt-8">
+          <h2 class="text-2xl font-bold mb-4">How to Use This Catalog</h2>
+          <ol class="list-disc list-inside space-y-3 text-gray-600 dark:text-gray-400">
+            <li>Browse the <a href="#" onclick="showPage('catalog')" class="text-primary hover:underline">component catalog</a> to see all libraries</li>
+            <li>Use the search bar to find specific components or libraries by name</li>
+            <li>Filter by category using the dropdown menu</li>
+            <li>Click "Website" to view the live demo of any component</li>
+            <li>Click "GitHub" to view source code and installation instructions</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Page -->
+    <div id="page-search" class="page-content hidden">
+      <div class="max-w-5xl mx-auto px-4 py-12 space-y-8">
+        <div>
+          <h1 class="text-3xl font-bold mb-2">Search Components</h1>
+          <p class="text-gray-600 dark:text-gray-400">Search through <span id="search-total">1,766</span> open-source UI libraries and components</p>
+        </div>
+
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" id="search-page-input" placeholder="Search libraries, components..." class="w-full px-4 pl-10 py-3 border border-gray-300 dark:border-neutral-700 rounded-xl bg-gray-50 dark:bg-neutral-800 focus:border-primary focus:ring-2 focus:ring-primary/20 text-lg outline-none transition-all">
+        </div>
+
+        <div id="search-results" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <p id="search-empty" class="hidden text-center py-20 text-gray-600 dark:text-gray-400"></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200/50 dark:border-neutral-800/50 mt-20 py-12">
+    <div class="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-500">
+      <p class="mb-4">UI Components Catalog &bull; Open-source UI library explorer &bull; Built with HTML, Tailwind CSS, and vanilla JS</p>
+      <p>Total Components: <span class="font-medium" id="footer-count">1,766+</span> libraries & design systems</p>
+      <p class="mt-4 text-xs opacity-60">&copy; 2025 UI Components Catalog. Data sourced from GitHub and open-source registries. All licenses are MIT, Apache, BSD, ISC, or CC0.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Load data
+    let allComponents = [];
+    let currentPage = 1;
+    const itemsPerPage = 48;
+    let currentCategory = 'All';
+    let currentSearchQuery = '';
+
+    async function loadData() {
+      try {
+        const response = await fetch('ui-components-data.json');
+        if (!response.ok) throw new Error('Failed to fetch');
+        allComponents = await response.json();
+        initializeApp();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('error-message').textContent = 'Failed to load component data. Please try again later.';
+        document.getElementById('error-message').classList.remove('hidden');
+      }
+    }
+
+    function initializeApp() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('results-header').classList.remove('hidden');
+
+      // Populate categories
+      const categories = [...new Set(allComponents.map(c => c.category))].sort();
+      const select = document.getElementById('category-filter');
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        select.appendChild(option);
+      });
+
+      // Update counts
+      const total = allComponents.length;
+      document.getElementById('total-count').textContent = total.toLocaleString();
+      document.getElementById('about-count').textContent = total.toLocaleString();
+      document.getElementById('search-total').textContent = total.toLocaleString();
+      document.getElementById('footer-count').textContent = total.toLocaleString() + '+';
+
+      // Event listeners
+      document.getElementById('search-input').addEventListener('input', debounce(handleCatalogSearch, 200));
+      document.getElementById('search-page-input').addEventListener('input', debounce(handleSearchPage, 200));
+      document.getElementById('category-filter').addEventListener('change', handleCategoryChange);
+
+      // Initial render
+      renderCatalog();
+      renderSearchPage('');
+    }
+
+    function debounce(fn, delay) {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    function handleCatalogSearch(e) {
+      currentSearchQuery = e.target.value;
+      currentPage = 1;
+      renderCatalog();
+    }
+
+    function handleSearchPage(e) {
+      renderSearchPage(e.target.value);
+    }
+
+    function handleCategoryChange(e) {
+      currentCategory = e.target.value;
+      currentPage = 1;
+      renderCatalog();
+    }
+
+    function getFilteredComponents() {
+      return allComponents.filter(comp => {
+        const matchesSearch = comp.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+          (comp.website && comp.website.toLowerCase().includes(currentSearchQuery.toLowerCase()));
+        const matchesCategory = currentCategory === 'All' || comp.category === currentCategory;
+        return matchesSearch && matchesCategory;
+      });
+    }
+
+    function renderCatalog() {
+      const filtered = getFilteredComponents();
+      const totalPages = Math.ceil(filtered.length / itemsPerPage);
+      const start = (currentPage - 1) * itemsPerPage;
+      const pageComponents = filtered.slice(start, start + itemsPerPage);
+
+      // Update results count
+      document.getElementById('results-count').textContent = `Showing ${pageComponents.length} of ${filtered.length} components`;
+
+      // Render components
+      const grid = document.getElementById('components-grid');
+      grid.innerHTML = pageComponents.map(comp => createComponentCard(comp)).join('');
+
+      // Render pagination
+      renderPagination(totalPages);
+    }
+
+    function createComponentCard(comp) {
+      return `
+        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl p-5 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors group cursor-pointer">
+          <div class="flex items-start justify-between mb-2">
+            <span class="text-xs font-medium px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full uppercase tracking-tighter">
+              ${escapeHtml(comp.category)}
+            </span>
+            <a href="${escapeHtml(comp.repo)}" target="_blank" rel="noopener noreferrer" class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded" title="View on GitHub">
+              <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.305-.536-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+          </div>
+          <h3 class="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">${escapeHtml(comp.name)}</h3>
+          <div class="flex items-center gap-2 mb-3 text-xs text-gray-500 dark:text-gray-400">
+            <span class="px-2 py-0.5 bg-gray-100 dark:bg-neutral-800 rounded border border-gray-200 dark:border-neutral-700">${escapeHtml(comp.license)}</span>
+          </div>
+          <div class="flex gap-3">
+            <a href="${escapeHtml(comp.website)}" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 border border-blue-100 dark:border-blue-900/30 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors text-center">Website</a>
+            <a href="${escapeHtml(comp.repo)}" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 border border-gray-200 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-neutral-800/30 rounded-lg transition-colors text-center">GitHub</a>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPagination(totalPages) {
+      const pagination = document.getElementById('pagination');
+      if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+      }
+
+      const start = Math.max(1, currentPage - 4);
+      const end = Math.min(totalPages, currentPage + 5);
+
+      let html = `
+        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+          Showing page <span class="font-medium">${currentPage}</span> of <span class="font-medium">${totalPages}</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <button onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">First</button>
+          <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Prev</button>
+      `;
+
+      for (let i = start; i <= end; i++) {
+        html += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded border text-sm font-medium transition-colors ${i === currentPage ? 'bg-primary text-white border-primary' : 'hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-600 dark:text-gray-400'}">${i}</button>`;
+      }
+
+      html += `
+          <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Next</button>
+          <button onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Last</button>
+        </div>
+      `;
+
+      pagination.innerHTML = html;
+    }
+
+    window.goToPage = function(page) {
+      currentPage = page;
+      renderCatalog();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    function renderSearchPage(query) {
+      const filtered = allComponents.filter(comp =>
+        comp.name.toLowerCase().includes(query.toLowerCase()) ||
+        (comp.website && comp.website.toLowerCase().includes(query.toLowerCase()))
+      );
+
+      const resultsDiv = document.getElementById('search-results');
+      const emptyDiv = document.getElementById('search-empty');
+
+      if (query.length === 0) {
+        resultsDiv.innerHTML = '<p class="text-center py-20 text-gray-500 dark:text-gray-400">Type to search...</p>';
+        emptyDiv.classList.add('hidden');
+        return;
+      }
+
+      if (filtered.length === 0) {
+        resultsDiv.innerHTML = '';
+        emptyDiv.textContent = `No components found matching "${query}"`;
+        emptyDiv.classList.remove('hidden');
+        return;
+      }
+
+      emptyDiv.classList.add('hidden');
+      resultsDiv.innerHTML = filtered.map(comp => createComponentCard(comp)).join('');
+    }
+
+    function showPage(page) {
+      document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`page-${page}`).classList.remove('hidden');
+      if (page === 'catalog') {
+        document.getElementById('search-input').focus();
+      } else if (page === 'search') {
+        document.getElementById('search-page-input').focus();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const icon = document.getElementById('theme-icon');
+      if (document.documentElement.classList.contains('dark')) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+      } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+      }
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    // Check for saved theme
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Load data on startup
+    loadData();
+  </script>
+</body>
+</html>
