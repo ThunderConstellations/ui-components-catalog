@@ -1,462 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="OmniUI Universe &bull; Interactive Open-Source Component & UI Library Demos">
-  <title>OmniUI Universe &bull; Live In-Page Component Lab</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Space Grotesk', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' },
-            cyber: '#06b6d4',
-            neon: '#10b981',
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .glass {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-    }
-    .dark .glass {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .neo-box {
-      border: 2px solid #000;
-      box-shadow: 4px 4px 0px #000;
-      transition: all 0.15s ease-in-out;
-    }
-    .dark .neo-box {
-      border: 2px solid #38bdf8;
-      box-shadow: 4px 4px 0px #38bdf8;
-    }
-    .neo-box:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0px #000;
-    }
-    .dark .neo-box:hover {
-      box-shadow: 6px 6px 0px #38bdf8;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Visual Similarity Search - 1,760+ Components</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .preview-frame { transition: width 0.3s ease; }
+    </style>
 </head>
-<body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
-
-  <!-- Header Navigation -->
-  <header class="fixed inset-x-0 top-0 z-50 glass border-b transition-colors">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('explore')">
-        <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-brand-600 via-cyber to-neon flex items-center justify-center shadow-lg shadow-brand-500/20">
-          <span class="text-white font-display font-bold text-lg">⚡</span>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-shapes text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">UI Visual Similarity Search</h1>
+                    <p class="text-xs text-slate-400">Powered by Apple Vision Framework &amp; Catalog</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button id="openCompareModal" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm text-slate-300">
+                    <i class="fa-solid fa-code-compare mr-2"></i> Compare Libraries
+                </button>
+            </div>
         </div>
-        <span class="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-brand-600 to-cyber bg-clip-text text-transparent">
-          OmniUI Universe
-        </span>
-      </div>
+    </header>
 
-      <nav class="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200/50 dark:border-slate-800">
-        <button onclick="switchTab('explore')" id="nav-explore" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all bg-white dark:bg-slate-800 shadow-sm text-brand-600 dark:text-brand-400">Library Catalog</button>
-        <button onclick="switchTab('sandbox')" id="nav-sandbox" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Live In-Page Demos</button>
-        <button onclick="switchTab('figma')" id="nav-figma" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Figma &bull; React Lab</button>
-      </nav>
+    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Search Controls -->
+        <section class="lg:col-span-1 space-y-6">
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <button id="searchBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>Run Visual Similarity Search</span>
+                </button>
+            </div>
+            <!-- Favorites Sidebar -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center">
+                    <i class="fa-solid fa-star mr-2 text-amber-400"></i> My Favorites
+                </h3>
+                <div id="favoritesList" class="space-y-3">
+                    <p class="text-xs text-slate-500 italic">No favorites starred yet.</p>
+                </div>
+            </div>
+        </section>
 
-      <div class="flex items-center gap-3">
-        <button onclick="triggerConfetti()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 hover:bg-brand-500/20 transition-all">
-          <span>✨ Celebrate</span>
-        </button>
-        <button onclick="toggleTheme()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors" title="Toggle Theme">
-          <span id="theme-icon">🌙</span>
-        </button>
-      </div>
+        <!-- Results -->
+        <section class="lg:col-span-2 space-y-6">
+            <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Example Result with Copy and Star -->
+                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 group" data-id="comp_101" data-name="Example Card">
+                    <h4 class="text-sm font-semibold mb-2">Example Component</h4>
+                    <div class="flex space-x-2">
+                        <button onclick="openDemoModal('Example Comp', 'https://example.com')" class="text-xs bg-indigo-600 px-3 py-1.5 rounded-lg text-white">View Demo</button>
+                        <button class="copy-btn bg-slate-800 hover:bg-indigo-600 text-slate-300 p-2 rounded-lg text-xs" title="Copy ID"><i class="fa-solid fa-copy"></i></button>
+                        <button class="star-btn bg-slate-800 hover:bg-amber-600 text-slate-300 p-2 rounded-lg text-xs" title="Star Component"><i class="fa-solid fa-star"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Demo Modal -->
+    <div id="demoModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex flex-col items-center p-4">
+        <div class="w-full max-w-6xl flex justify-between items-center mb-4 text-white">
+            <h2 id="demoTitle" class="text-lg font-bold">Component Preview</h2>
+            <div class="flex space-x-2">
+                <button onclick="setViewport(375)" class="bg-slate-800 px-3 py-1 rounded text-xs">Mobile</button>
+                <button onclick="setViewport(768)" class="bg-slate-800 px-3 py-1 rounded text-xs">Tablet</button>
+                <button onclick="setViewport(1200)" class="bg-slate-800 px-3 py-1 rounded text-xs">Desktop</button>
+                <button onclick="toggleDualTheme()" class="bg-indigo-600 px-3 py-1 rounded text-xs">Toggle Dual Theme</button>
+                <button onclick="closeDemoModal()" class="text-slate-400">Close</button>
+            </div>
+        </div>
+        <div id="previewWrapper" class="flex w-full justify-center space-x-4">
+            <div id="previewFrame" class="preview-frame bg-white rounded-lg shadow-2xl overflow-hidden h-[70vh] w-[1200px]">
+                <iframe id="demoIframe" src="" class="w-full h-full"></iframe>
+            </div>
+            <div id="darkPreviewFrame" class="hidden preview-frame bg-slate-950 rounded-lg shadow-2xl overflow-hidden h-[70vh] w-[1200px]">
+                <iframe id="demoIframeDark" src="" class="w-full h-full"></iframe>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <!-- Main Views Container -->
-  <main class="pt-24 pb-16 max-w-7xl mx-auto px-4">
-
-    <!-- TAB 1: EXPLORE CATALOG -->
-    <section id="tab-explore" class="tab-view block space-y-8">
-      <div class="relative overflow-hidden rounded-3xl p-8 sm:p-12 glass border border-slate-200/80 dark:border-slate-800 shadow-xl">
-        <div class="relative z-10 max-w-3xl space-y-4">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
-            Unified Ecosystem &bull; 1,766 Open-Source Modules
-          </div>
-          <h1 class="text-3xl sm:text-5xl font-display font-extrabold tracking-tight">
-            Explore, Demo & Extract Every UI Pattern
-          </h1>
-          <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed">
-            Browse through 1,760+ verified open-source UI libraries, design systems, and micro-components. Click "View In-Page Demo" on any card to test it live right here in the browser!
-          </p>
-        </div>
-      </div>
-
-      <!-- Live Search Toolbar -->
-      <div class="glass p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
-        <div class="relative flex-1 min-w-[280px]">
-          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
-          <input type="text" id="catalog-search" oninput="handleSearch(this.value)" placeholder="Search across 1,766 libraries by component, stack, or feature..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
-        </div>
-        <div class="flex items-center gap-2">
-          <select id="category-filter" onchange="handleCategory(this.value)" class="px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
-            <option value="All">All Categories</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-between text-xs text-slate-500 font-medium px-1">
-        <span id="results-count-badge">Loading components...</span>
-        <span id="page-count-badge">Page 1</span>
-      </div>
-
-      <!-- Catalog Grid -->
-      <div id="components-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
-
-      <!-- Pagination -->
-      <div id="pagination-controls" class="flex items-center justify-center gap-2 pt-6"></div>
-    </section>
-
-    <!-- TAB 2: LIVE IN-PAGE DEMOS (Synthesized UI Demos) -->
-    <section id="tab-sandbox" class="tab-view hidden space-y-10">
-      <div class="space-y-3">
-        <h2 class="text-3xl font-display font-bold">Live In-Page Component Lab & Demos</h2>
-        <p class="text-slate-600 dark:text-slate-400">
-          Interactive components built from our collected UI library patterns. Interact with them live and copy their production-ready code snippets instantly.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- DEMO 1: Glassmorphic Neo-Card -->
-        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-bold uppercase text-cyber">Tailwind + Glass</span>
-              <span class="text-xs bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-full">Interactive</span>
+    <!-- Compare Modal -->
+    <div id="compareModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-3xl shadow-2xl">
+            <h2 class="text-xl font-bold mb-4 text-white">Compare Libraries</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <select id="lib1" class="bg-slate-950 border border-slate-800 p-2 rounded-lg text-white text-sm"></select>
+                <select id="lib2" class="bg-slate-950 border border-slate-800 p-2 rounded-lg text-white text-sm"></select>
             </div>
-            <h3 class="font-display font-bold text-lg">Adaptive Glass Surface</h3>
-            <p class="text-xs text-slate-500">Backdrop-blur filter with dynamic lighting gradients and hover lift.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-gradient-to-br from-brand-500/20 to-cyber/20 border border-brand-500/30 flex items-center justify-between">
-            <div>
-              <p class="text-xs font-semibold">Active Memory Cache</p>
-              <p class="text-lg font-bold font-mono">1.76 GB</p>
-            </div>
-            <button onclick="triggerConfetti()" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition-all">Pulse</button>
-          </div>
-          <button onclick="copySnippet('glass-card')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Copy Tailwind Snippet</button>
+            <div id="compareResults" class="mt-6 text-white text-sm"></div>
+            <button onclick="closeCompareModal()" class="mt-6 bg-slate-800 px-4 py-2 rounded-lg text-white">Close</button>
         </div>
-
-        <!-- DEMO 2: Neo-Brutalist Action Element -->
-        <div class="p-6 rounded-2xl bg-amber-100 dark:bg-amber-950/40 neo-box flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-bold uppercase text-slate-900 dark:text-cyan-400">Neo-Brutalism</span>
-              <span class="text-xs bg-black text-white px-2 py-0.5 rounded font-mono font-bold">NES/Paper</span>
-            </div>
-            <h3 class="font-display font-bold text-lg">Tactile High-Contrast Button</h3>
-            <p class="text-xs text-slate-700 dark:text-slate-300">Retro styled border-box with hard offsets and instant click feedback.</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="alert('⚡ High Emphasis Action Triggered!')" class="flex-1 py-3 px-4 bg-yellow-400 dark:bg-yellow-500 text-slate-950 font-bold font-mono text-xs uppercase neo-box cursor-pointer">
-              Deploy Build
-            </button>
-          </div>
-          <button onclick="copySnippet('neo-btn')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-900 dark:border-cyan-400 hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors">Copy Neo CSS</button>
-        </div>
-
-        <!-- DEMO 3: Micro-Toast Trigger -->
-        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-bold uppercase text-brand-600 dark:text-brand-400">Notification Primitive</span>
-              <span class="text-xs bg-indigo-500/10 text-indigo-600 px-2 py-0.5 rounded-full">Sonner-Style</span>
-            </div>
-            <h3 class="font-display font-bold text-lg">Async Toast Notification</h3>
-            <p class="text-xs text-slate-500">Smooth animated toast triggers simulating live state update workflows.</p>
-          </div>
-          <div class="flex flex-col gap-2">
-            <button onclick="showToast('✅ Component spec compiled and ready for React!')" class="w-full py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition-all">
-              Trigger Success Toast
-            </button>
-            <button onclick="showToast('⚡ Action rebased to GitHub Pages!')" class="w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
-              Trigger Info Toast
-            </button>
-          </div>
-          <button onclick="copySnippet('toast-primitive')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Copy Toast Code</button>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- TAB 3: FIGMA-TO-REACT LAB -->
-    <section id="tab-figma" class="tab-view hidden space-y-8">
-      <div class="space-y-3">
-        <h2 class="text-3xl font-display font-bold">Figma &bull; React Code Synthesis</h2>
-        <p class="text-slate-600 dark:text-slate-400">
-          Transform Figma frame exports into ready-to-run React functional components with calculated absolute coordinates and styles.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 font-mono">Figma Document Frame (JSON)</h3>
-            <span class="text-xs bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded font-mono">figma-showcase.json</span>
-          </div>
-          <pre class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
-{
-  "type": "FRAME",
-  "name": "HeroBannerCard",
-  "absoluteBoundingBox": { "width": 800, "height": 260 },
-  "fills": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.1, "b": 0.18 } }],
-  "children": [
-    {
-      "type": "TEXT",
-      "characters": "⚡ Next-Gen Interactive UI Component Hub",
-      "style": { "fontSize": 26, "fontWeight": 700 }
-    }
-  ]
-}
-          </pre>
-        </div>
-
-        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 font-mono">Compiled React Component</h3>
-            <button onclick="copySnippet('figma-react')" class="text-xs bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 px-2.5 py-1 rounded-lg font-mono font-medium hover:bg-brand-500/20">Copy Code</button>
-          </div>
-          <pre id="figma-code-output" class="p-4 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
-import React from 'react';
-
-export const Herobannercard = () => (
-  <div className="rounded-2xl shadow-xl overflow-hidden">
-    <div style={{ width: '100%', height: '260px', backgroundColor: 'rgb(20,26,46)', padding: '2rem' }}>
-      <span style={{ fontSize: '26px', fontWeight: '700', color: 'rgb(97,189,250)' }}>
-        ⚡ Next-Gen Interactive UI Component Hub
-      </span>
-      <p style={{ fontSize: '15px', fontWeight: '400', color: 'rgb(217,230,242)', marginTop: '0.75rem' }}>
-        Synthesized from 1,760+ open-source design systems and micro-interaction frameworks.
-      </p>
     </div>
-  </div>
-);
-          </pre>
-        </div>
-      </div>
-    </section>
 
-  </main>
-
-  <!-- Interactive Modal / In-Page Demo Drawer -->
-  <div id="demo-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="glass w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50">
-        <div>
-          <span id="modal-category" class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-brand-500/10 text-brand-600">Library</span>
-          <h3 id="modal-title" class="font-display font-bold text-lg text-slate-900 dark:text-white mt-0.5">Component Demo</h3>
-        </div>
-        <button onclick="closeDemoModal()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500">✕</button>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-6">
-        <div class="p-8 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center text-center space-y-4">
-          <div class="h-12 w-12 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-500 text-xl font-bold">✨</div>
-          <div class="space-y-1">
-            <h4 id="modal-lib-name" class="font-display font-bold text-base">Live Interactive Sandbox</h4>
-            <p class="text-xs text-slate-500 max-w-sm">This library provides production-ready components. Test the integration or visit the official repository below.</p>
-          </div>
-          <div id="modal-interactive-area" class="w-full p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <!-- Dynamic interactive widget simulator -->
-            <button onclick="showToast('⚡ Component action executed successfully!')" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-xs font-bold hover:bg-brand-500 transition-all">Test Component Event</button>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <a id="modal-link-demo" href="#" target="_blank" class="py-2.5 px-4 rounded-xl text-xs font-semibold text-center bg-brand-600 hover:bg-brand-500 text-white transition-all shadow-md">Open Official Live Demo &rarr;</a>
-          <a id="modal-link-code" href="#" target="_blank" class="py-2.5 px-4 rounded-xl text-xs font-semibold text-center glass border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">View GitHub Repository</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-  <!-- Script Engine -->
-  <script>
-    let componentsData = [];
-    let currentCategory = 'All';
-    let searchQuery = '';
-    let currentPage = 1;
-    const itemsPerPage = 48;
-
-    async function initCatalog() {
-      try {
-        const res = await fetch('ui-components-data.json');
-        componentsData = await res.json();
-
-        const categories = ['All', ...new Set(componentsData.map(c => c.category))].sort();
-        const select = document.getElementById('category-filter');
-        select.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
-
-        renderCatalog();
-      } catch (err) {
-        console.error('Failed to load components', err);
-        document.getElementById('results-count-badge').textContent = 'Error loading components data.';
-      }
-    }
-
-    function renderCatalog() {
-      const filtered = componentsData.filter(item => {
-        const matchesCategory = currentCategory === 'All' || item.category === currentCategory;
-        const matchesQuery = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                             item.website.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesQuery;
-      });
-
-      const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-      const start = (currentPage - 1) * itemsPerPage;
-      const pageSlice = filtered.slice(start, start + itemsPerPage);
-
-      document.getElementById('results-count-badge').textContent = `Showing ${pageSlice.length} of ${filtered.length} total libraries`;
-      document.getElementById('page-count-badge').textContent = `Page ${currentPage} of ${totalPages}`;
-
-      const grid = document.getElementById('components-grid');
-      grid.innerHTML = pageSlice.map(item => `
-        <div class="glass p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-tight">${escapeHtml(item.category)}</span>
-              <span class="text-[10px] font-mono font-medium text-slate-400">${escapeHtml(item.license)}</span>
-            </div>
-            <h3 class="font-display font-bold text-base text-slate-900 dark:text-white truncate">${escapeHtml(item.name)}</h3>
-          </div>
-          <div class="flex items-center gap-2 pt-2">
-            <button onclick="openDemoModal('${escapeHtml(item.name)}', '${escapeHtml(item.category)}', '${escapeHtml(item.website)}', '${escapeHtml(item.repo)}')" class="flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold text-center bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/20 transition-all">View In-Page Demo &rarr;</button>
-          </div>
-        </div>
-      `).join('');
-
-      renderPagination(totalPages);
-    }
-
-    function openDemoModal(name, category, website, repo) {
-      document.getElementById('modal-title').textContent = name;
-      document.getElementById('modal-category').textContent = category;
-      document.getElementById('modal-lib-name').textContent = `${name} Interactive Sandbox`;
-      document.getElementById('modal-link-demo').href = website;
-      document.getElementById('modal-link-code').href = repo || '#';
-      document.getElementById('demo-modal').classList.remove('hidden');
-    }
-
-    function closeDemoModal() {
-      document.getElementById('demo-modal').classList.add('hidden');
-    }
-
-    function renderPagination(totalPages) {
-      const container = document.getElementById('pagination-controls');
-      if (totalPages <= 1) {
-        container.innerHTML = '';
-        return;
-      }
-      container.innerHTML = `
-        <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold glass border disabled:opacity-40">&larr; Prev</button>
-        <span class="text-xs font-mono font-medium px-2">${currentPage} / ${totalPages}</span>
-        <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold glass border disabled:opacity-40">Next &rarr;</button>
-      `;
-    }
-
-    function goToPage(page) {
-      currentPage = page;
-      renderCatalog();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function handleSearch(val) {
-      searchQuery = val;
-      currentPage = 1;
-      renderCatalog();
-    }
-
-    function handleCategory(val) {
-      currentCategory = val;
-      currentPage = 1;
-      renderCatalog();
-    }
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-
-      ['explore', 'sandbox', 'figma'].forEach(t => {
-        const btn = document.getElementById(`nav-${t}`);
-        if (t === tabId) {
-          btn.className = "px-4 py-1.5 rounded-lg text-sm font-semibold transition-all bg-white dark:bg-slate-800 shadow-sm text-brand-600 dark:text-brand-400";
-        } else {
-          btn.className = "px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+    <script>
+        // Favorites Logic
+        function toggleFavorite(id, name) {
+            let favorites = JSON.parse(localStorage.getItem('myFavorites') || '{}');
+            if (favorites[id]) {
+                delete favorites[id];
+            } else {
+                favorites[id] = { id, name };
+            }
+            localStorage.setItem('myFavorites', JSON.stringify(favorites));
+            renderFavorites();
         }
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-      const isDark = document.documentElement.classList.contains('dark');
-      document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
-    }
+        function renderFavorites() {
+            const favoritesList = document.getElementById('favoritesList');
+            const favorites = JSON.parse(localStorage.getItem('myFavorites') || '{}');
+            if (Object.keys(favorites).length === 0) {
+                favoritesList.innerHTML = '<p class="text-xs text-slate-500 italic">No favorites starred yet.</p>';
+                return;
+            }
+            favoritesList.innerHTML = Object.values(favorites).map(comp => `
+                <div class="bg-slate-800 p-2 rounded-lg text-xs text-white flex justify-between">
+                    ${comp.name}
+                    <button onclick="toggleFavorite('${comp.id}')" class="text-amber-400"><i class="fa-solid fa-star"></i></button>
+                </div>
+            `).join('');
+        }
 
-    function triggerConfetti() {
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 70, spread: 60, origin: { y: 0.8 } });
-      }
-    }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderFavorites);
 
-    function showToast(msg) {
-      const c = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'glass px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl text-xs font-semibold flex items-center gap-2 pointer-events-auto animate-bounce';
-      toast.innerHTML = `<span>${msg}</span>`;
-      c.appendChild(toast);
-      setTimeout(() => { toast.remove(); }, 3500);
-    }
+        // Copy Logic
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.copy-btn')) {
+                const btn = e.target.closest('.copy-btn');
+                const id = btn.closest('[data-id]').dataset.id;
+                navigator.clipboard.writeText(id).then(() => {
+                    const original = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    setTimeout(() => btn.innerHTML = original, 1000);
+                });
+            }
+            if (e.target.closest('.star-btn')) {
+                const btn = e.target.closest('.star-btn');
+                const card = btn.closest('[data-id]');
+                toggleFavorite(card.dataset.id, card.dataset.name);
+            }
+        });
 
-    function copySnippet(type) {
-      let code = "";
-      if (type === 'glass-card') {
-        code = `<div class="backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border border-white/20 p-6 rounded-2xl shadow-xl hover:-translate-y-1 transition-all">...</div>`;
-      } else if (type === 'neo-btn') {
-        code = `<button class="border-2 border-black bg-yellow-400 shadow-[4px_4px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none font-bold uppercase px-4 py-2">Click</button>`;
-      } else if (type === 'toast-primitive') {
-        code = `const showToast = (text) => { /* Dispatches unstyled micro-toast node */ };`;
-      } else if (type === 'figma-react') {
-        code = document.getElementById('figma-code-output').textContent;
-      }
-      navigator.clipboard.writeText(code);
-      showToast('📋 Snippet copied to clipboard!');
-    }
+        // Modal Logic
+        const demoModal = document.getElementById('demoModal');
+        const compareModal = document.getElementById('compareModal');
+        
+        function openDemoModal(title, url) {
+            document.getElementById('demoTitle').textContent = title;
+            document.getElementById('demoIframe').src = url;
+            document.getElementById('demoIframeDark').src = url;
+            demoModal.classList.remove('hidden');
+        }
+        function closeDemoModal() { demoModal.classList.add('hidden'); }
+        
+        function setViewport(width) {
+            document.getElementById('previewFrame').style.width = width + 'px';
+            document.getElementById('darkPreviewFrame').style.width = width + 'px';
+        }
+        
+        function toggleDualTheme() {
+            document.getElementById('darkPreviewFrame').classList.toggle('hidden');
+        }
 
-    function escapeHtml(str) {
-      return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
-    }
-
-    window.addEventListener('DOMContentLoaded', initCatalog);
-  </script>
+        function openCompareModal() { compareModal.classList.remove('hidden'); }
+        function closeCompareModal() { compareModal.classList.add('hidden'); }
+    </script>
 </body>
 </html>
