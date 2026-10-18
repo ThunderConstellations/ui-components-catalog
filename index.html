@@ -58,7 +58,7 @@
                 <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 group" data-id="comp_101" data-name="Example Card">
                     <h4 class="text-sm font-semibold mb-2">Example Component</h4>
                     <div class="flex space-x-2">
-                        <button onclick="openDemoModal('Example Comp', 'https://example.com')" class="text-xs bg-indigo-600 px-3 py-1.5 rounded-lg text-white">View Demo</button>
+                        <button onclick="openDemoModal('Example Comp', 'https://example.com', 'example-package')" class="text-xs bg-indigo-600 px-3 py-1.5 rounded-lg text-white">View Demo</button>
                         <button class="copy-btn bg-slate-800 hover:bg-indigo-600 text-slate-300 p-2 rounded-lg text-xs" title="Copy ID"><i class="fa-solid fa-copy"></i></button>
                         <button class="star-btn bg-slate-800 hover:bg-amber-600 text-slate-300 p-2 rounded-lg text-xs" title="Star Component"><i class="fa-solid fa-star"></i></button>
                     </div>
@@ -72,6 +72,7 @@
         <div class="w-full max-w-6xl flex justify-between items-center mb-4 text-white">
             <h2 id="demoTitle" class="text-lg font-bold">Component Preview</h2>
             <div class="flex space-x-2">
+                <!-- StackBlitz button will be injected here -->
                 <button onclick="setViewport(375)" class="bg-slate-800 px-3 py-1 rounded text-xs">Mobile</button>
                 <button onclick="setViewport(768)" class="bg-slate-800 px-3 py-1 rounded text-xs">Tablet</button>
                 <button onclick="setViewport(1200)" class="bg-slate-800 px-3 py-1 rounded text-xs">Desktop</button>
@@ -155,17 +156,42 @@
         const demoModal = document.getElementById('demoModal');
         const compareModal = document.getElementById('compareModal');
         
-        function openDemoModal(title, url) {
+        function openDemoModal(title, url, npmPackage = null) {
             document.getElementById('demoTitle').textContent = title;
             document.getElementById('demoIframe').src = url;
             document.getElementById('demoIframeDark').src = url;
+
+            // Add StackBlitz button if package exists
+            const modalHeader = document.querySelector('#demoModal .flex.space-x-2');
+            let stackBlitzBtn = document.getElementById('stackBlitzBtn');
+
+            if (npmPackage) {
+                if (!stackBlitzBtn) {
+                    stackBlitzBtn = document.createElement('button');
+                    stackBlitzBtn.id = 'stackBlitzBtn';
+                    stackBlitzBtn.className = 'bg-rose-600 px-3 py-1 rounded text-xs text-white';
+                    stackBlitzBtn.textContent = 'Edit in StackBlitz';
+                    modalHeader.insertBefore(stackBlitzBtn, modalHeader.firstChild);
+                }
+                stackBlitzBtn.onclick = () => {
+                    window.open(`https://stackblitz.com/edit/npm-${npmPackage}?file=index.js`, '_blank');
+                };
+                stackBlitzBtn.classList.remove('hidden');
+            } else if (stackBlitzBtn) {
+                stackBlitzBtn.classList.add('hidden');
+            }
+
             demoModal.classList.remove('hidden');
         }
         function closeDemoModal() { demoModal.classList.add('hidden'); }
         
         function setViewport(width) {
-            document.getElementById('previewFrame').style.width = width + 'px';
-            document.getElementById('darkPreviewFrame').style.width = width + 'px';
+            const frame1 = document.getElementById('previewFrame');
+            const frame2 = document.getElementById('darkPreviewFrame');
+            frame1.style.width = width + 'px';
+            frame2.style.width = width + 'px';
+            // Ensure they are centered in the flex container
+            document.getElementById('previewWrapper').classList.add('justify-center');
         }
         
         function toggleDualTheme() {
