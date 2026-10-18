@@ -1,13 +1,5 @@
 [
   {
-    "name": ":---",
-    "website": ":---",
-    "docs": ":---",
-    "repo": ":---",
-    "license": ":---",
-    "category": "Other"
-  },
-  {
     "name": "21st.dev",
     "website": "https://21st.dev",
     "docs": "https://21st.dev",
@@ -5881,9 +5873,9 @@
   },
   {
     "name": "Precision Inputs",
-    "website": "https://der氛围.github.io/precision-inputs",
-    "docs": "https://der氛围.github.io/precision-inputs",
-    "repo": "https://github.com/der氛围/precision-inputs",
+    "website": "https://der\u6c1b\u56f4.github.io/precision-inputs",
+    "docs": "https://der\u6c1b\u56f4.github.io/precision-inputs",
+    "repo": "https://github.com/der\u6c1b\u56f4/precision-inputs",
     "license": "MIT",
     "category": "Other"
   },
@@ -8515,7 +8507,7 @@
     "name": "Smelte",
     "website": "https://smelte.paperdaisy.design",
     "docs": "https://smelte.paperdaisy.design",
-    "repo": "https://github.com/maty新技术/smelte",
+    "repo": "https://github.com/maty\u65b0\u6280\u672f/smelte",
     "license": "MIT",
     "category": "Other"
   },

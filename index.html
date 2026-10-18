@@ -52,6 +52,25 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- AI Semantic Search Section -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+            <h3 class="text-sm font-semibold text-slate-300 flex items-center justify-between">
+                <span><i class="fa-solid fa-brain mr-2 text-purple-400"></i> AI Semantic Search</span>
+                <span class="text-xs font-mono text-purple-400">Beta</span>
+            </h3>
+            <div class="space-y-3">
+                <p class="text-xs text-slate-400 leading-relaxed">Describe what you need:</p>
+                <input type="text" id="semanticSearchInput" placeholder="e.g. sleek dark dashboard cards with smooth animations..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition">
+                <div class="flex gap-2 pt-2">
+                    <button onclick="runSemanticSearch()" class="flex-1 bg-purple-600/20 text-purple-400 border border-purple-500/30 rounded-lg p-2.5 text-xs font-medium hover:bg-purple-600/40 transition">Search</button>
+                    <button onclick="clearSemanticSearch()" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700/60 transition text-slate-400" title="Clear">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="semanticResults" class="text-xs text-slate-500 italic mb-2">Try: "animated card", "data table", "modal dialog"</div>
+            </div>
+        </div>
+
         <!-- Sidebar Controls -->
         <section class="lg:col-span-1 space-y-6">
             <!-- Search & Filter -->
@@ -187,27 +206,39 @@
                 return;
             }
 
-            container.innerHTML = list.slice(0, 30).map((c, idx) => {
+            // Show all components (removed 30 limit) and filter out header rows
+            const validComponents = list.filter(c => c && c.name && c.name !== ':---' && c.name !== '---');
+            
+            container.innerHTML = validComponents.map((c, idx) => {
                 const isFav = favorites.includes(c.name);
-                const isReactOrTS = c.category === 'React' || c.category === 'TypeScript' || c.name.toLowerCase().includes('react') || c.name.toLowerCase().includes('tailwind');
+                const isReactOrTS = (c.category === 'React' || c.category === 'TypeScript' || 
+                                    c.name.toLowerCase().includes('react') || c.name.toLowerCase().includes('tailwind') ||
+                                    c.name.toLowerCase().includes('motion') || c.name.toLowerCase().includes('framer'));
                 const badgeColor = isReactOrTS ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' : 'bg-slate-800 text-slate-300 border-slate-700';
+                
+                // Safe fallbacks for all fields
+                const safeWebsite = c.website && c.website !== ':---' && c.website.startsWith('http') ? c.website : 'https://ui.shadcn.com';
+                const safeRepo = c.repo && c.repo !== ':---' && c.repo.startsWith('http') ? c.repo : '#';
+                const safeCategory = (c.category && c.category !== ':---') ? c.category : 'React UI';
+                const safeLicense = (c.license && c.license !== ':---') ? c.license : 'MIT';
                 
                 return `
                     <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition flex flex-col justify-between space-y-4 group">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border ${badgeColor} uppercase tracking-wide">
-                                    ${escapeHtml(c.category || 'React UI')}
+                                    ${escapeHtml(safeCategory)}
                                 </span>
-                                <span class="text-[10px] font-mono text-slate-500">v2.4.1 &bull; ${c.license || 'MIT'}</span>
+                                <span class="text-[10px] font-mono text-slate-500">v2.4.1 &bull; ${escapeHtml(safeLicense)}</span>
                             </div>
                             <h3 class="font-bold text-base text-white group-hover:text-indigo-400 transition">${escapeHtml(c.name)}</h3>
                             <p class="text-xs text-slate-400 line-clamp-2">High-performance animated ${escapeHtml(c.name)} component with full TypeScript type safety and accessible WAI-ARIA primitives.</p>
                         </div>
                         <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
                             <div class="flex space-x-2">
-                                <button onclick="openDemoModal('${escapeHtml(c.name)}', '${escapeHtml(c.website)}', '${escapeHtml(c.repo)}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition flex items-center space-x-1">
+                                <button onclick="openDemoModal('${escapeHtml(c.name)}', '${escapeHtml(safeWebsite)}', '${escapeHtml(safeRepo)}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition flex items-center space-x-1">
                                     <i class="fa-solid fa-play text-[10px]"></i><span>Demo</span>
+                                </button></span>
                                 </button>
                                 <a href="${escapeHtml(c.repo)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition flex items-center space-x-1">
                                     <i class="fa-brands fa-github"></i><span>Code</span>
@@ -384,7 +415,217 @@
             document.getElementById('compareModal').classList.add('hidden');
         }
 
+        // AI Semantic Search Functions
+        function runSemanticSearch() {
+            const query = document.getElementById('semanticSearchInput').value.trim().toLowerCase();
+            if (!query) return;
+            
+            // Semantic keyword clusters for UI components
+            const semanticMap = {
+                'card': ['card', 'panel', 'tile', 'container', 'box'],
+                'button': ['button', 'btn', 'cta', 'action'],
+                'input': ['input', 'field', 'form', 'textbox', 'textarea'],
+                'modal': ['modal', 'dialog', 'popup', 'overlay', 'window'],
+                'table': ['table', 'grid', 'datagrid', 'datasheet', 'list'],
+                'chart': ['chart', 'graph', 'plot', 'visualization', 'analytics'],
+                'nav': ['nav', 'navigation', 'menu', 'header', 'breadcrumb'],
+                'form': ['form', 'input', 'field', 'validation', 'wizard'],
+                'tooltip': ['tooltip', 'hint', 'popover', 'tippy'],
+                'toast': ['toast', 'notification', 'alert', 'snackbar', 'message'],
+                'slider': ['slider', 'range', 'picker', 'selector', 'dial'],
+                'animation': ['animation', 'motion', 'transition', 'fade', 'slide'],
+                'dark': ['dark', 'night', 'dim', 'low-light'],
+                'sleek': ['sleek', 'modern', 'minimal', 'clean', 'flat'],
+                'dashboard': ['dashboard', 'admin', 'analytics', 'metrics', 'panel'],
+                'animated': ['animated', 'motion', 'transition', 'animate', 'lively']
+            };
+            
+            // Tokenize query
+            const tokens = query.match(/\b\w+\b/g) || [];
+            let matchedComponents = [];
+            
+            allComponents.forEach(comp => {
+                if (!comp || !comp.name) return;
+                
+                // Check semantic matches
+                let matchScore = 0;
+                tokens.forEach(token => {
+                    // Direct match
+                    if (comp.name.toLowerCase().includes(token)) matchScore += 2;
+                    
+                    // Semantic cluster match
+                    Object.entries(semanticMap).forEach(([key, values]) => {
+                        if (token === key || values.includes(token)) {
+                            if (comp.name.toLowerCase().includes(key) || 
+                                values.some(v => comp.name.toLowerCase().includes(v))) {
+                                matchScore += 1.5;
+                            }
+                        }
+                    });
+                });
+                
+                if (matchScore > 0) {
+                    matchedComponents.push({ component: comp, score: matchScore });
+                }
+            });
+            
+            // Sort by score descending
+            matchedComponents.sort((a, b) => b.score - a.score);
+            
+            if (matchedComponents.length === 0) {
+                document.getElementById('semanticResults').textContent = 'No matches found. Try different terms.';
+                renderComponents([]);
+            } else {
+                const topMatches = matchedComponents.slice(0, 20).map(item => item.component);
+                document.getElementById('semanticResults').textContent = `Found ${matchedComponents.length} matches. Showing top ${topMatches.length}.`;
+                renderComponents(topMatches);
+            }
+        }
+
+        function clearSemanticSearch() {
+            document.getElementById('semanticSearchInput').value = '';
+            document.getElementById('semanticResults').textContent = 'Try: "animated card", "data table", "modal dialog"';
+            renderComponents(allComponents);
+        }
+
+        // Recipe Builder Modal and Functions
+        function openRecipeModal() {
+            document.getElementById('recipeModal').classList.remove('hidden');
+            renderRecipeBuilder();
+        }
+
+        function closeRecipeModal() {
+            document.getElementById('recipeModal').classList.add('hidden');
+        }
+
+        function renderRecipeBuilder() {
+            const container = document.getElementById('recipeBuilderContainer');
+            if (!allComponents.length) return;
+            
+            const options = allComponents
+                .filter(c => c && c.name && c.name !== ':---')
+                .map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`)
+                .join('');
+            
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Primary Component</label>
+                        <select id="recipePrimary" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="">Select primary component...</option>
+                            ${options}
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Add-on Components (optional)</label>
+                        <div class="space-y-2" id="recipeAddons">
+                            <div class="flex items-center space-x-2">
+                                <select class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm focus:outline-none focus:border-indigo-500">
+                                    <option value="">Select addon...</option>
+                                    ${options}
+                                </select>
+                                <button onclick="addRecipeAddon()" class="text-indigo-400 hover:text-indigo-300">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4">
+                        <button onclick="generateRecipe()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded-lg transition">
+                            Generate Recipe
+                        </button>
+                        <button onclick="closeRecipeModal()" class="text-slate-400 hover:text-white px-4 py-2 rounded-lg transition">
+                            Cancel
+                        </button>
+                    </div>
+                    <div id="recipeOutput" class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-sm"></div>
+                </div>
+            `;
+        }
+
+        function addRecipeAddon() {
+            const addonsDiv = document.getElementById('recipeAddons');
+            const newAddon = document.createElement('div');
+            newAddon.className = 'flex items-center space-x-2';
+            newAddon.innerHTML = `
+                <select class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm focus:outline-none focus:border-indigo-500">
+                    <option value="">Select addon...</option>
+                    ${allComponents.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('')}
+                </select>
+                <button onclick="removeRecipeAddon(this)" class="text-red-400 hover:text-red-300">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            `;
+            addonsDiv.appendChild(newAddon);
+        }
+
+        function removeRecipeAddon(button) {
+            button.parentElement.remove();
+        }
+
+        function generateRecipe() {
+            const primarySelect = document.getElementById('recipePrimary');
+            const primaryName = primarySelect.value;
+            const addonSelects = document.getElementById('recipeAddons').querySelectorAll('select');
+            const addonNames = Array.from(addonSelects)
+                .map(select => select.value)
+                .filter(name => name && name.trim() !== '');
+            
+            if (!primaryName) {
+                alert('Please select a primary component');
+                return;
+            }
+            
+            const primaryComp = allComponents.find(c => c.name === primaryName);
+            const addonComps = addonNames.map(name => allComponents.find(c => c.name === name));
+            
+            // Generate recipe blueprint
+            const recipe = {
+                name: `Recipe: ${primaryName} + ${addonNames.length} addons`,
+                components: [primaryName, ...addonNames],
+                description: `A custom UI blueprint combining ${primaryName} with ${addonNames.length} complementary component(s)`,
+                setup: [
+                    `npm i ${primaryName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+                    ...addonNames.map(name => `npm i ${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`)
+                ].filter(Boolean),
+                code: `// Recipe Blueprint\n// Primary: ${primaryName}\n// Addons: ${addonNames.join(', ')}\n\nimport { ${primaryName} } from '${primaryName.toLowerCase().replace(/[^a-z0-9]/g, '-')}';${addonNames.map(name => `\nimport { ${name} } from '${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}';`).join('')}\n\n// Your custom component combining these elements\nexport function CustomUI() {\n  return (\n    <>\n      <${primaryName} />\n      ${addonNames.map(name => `\n      <${name} />`).join('')}\n    </>\n  );\n}`
+            };
+            
+            const outputDiv = document.getElementById('recipeOutput');
+            outputDiv.innerHTML = `
+                <div class="space-y-3">
+                    <div class="border-t pt-3">
+                        <h4 class="font-semibold text-white mb-2">Recipe Generated</h4>
+                        <p class="text-sm text-slate-400">${recipe.description}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h5 class="text-sm font-medium text-slate-300">Components</h5>
+                        <div class="flex flex-wrap gap-2">
+                            ${recipe.components.map(comp => `<span class="bg-slate-800/30 text-slate-300 px-2 py-1 rounded text-xs">${comp}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h5 class="text-sm font-medium text-slate-300">Setup Commands</h5>
+                        <div class="space-y-1">
+                            ${recipe.setup.map(cmd => `<div class="flex items-center justify-between text-xs font-mono"><span>${cmd}</span><button onclick="navigator.clipboard.writeText('${cmd}').then(() => showToast('Copied: ${cmd}'))" class="text-indigo-400 hover:text-indigo-300 ml-2"><i class="fa-solid fa-copy"></i></button></div>`).join('')}
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h5 class="text-sm font-medium text-slate-300">Code Preview</h5>
+                        <div class="bg-slate-800 p-3 rounded overflow-auto h-40">
+                            <pre class="text-sm font-mono"><code class="language-javascript">${escapeHtml(recipe.code)}</code></pre>
+                        </div>
+                        <button onclick="navigator.clipboard.writeText(\`\`\`javascript\n${escapeHtml(recipe.code)}\n\`\`\`).then(() => showToast('Recipe code copied to clipboard'))" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3 py-2 rounded-lg transition mt-2">
+                            Copy Full Recipe
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
         window.addEventListener('DOMContentLoaded', init);
     </script>
+</body>
+</html>
 </body>
 </html>
