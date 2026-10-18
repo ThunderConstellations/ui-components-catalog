@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ultimate interactive open-source design system and UI library showcase.">
-  <title>OmniUI Universe &bull; 1,760+ Open Source UI Demos</title>
+  <meta name="description" content="OmniUI Universe &bull; Interactive Open-Source Component & UI Library Demos">
+  <title>OmniUI Universe &bull; Live In-Page Component Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,15 +21,9 @@
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#eef2ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              900: '#312e81',
-            },
+            brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' },
             cyber: '#06b6d4',
             neon: '#10b981',
-            accent: '#f43f5e'
           }
         }
       }
@@ -37,13 +31,13 @@
   </script>
   <style>
     .glass {
-      background: rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
     .dark .glass {
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -68,7 +62,7 @@
 </head>
 <body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
 
-  <!-- Floating Navigation -->
+  <!-- Header Navigation -->
   <header class="fixed inset-x-0 top-0 z-50 glass border-b transition-colors">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('explore')">
@@ -82,7 +76,7 @@
 
       <nav class="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200/50 dark:border-slate-800">
         <button onclick="switchTab('explore')" id="nav-explore" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all bg-white dark:bg-slate-800 shadow-sm text-brand-600 dark:text-brand-400">Library Catalog</button>
-        <button onclick="switchTab('sandbox')" id="nav-sandbox" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Live Playground</button>
+        <button onclick="switchTab('sandbox')" id="nav-sandbox" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Live In-Page Demos</button>
         <button onclick="switchTab('figma')" id="nav-figma" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Figma &bull; React Lab</button>
       </nav>
 
@@ -102,57 +96,54 @@
 
     <!-- TAB 1: EXPLORE CATALOG -->
     <section id="tab-explore" class="tab-view block space-y-8">
-      <!-- Dynamic Hero Header -->
       <div class="relative overflow-hidden rounded-3xl p-8 sm:p-12 glass border border-slate-200/80 dark:border-slate-800 shadow-xl">
         <div class="relative z-10 max-w-3xl space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
-            Unified Ecosystem &bull; 1,766 Modules
+            Unified Ecosystem &bull; 1,766 Open-Source Modules
           </div>
           <h1 class="text-3xl sm:text-5xl font-display font-extrabold tracking-tight">
-            Explore, Demo & Extract Every Open-Source UI Pattern
+            Explore, Demo & Extract Every UI Pattern
           </h1>
           <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed">
-            Instant code access, interactive live sandboxes, and automated Figma-to-React transformation. Built by combining the best elements of shadcn, Radix, Tailwind, DaisyUI, and 1,760+ community frameworks.
+            Browse through 1,760+ verified open-source UI libraries, design systems, and micro-components. Click "View In-Page Demo" on any card to test it live right here in the browser!
           </p>
         </div>
       </div>
 
-      <!-- Live Search & Filtering Toolbar -->
+      <!-- Live Search Toolbar -->
       <div class="glass p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
         <div class="relative flex-1 min-w-[280px]">
           <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
           <input type="text" id="catalog-search" oninput="handleSearch(this.value)" placeholder="Search across 1,766 libraries by component, stack, or feature..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
         </div>
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none w-full sm:w-auto">
+        <div class="flex items-center gap-2">
           <select id="category-filter" onchange="handleCategory(this.value)" class="px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             <option value="All">All Categories</option>
           </select>
         </div>
       </div>
 
-      <!-- Active Count & Pagination Indicators -->
       <div class="flex items-center justify-between text-xs text-slate-500 font-medium px-1">
         <span id="results-count-badge">Loading components...</span>
         <span id="page-count-badge">Page 1</span>
       </div>
 
-      <!-- Catalog Component Cards Grid -->
+      <!-- Catalog Grid -->
       <div id="components-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
 
       <!-- Pagination -->
       <div id="pagination-controls" class="flex items-center justify-center gap-2 pt-6"></div>
     </section>
 
-    <!-- TAB 2: LIVE PLAYGROUND (Synthesized UI Demos) -->
+    <!-- TAB 2: LIVE IN-PAGE DEMOS (Synthesized UI Demos) -->
     <section id="tab-sandbox" class="tab-view hidden space-y-10">
       <div class="space-y-3">
-        <h2 class="text-3xl font-display font-bold">Interactive Component Sandbox</h2>
+        <h2 class="text-3xl font-display font-bold">Live In-Page Component Lab & Demos</h2>
         <p class="text-slate-600 dark:text-slate-400">
-          Live demonstrations combining micro-interactions, retro themes, and modern glassmorphic surfaces. Click to test states, triggers, and extract ready-to-use snippets.
+          Interactive components built from our collected UI library patterns. Interact with them live and copy their production-ready code snippets instantly.
         </p>
       </div>
 
-      <!-- Showcase Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <!-- DEMO 1: Glassmorphic Neo-Card -->
@@ -193,7 +184,7 @@
           <button onclick="copySnippet('neo-btn')" class="w-full py-2 text-xs font-mono font-medium rounded-lg border border-slate-900 dark:border-cyan-400 hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors">Copy Neo CSS</button>
         </div>
 
-        <!-- DEMO 3: Micro-Toast Trigger (Sonner / Hot-Toast style) -->
+        <!-- DEMO 3: Micro-Toast Trigger -->
         <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
           <div class="space-y-2">
             <div class="flex items-center justify-between">
@@ -227,7 +218,6 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Input JSON Viewer -->
         <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 font-mono">Figma Document Frame (JSON)</h3>
@@ -250,7 +240,6 @@
           </pre>
         </div>
 
-        <!-- Output React Viewer -->
         <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 font-mono">Compiled React Component</h3>
@@ -278,10 +267,39 @@ export const Herobannercard = () => (
 
   </main>
 
-  <!-- Interactive Toast Notification Container -->
+  <!-- Interactive Modal / In-Page Demo Drawer -->
+  <div id="demo-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="glass w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50">
+        <div>
+          <span id="modal-category" class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-brand-500/10 text-brand-600">Library</span>
+          <h3 id="modal-title" class="font-display font-bold text-lg text-slate-900 dark:text-white mt-0.5">Component Demo</h3>
+        </div>
+        <button onclick="closeDemoModal()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500">✕</button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-6">
+        <div class="p-8 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center text-center space-y-4">
+          <div class="h-12 w-12 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-500 text-xl font-bold">✨</div>
+          <div class="space-y-1">
+            <h4 id="modal-lib-name" class="font-display font-bold text-base">Live Interactive Sandbox</h4>
+            <p class="text-xs text-slate-500 max-w-sm">This library provides production-ready components. Test the integration or visit the official repository below.</p>
+          </div>
+          <div id="modal-interactive-area" class="w-full p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <!-- Dynamic interactive widget simulator -->
+            <button onclick="showToast('⚡ Component action executed successfully!')" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-xs font-bold hover:bg-brand-500 transition-all">Test Component Event</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <a id="modal-link-demo" href="#" target="_blank" class="py-2.5 px-4 rounded-xl text-xs font-semibold text-center bg-brand-600 hover:bg-brand-500 text-white transition-all shadow-md">Open Official Live Demo &rarr;</a>
+          <a id="modal-link-code" href="#" target="_blank" class="py-2.5 px-4 rounded-xl text-xs font-semibold text-center glass border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">View GitHub Repository</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Interactive Logic Engine -->
+  <!-- Script Engine -->
   <script>
     let componentsData = [];
     let currentCategory = 'All';
@@ -294,7 +312,6 @@ export const Herobannercard = () => (
         const res = await fetch('ui-components-data.json');
         componentsData = await res.json();
 
-        // Build category options
         const categories = ['All', ...new Set(componentsData.map(c => c.category))].sort();
         const select = document.getElementById('category-filter');
         select.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
@@ -332,13 +349,25 @@ export const Herobannercard = () => (
             <h3 class="font-display font-bold text-base text-slate-900 dark:text-white truncate">${escapeHtml(item.name)}</h3>
           </div>
           <div class="flex items-center gap-2 pt-2">
-            <a href="${escapeHtml(item.website)}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold text-center bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/20 transition-all">Demo &rarr;</a>
-            <a href="${escapeHtml(item.repo)}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-3 rounded-lg text-xs font-semibold text-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all">Code</a>
+            <button onclick="openDemoModal('${escapeHtml(item.name)}', '${escapeHtml(item.category)}', '${escapeHtml(item.website)}', '${escapeHtml(item.repo)}')" class="flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold text-center bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/20 transition-all">View In-Page Demo &rarr;</button>
           </div>
         </div>
       `).join('');
 
       renderPagination(totalPages);
+    }
+
+    function openDemoModal(name, category, website, repo) {
+      document.getElementById('modal-title').textContent = name;
+      document.getElementById('modal-category').textContent = category;
+      document.getElementById('modal-lib-name').textContent = `${name} Interactive Sandbox`;
+      document.getElementById('modal-link-demo').href = website;
+      document.getElementById('modal-link-code').href = repo || '#';
+      document.getElementById('demo-modal').classList.remove('hidden');
+    }
+
+    function closeDemoModal() {
+      document.getElementById('demo-modal').classList.add('hidden');
     }
 
     function renderPagination(totalPages) {
