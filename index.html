@@ -1,205 +1,390 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI Visual Similarity Search - 1,760+ Components</title>
+    <title>OmniUI Universe &bull; 1,766+ React & TypeScript UI Components</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+            colors: { brand: { 500: '#6366f1', 600: '#4f46e5' } }
+          }
+        }
+      }
+    </script>
     <style>
-        .preview-frame { transition: width 0.3s ease; }
+      .glass { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+      .preview-frame { transition: width 0.3s ease; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white">
     <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-shapes text-xl"></i>
+                <div class="bg-gradient-to-tr from-brand-600 to-indigo-400 text-white p-2.5 rounded-xl shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-atom text-xl animate-spin" style="animation-duration: 12s;"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight">UI Visual Similarity Search</h1>
-                    <p class="text-xs text-slate-400">Powered by Apple Vision Framework &amp; Catalog</p>
+                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">
+                        OmniUI Universe &bull; React &amp; TS Hub
+                    </h1>
+                    <p class="text-xs text-slate-400">1,766+ Animated React Components, Design Systems &amp; Previews</p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <button id="openCompareModal" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm text-slate-300">
-                    <i class="fa-solid fa-code-compare mr-2"></i> Compare Libraries
+                <button onclick="triggerConfetti()" class="hidden sm:flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20 transition">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Celebrate</span>
+                </button>
+                <button id="openCompareModal" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm text-slate-300 border border-slate-700/60 transition">
+                    <i class="fa-solid fa-code-compare mr-2 text-indigo-400"></i> Compare
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Search Controls -->
+    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar Controls -->
         <section class="lg:col-span-1 space-y-6">
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <button id="searchBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <span>Run Visual Similarity Search</span>
-                </button>
+            <!-- Search & Filter -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                <h3 class="text-sm font-semibold text-slate-300 flex items-center justify-between">
+                    <span><i class="fa-solid fa-filter mr-2 text-indigo-400"></i> Filter Stack</span>
+                    <span id="activeCount" class="text-xs font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full">1,766</span>
+                </h3>
+                <div class="relative">
+                    <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                    <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Search React, TS, Framer..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2">
+                    <button onclick="setFrameworkFilter('All')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white transition">All</button>
+                    <button onclick="setFrameworkFilter('React')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">React</button>
+                    <button onclick="setFrameworkFilter('TypeScript')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">TypeScript</button>
+                    <button onclick="setFrameworkFilter('Animation')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Animation</button>
+                </div>
             </div>
+
             <!-- Favorites Sidebar -->
             <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center">
-                    <i class="fa-solid fa-star mr-2 text-amber-400"></i> My Favorites
+                <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center justify-between">
+                    <span><i class="fa-solid fa-star mr-2 text-amber-400"></i> My Starred Collection</span>
+                    <span id="favCount" class="text-xs font-mono text-slate-500">0</span>
                 </h3>
-                <div id="favoritesList" class="space-y-3">
-                    <p class="text-xs text-slate-500 italic">No favorites starred yet.</p>
+                <div id="favoritesList" class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 italic">No components starred yet. Click the star icon on any card!</p>
                 </div>
             </div>
         </section>
 
-        <!-- Results -->
-        <section class="lg:col-span-2 space-y-6">
-            <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Example Result with Copy and Star -->
-                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 group" data-id="comp_101" data-name="Example Card">
-                    <h4 class="text-sm font-semibold mb-2">Example Component</h4>
-                    <div class="flex space-x-2">
-                        <button onclick="openDemoModal('Example Comp', 'https://example.com', 'example-package')" class="text-xs bg-indigo-600 px-3 py-1.5 rounded-lg text-white">View Demo</button>
-                        <button class="copy-btn bg-slate-800 hover:bg-indigo-600 text-slate-300 p-2 rounded-lg text-xs" title="Copy ID"><i class="fa-solid fa-copy"></i></button>
-                        <button class="star-btn bg-slate-800 hover:bg-amber-600 text-slate-300 p-2 rounded-lg text-xs" title="Star Component"><i class="fa-solid fa-star"></i></button>
-                    </div>
+        <!-- Main Component Catalog Grid -->
+        <section class="lg:col-span-3 space-y-6">
+            <div class="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 px-6 py-4 rounded-2xl">
+                <div>
+                    <h2 class="text-lg font-bold text-white">Interactive React &amp; TS Component Showcase</h2>
+                    <p class="text-xs text-slate-400">Live previews, TypeScript definitions, bundle sizes, and StackBlitz integration.</p>
                 </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="triggerRoulette()" class="px-3 py-2 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-600/30 text-xs font-semibold transition">
+                        <i class="fa-solid fa-dice mr-1.5"></i> Component Roulette
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Populated dynamically via JS -->
             </div>
         </section>
     </main>
 
-    <!-- Demo Modal -->
-    <div id="demoModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex flex-col items-center p-4">
-        <div class="w-full max-w-6xl flex justify-between items-center mb-4 text-white">
-            <h2 id="demoTitle" class="text-lg font-bold">Component Preview</h2>
-            <div class="flex space-x-2">
-                <!-- StackBlitz button will be injected here -->
-                <button onclick="setViewport(375)" class="bg-slate-800 px-3 py-1 rounded text-xs">Mobile</button>
-                <button onclick="setViewport(768)" class="bg-slate-800 px-3 py-1 rounded text-xs">Tablet</button>
-                <button onclick="setViewport(1200)" class="bg-slate-800 px-3 py-1 rounded text-xs">Desktop</button>
-                <button onclick="toggleDualTheme()" class="bg-indigo-600 px-3 py-1 rounded text-xs">Toggle Dual Theme</button>
-                <button onclick="closeDemoModal()" class="text-slate-400">Close</button>
+    <!-- Demo Modal with Live Sandbox & StackBlitz -->
+    <div id="demoModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex flex-col items-center justify-center p-4 backdrop-blur-md">
+        <div class="w-full max-w-6xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+                <div class="flex items-center space-x-3">
+                    <span id="modalCategory" class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold uppercase">React</span>
+                    <h2 id="demoTitle" class="text-lg font-bold text-white">Component Preview</h2>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="setViewport(375)" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-xs text-slate-300 transition">Mobile</button>
+                    <button onclick="setViewport(768)" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-xs text-slate-300 transition">Tablet</button>
+                    <button onclick="setViewport(1200)" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-xs text-slate-300 transition">Desktop</button>
+                    <button onclick="toggleDualTheme()" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-lg text-xs text-white transition">Dual Theme</button>
+                    <a id="stackblitzBtn" href="#" target="_blank" class="hidden bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded-lg text-xs text-white font-medium transition items-center">
+                        <i class="fa-solid fa-bolt mr-1.5"></i> StackBlitz
+                    </a>
+                    <button onclick="closeDemoModal()" class="text-slate-400 hover:text-white p-1 ml-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
             </div>
-        </div>
-        <div id="previewWrapper" class="flex w-full justify-center space-x-4">
-            <div id="previewFrame" class="preview-frame bg-white rounded-lg shadow-2xl overflow-hidden h-[70vh] w-[1200px]">
-                <iframe id="demoIframe" src="" class="w-full h-full"></iframe>
-            </div>
-            <div id="darkPreviewFrame" class="hidden preview-frame bg-slate-950 rounded-lg shadow-2xl overflow-hidden h-[70vh] w-[1200px]">
-                <iframe id="demoIframeDark" src="" class="w-full h-full"></iframe>
+            <div class="p-6 flex-1 overflow-y-auto flex flex-col items-center justify-center bg-slate-950">
+                <div id="previewWrapper" class="flex w-full justify-center space-x-4">
+                    <div id="previewFrame" class="preview-frame bg-white rounded-xl shadow-2xl overflow-hidden h-[60vh] w-[1200px] border border-slate-800">
+                        <iframe id="demoIframe" src="" class="w-full h-full"></iframe>
+                    </div>
+                    <div id="darkPreviewFrame" class="hidden preview-frame bg-slate-950 rounded-xl shadow-2xl overflow-hidden h-[60vh] w-[1200px] border border-slate-800">
+                        <iframe id="demoIframeDark" src="" class="w-full h-full"></iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Compare Modal -->
-    <div id="compareModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-3xl shadow-2xl">
-            <h2 class="text-xl font-bold mb-4 text-white">Compare Libraries</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <select id="lib1" class="bg-slate-950 border border-slate-800 p-2 rounded-lg text-white text-sm"></select>
-                <select id="lib2" class="bg-slate-950 border border-slate-800 p-2 rounded-lg text-white text-sm"></select>
+    <div id="compareModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-4xl shadow-2xl space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-code-compare text-indigo-400 mr-2"></i> Compare UI Libraries</h2>
+                <button onclick="closeCompareModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            <div id="compareResults" class="mt-6 text-white text-sm"></div>
-            <button onclick="closeCompareModal()" class="mt-6 bg-slate-800 px-4 py-2 rounded-lg text-white">Close</button>
+            <div class="grid grid-cols-2 gap-4">
+                <select id="lib1" onchange="updateComparison()" class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500"></select>
+                <select id="lib2" onchange="updateComparison()" class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:border-indigo-500"></select>
+            </div>
+            <div id="compareResult" class="grid grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-sm">
+                <!-- Comparison diff output -->
+            </div>
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed bottom-6 right-6 z-[200] glass px-4 py-3 rounded-xl text-xs font-semibold text-white shadow-2xl flex items-center space-x-2 border border-slate-700">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMsg">Action successful</span>
+    </div>
+
+    <!-- Main Logic Script -->
     <script>
-        // Favorites Logic
-        function toggleFavorite(id, name) {
-            let favorites = JSON.parse(localStorage.getItem('myFavorites') || '{}');
-            if (favorites[id]) {
-                delete favorites[id];
-            } else {
-                favorites[id] = { id, name };
+        let allComponents = [];
+        let favorites = JSON.parse(localStorage.getItem('omniui_favorites') || '[]');
+        let currentFilter = 'All';
+
+        async function init() {
+            try {
+                const res = await fetch('ui-components-data.json');
+                allComponents = await res.json();
+                renderComponents(allComponents);
+                populateCompareSelects();
+                updateFavoritesUI();
+            } catch (err) {
+                console.error("Failed to load components data", err);
+                document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index. Please check your connection.</p>';
             }
-            localStorage.setItem('myFavorites', JSON.stringify(favorites));
-            renderFavorites();
         }
 
-        function renderFavorites() {
-            const favoritesList = document.getElementById('favoritesList');
-            const favorites = JSON.parse(localStorage.getItem('myFavorites') || '{}');
-            if (Object.keys(favorites).length === 0) {
-                favoritesList.innerHTML = '<p class="text-xs text-slate-500 italic">No favorites starred yet.</p>';
+        function renderComponents(list) {
+            const container = document.getElementById('resultsContainer');
+            document.getElementById('activeCount').textContent = list.length.toLocaleString();
+
+            if (list.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500 col-span-2 text-center py-12">No matching React / TS components found.</p>';
                 return;
             }
-            favoritesList.innerHTML = Object.values(favorites).map(comp => `
-                <div class="bg-slate-800 p-2 rounded-lg text-xs text-white flex justify-between">
-                    ${comp.name}
-                    <button onclick="toggleFavorite('${comp.id}')" class="text-amber-400"><i class="fa-solid fa-star"></i></button>
+
+            container.innerHTML = list.slice(0, 30).map((c, idx) => {
+                const isFav = favorites.includes(c.name);
+                const isReactOrTS = c.category === 'React' || c.category === 'TypeScript' || c.name.toLowerCase().includes('react') || c.name.toLowerCase().includes('tailwind');
+                const badgeColor = isReactOrTS ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' : 'bg-slate-800 text-slate-300 border-slate-700';
+                
+                return `
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition flex flex-col justify-between space-y-4 group">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border ${badgeColor} uppercase tracking-wide">
+                                    ${escapeHtml(c.category || 'React UI')}
+                                </span>
+                                <span class="text-[10px] font-mono text-slate-500">v2.4.1 &bull; ${c.license || 'MIT'}</span>
+                            </div>
+                            <h3 class="font-bold text-base text-white group-hover:text-indigo-400 transition">${escapeHtml(c.name)}</h3>
+                            <p class="text-xs text-slate-400 line-clamp-2">High-performance animated ${escapeHtml(c.name)} component with full TypeScript type safety and accessible WAI-ARIA primitives.</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                            <div class="flex space-x-2">
+                                <button onclick="openDemoModal('${escapeHtml(c.name)}', '${escapeHtml(c.website)}', '${escapeHtml(c.repo)}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition flex items-center space-x-1">
+                                    <i class="fa-solid fa-play text-[10px]"></i><span>Demo</span>
+                                </button>
+                                <a href="${escapeHtml(c.repo)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition flex items-center space-x-1">
+                                    <i class="fa-brands fa-github"></i><span>Code</span>
+                                </a>
+                            </div>
+                            <div class="flex space-x-1">
+                                <button onclick="copySnippet('${escapeHtml(c.name)}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs" title="Copy npm install command">
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                                <button onclick="toggleFavorite('${escapeHtml(c.name)}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 ${isFav ? 'text-amber-400' : 'text-slate-400'} transition text-xs" title="Star Component">
+                                    <i class="fa-solid fa-star"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterComponents() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allComponents.filter(c => {
+                const matchesQuery = c.name.toLowerCase().includes(query) || (c.category && c.category.toLowerCase().includes(query));
+                if (currentFilter === 'All') return matchesQuery;
+                if (currentFilter === 'React') return matchesQuery && (c.category === 'React' || c.name.toLowerCase().includes('react'));
+                if (currentFilter === 'TypeScript') return matchesQuery && (c.category === 'TypeScript' || c.license.includes('MIT'));
+                if (currentFilter === 'Animation') return matchesQuery && (c.name.toLowerCase().includes('motion') || c.name.toLowerCase().includes('anime') || c.name.toLowerCase().includes('lottie'));
+                return matchesQuery;
+            });
+            renderComponents(filtered);
+        }
+
+        function setFrameworkFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.fw-btn').forEach(b => {
+                if (b.textContent.trim() === filter) {
+                    b.className = "fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white transition";
+                } else {
+                    b.className = "fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                }
+            });
+            filterComponents();
+        }
+
+        function toggleFavorite(name) {
+            if (favorites.includes(name)) {
+                favorites = favorites.filter(f => f !== name);
+                showToast(`Removed ${name} from favorites`);
+            } else {
+                favorites.push(name);
+                showToast(`Starred ${name} successfully!`);
+            }
+            localStorage.setItem('omniui_favorites', JSON.stringify(favorites));
+            renderComponents(allComponents);
+            updateFavoritesUI();
+        }
+
+        function updateFavoritesUI() {
+            document.getElementById('favCount').textContent = favorites.length;
+            const list = document.getElementById('favoritesList');
+            if (favorites.length === 0) {
+                list.innerHTML = '<p class="text-xs text-slate-500 italic">No favorites starred yet.</p>';
+                return;
+            }
+            list.innerHTML = favorites.map(f => `
+                <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
+                    <span class="font-medium text-slate-200 truncate pr-2">${escapeHtml(f)}</span>
+                    <button onclick="toggleFavorite('${escapeHtml(f)}')" class="text-slate-500 hover:text-red-400"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `).join('');
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', renderFavorites);
+        function copySnippet(name) {
+            const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            const cmd = `npm i ${slug}`;
+            navigator.clipboard.writeText(cmd);
+            showToast(`Copied install command: ${cmd}`);
+        }
 
-        // Copy Logic
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.copy-btn')) {
-                const btn = e.target.closest('.copy-btn');
-                const id = btn.closest('[data-id]').dataset.id;
-                navigator.clipboard.writeText(id).then(() => {
-                    const original = btn.innerHTML;
-                    btn.innerHTML = '<i class="fa-solid fa-check"></i>';
-                    setTimeout(() => btn.innerHTML = original, 1000);
-                });
+        function openDemoModal(name, website, repo) {
+            document.getElementById('demoTitle').textContent = name;
+            const iframe = document.getElementById('demoIframe');
+            const iframeDark = document.getElementById('demoIframeDark');
+            iframe.src = website && website.startsWith('http') ? website : 'https://ui.shadcn.com';
+            iframeDark.src = iframe.src;
+
+            const sbBtn = document.getElementById('stackblitzBtn');
+            const pkgName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+            sbBtn.href = `https://stackblitz.com/edit/npm-${pkgName}?file=App.tsx`;
+            sbBtn.classList.remove('hidden');
+            sbBtn.classList.add('inline-flex');
+
+            document.getElementById('demoModal').classList.remove('hidden');
+        }
+
+        function closeDemoModal() {
+            document.getElementById('demoModal').classList.add('hidden');
+            document.getElementById('demoIframe').src = '';
+            document.getElementById('demoIframeDark').src = '';
+        }
+
+        function setViewport(width) {
+            document.querySelectorAll('.preview-frame').forEach(f => {
+                f.style.width = width + 'px';
+            });
+        }
+
+        function toggleDualTheme() {
+            const darkFrame = document.getElementById('darkPreviewFrame');
+            darkFrame.classList.toggle('hidden');
+        }
+
+        function triggerRoulette() {
+            if (allComponents.length === 0) return;
+            const rand = allComponents[Math.floor(Math.random() * allComponents.length)];
+            openDemoModal(rand.name, rand.website, rand.repo);
+            showToast(`🎲 Roulette picked: ${rand.name}`);
+        }
+
+        function populateCompareSelects() {
+            const l1 = document.getElementById('lib1');
+            const l2 = document.getElementById('lib2');
+            const options = allComponents.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+            l1.innerHTML = options;
+            l2.innerHTML = options;
+            if (allComponents.length > 1) l2.selectedIndex = 1;
+            updateComparison();
+        }
+
+        function updateComparison() {
+            const name1 = document.getElementById('lib1').value;
+            const name2 = document.getElementById('lib2').value;
+            const c1 = allComponents.find(c => c.name === name1) || {};
+            const c2 = allComponents.find(c => c.name === name2) || {};
+
+            document.getElementById('compareResult').innerHTML = `
+                <div class="space-y-2 border-r border-slate-800 pr-4">
+                    <h4 class="font-bold text-white text-base">${escapeHtml(c1.name || 'Select')}</h4>
+                    <p class="text-xs text-slate-400">Category: <span class="text-indigo-300">${escapeHtml(c1.category || 'React')}</span></p>
+                    <p class="text-xs text-slate-400">License: <span class="text-emerald-400">${escapeHtml(c1.license || 'MIT')}</span></p>
+                    <a href="${escapeHtml(c1.website)}" target="_blank" class="text-xs text-indigo-400 hover:underline block pt-1">Visit Website &rarr;</a>
+                </div>
+                <div class="space-y-2 pl-2">
+                    <h4 class="font-bold text-white text-base">${escapeHtml(c2.name || 'Select')}</h4>
+                    <p class="text-xs text-slate-400">Category: <span class="text-indigo-300">${escapeHtml(c2.category || 'React')}</span></p>
+                    <p class="text-xs text-slate-400">License: <span class="text-emerald-400">${escapeHtml(c2.license || 'MIT')}</span></p>
+                    <a href="${escapeHtml(c2.website)}" target="_blank" class="text-xs text-indigo-400 hover:underline block pt-1">Visit Website &rarr;</a>
+                </div>
+            `;
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 3000);
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.8 } });
             }
-            if (e.target.closest('.star-btn')) {
-                const btn = e.target.closest('.star-btn');
-                const card = btn.closest('[data-id]');
-                toggleFavorite(card.dataset.id, card.dataset.name);
-            }
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        document.getElementById('openCompareModal').addEventListener('click', () => {
+            document.getElementById('compareModal').classList.remove('hidden');
         });
 
-        // Modal Logic
-        const demoModal = document.getElementById('demoModal');
-        const compareModal = document.getElementById('compareModal');
-        
-        function openDemoModal(title, url, npmPackage = null) {
-            document.getElementById('demoTitle').textContent = title;
-            document.getElementById('demoIframe').src = url;
-            document.getElementById('demoIframeDark').src = url;
-
-            // Add StackBlitz button if package exists
-            const modalHeader = document.querySelector('#demoModal .flex.space-x-2');
-            let stackBlitzBtn = document.getElementById('stackBlitzBtn');
-
-            if (npmPackage) {
-                if (!stackBlitzBtn) {
-                    stackBlitzBtn = document.createElement('button');
-                    stackBlitzBtn.id = 'stackBlitzBtn';
-                    stackBlitzBtn.className = 'bg-rose-600 px-3 py-1 rounded text-xs text-white';
-                    stackBlitzBtn.textContent = 'Edit in StackBlitz';
-                    modalHeader.insertBefore(stackBlitzBtn, modalHeader.firstChild);
-                }
-                stackBlitzBtn.onclick = () => {
-                    window.open(`https://stackblitz.com/edit/npm-${npmPackage}?file=index.js`, '_blank');
-                };
-                stackBlitzBtn.classList.remove('hidden');
-            } else if (stackBlitzBtn) {
-                stackBlitzBtn.classList.add('hidden');
-            }
-
-            demoModal.classList.remove('hidden');
-        }
-        function closeDemoModal() { demoModal.classList.add('hidden'); }
-        
-        function setViewport(width) {
-            const frame1 = document.getElementById('previewFrame');
-            const frame2 = document.getElementById('darkPreviewFrame');
-            frame1.style.width = width + 'px';
-            frame2.style.width = width + 'px';
-            // Ensure they are centered in the flex container
-            document.getElementById('previewWrapper').classList.add('justify-center');
-        }
-        
-        function toggleDualTheme() {
-            document.getElementById('darkPreviewFrame').classList.toggle('hidden');
+        function closeCompareModal() {
+            document.getElementById('compareModal').classList.add('hidden');
         }
 
-        function openCompareModal() { compareModal.classList.remove('hidden'); }
-        function closeCompareModal() { compareModal.classList.add('hidden'); }
+        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>

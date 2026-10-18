@@ -1,0 +1,37 @@
+{
+  "title": "OmniUI Studio 30s Walkthrough",
+  "total_duration": "30s",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "dashboard-card",
+      "name": "Analytics Dashboard Card",
+      "duration": "5s",
+      "action": "Hover & View Real-time Stats"
+    },
+    {
+      "id": "data-table",
+      "name": "Advanced Data Table",
+      "duration": "8s",
+      "action": "Sort, Filter & Pagination"
+    },
+    {
+      "id": "search-bar",
+      "name": "Semantic Command Bar",
+      "duration": "6s",
+      "action": "Type query & instant AI results"
+    },
+    {
+      "id": "pricing-card",
+      "name": "SaaS Pricing Card",
+      "duration": "6s",
+      "action": "Toggle billing cycle & select plan"
+    },
+    {
+      "id": "action-button",
+      "name": "Gradient Action Button",
+      "duration": "5s",
+      "action": "Click trigger & pipeline execution"
+    }
+  ]
+}
