@@ -563,21 +563,54 @@
         }
 
 async function init() {
-            const maxRetries = 3;
-            let retryCount = 0;
+            console.log("Initializing component catalog...");
             
-            while (retryCount < maxRetries) {
-                try {
-                    // Show loading state
-                    const resultsContainer = document.getElementById('resultsContainer');
-                    resultsContainer.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-500 text-xs flex flex-col items-center justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div><p class="mt-4 text-sm">Loading component catalog...</p></div>';
-                    
-                    let res;
-                    try {
-                        res = await fetch('ui-components-data.json', { 
-                            cache: 'no-store',
-                            headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-                        });
+            // Show loading state
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                resultsContainer.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-500 text-xs flex flex-col items-center justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div><p class="mt-4 text-sm">Loading component catalog...</p></div>';
+            }
+
+            try {
+                const res = await fetch('ui-components-data.json', { cache: 'no-store' });
+                if (!res.ok) throw new Error("Network response was not ok");
+                allComponents = await res.json();
+            } catch (err) {
+                console.warn("Failed to fetch JSON, using embedded fallback data", err);
+                allComponents = [
+                    {"name": "Cosmic Bento Grid", "category": "Layout", "description": "Interactive glassmorphic bento grid with mouse-follow tilt effects.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
+                    {"name": "Quantum Particle Loader", "category": "Animations", "description": "WebGL-powered particle swarm that reacts to cursor position.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
+                    {"name": "Neon Glow Card", "category": "Animation", "description": "A glowing card component with Framer Motion hover effects.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
+                    {"name": "Spring Physics Modal", "category": "Overlays", "description": "A spring-animated modal dialog built with Framer Motion physics.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
+                    {"name": "Pulsar Ripple Button", "category": "Buttons", "description": "A button with quantum ripple effect and animated pulsar waves.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
+                    {"name": "Aceternity UI", "category": "React", "description": "Modern landing page components built with Tailwind CSS and Framer Motion.", "website": "https://ui.aceternity.com", "repo": "https://github.com/aceternity/ui", "license": "MIT"},
+                    {"name": "Magic UI", "category": "React", "description": "UI library for Design Engineers, built with React, Tailwind CSS, and Framer Motion.", "website": "https://magicui.design", "repo": "https://github.com/magicuidesign/magicui", "license": "MIT"},
+                    {"name": "Shadcn UI", "category": "React", "description": "Re-usable components built using Radix UI and Tailwind CSS.", "website": "https://ui.shadcn.com", "repo": "https://github.com/shadcn-ui/ui", "license": "MIT"}
+                ];
+            }
+
+            // Merge custom local components if any
+            const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+            if (localCustom.length > 0) {
+                allComponents = [...localCustom, ...allComponents];
+            }
+
+            // Populate library selector dropdown with all unique libraries
+            populateLibrarySelector();
+            
+            // Initial render of Interactive Stage
+            renderActiveInteractiveComponent();
+            
+            // Populate comparison lists
+            populateCompareSelects();
+            updateFavoritesUI();
+            
+            // Initial filter applied
+            applyFilter();
+            
+            // Setup infinite scroll listener
+            window.addEventListener('scroll', handleInfiniteScroll);
+        });
                     } catch (netErr) {
                         console.warn("Network fetch failed, attempting CDN fallback...", netErr);
                         res = await fetch('https://raw.githubusercontent.com/ThunderConstellations/ui-components-catalog/main/ui-components-data.json');
