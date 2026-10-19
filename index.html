@@ -300,6 +300,22 @@
                 </div>
             </div>
 
+            <!-- Library Selector Dropdown -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-semibold text-slate-300 mb-3 flex items-center justify-between">
+                    <span><i class="fa-solid fa-list mr-2 text-indigo-400"></i> Library Selector</span>
+                    <span id="libraryCount" class="text-xs font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full">1,766</span>
+                </h3>
+                <div class="relative">
+                    <select id="librarySelector" onchange="changeLibrary(this.value)" class="bg-slate-950 border border-slate-800 text-white text-sm py-2.5 px-4 rounded-xl focus:outline-none focus:border-indigo-500 w-full">
+                        <option value="All" selected>All Libraries</option>
+                        <option value="Custom">Custom Library (My Components)</option>
+                        <!-- Dynamic options populated from JSON data -->
+                    </select>
+                    <i class="fa-solid fa-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                </div>
+            </div>
+
             <!-- Quick Add Custom Component Widget -->
             <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3.5">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -503,7 +519,62 @@
             isHovered: false
         };
 
-        async function init() {
+        
+        // Populate library selector dropdown with all unique libraries
+        function populateLibrarySelector() {
+            const selector = document.getElementById('librarySelector');
+            if (!selector) return;
+            
+            // Get unique library names from all components
+            const uniqueLibraries = [...new Set(allComponents.map(c => c.name))].sort();
+            
+            // Add each library as an option
+            uniqueLibraries.forEach(libName => {
+                const option = document.createElement('option');
+                option.value = libName;
+                option.textContent = libName;
+                selector.appendChild(option);
+            });
+            
+            // Update library count
+            const libraryCount = document.getElementById('libraryCount');
+            if (libraryCount) {
+                libraryCount.textContent = uniqueLibraries.length.toLocaleString();
+            }
+        }
+
+        // Change library filter
+        function changeLibrary(libraryName) {
+            if (libraryName === 'All') {
+                applyFilter();
+                return;
+            }
+            
+            if (libraryName === 'Custom') {
+                // Show only custom components
+                const customComps = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+                displayedComponents = customComps;
+                document.getElementById('currentFilterLabel').textContent = 'Showing: Custom Library';
+                document.getElementById('activeCount').textContent = customComps.length.toLocaleString();
+                
+                pageOffset = 0;
+                document.getElementById('resultsContainer').innerHTML = '';
+                loadNextSlice();
+                return;
+            }
+            
+            // Show only components from the selected library
+            const filtered = allComponents.filter(c => c.name === libraryName);
+            displayedComponents = filtered;
+            document.getElementById('currentFilterLabel').textContent = `Showing: ${libraryName}`;
+            document.getElementById('activeCount').textContent = filtered.length.toLocaleString();
+            
+            pageOffset = 0;
+            document.getElementById('resultsContainer').innerHTML = '';
+            loadNextSlice();
+        }
+
+async function init() {
             try {
                 const res = await fetch('ui-components-data.json');
                 allComponents = await res.json();
@@ -513,6 +584,9 @@
                 if (localCustom.length > 0) {
                     allComponents = [...localCustom, ...allComponents];
                 }
+
+                // Populate library selector dropdown with all unique libraries
+                populateLibrarySelector();
 
                 // Initial render of Interactive Stage
                 renderActiveInteractiveComponent();
