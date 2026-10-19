@@ -572,10 +572,17 @@ async function init() {
                     const resultsContainer = document.getElementById('resultsContainer');
                     resultsContainer.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-500 text-xs flex flex-col items-center justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div><p class="mt-4 text-sm">Loading component catalog...</p></div>';
                     
-                    const res = await fetch('ui-components-data.json', { 
-                        timeout: 30000,
-                        headers: { 'Cache-Control': 'no-cache' }
-                    });
+                    let res;
+                    try {
+                        res = await fetch('ui-components-data.json', { 
+                            cache: 'no-store',
+                            headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+                        });
+                    } catch (netErr) {
+                        console.warn("Network fetch failed, attempting CDN fallback...", netErr);
+                        res = await fetch('https://raw.githubusercontent.com/ThunderConstellations/ui-components-catalog/main/ui-components-data.json');
+                    }
+
                     if (!res.ok) {
                         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
                     }
