@@ -575,34 +575,58 @@
         }
 
 async function init() {
-            try {
-                const res = await fetch('ui-components-data.json');
-                allComponents = await res.json();
-                
-                // Merge custom local components if any
-                const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
-                if (localCustom.length > 0) {
-                    allComponents = [...localCustom, ...allComponents];
+            const maxRetries = 3;
+            let retryCount = 0;
+            
+            while (retryCount < maxRetries) {
+                try {
+                    // Show loading state
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    resultsContainer.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-500 text-xs flex flex-col items-center justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div><p class="mt-4 text-sm">Loading component catalog...</p></div>';
+                    
+                    const res = await fetch('ui-components-data.json', { timeout: 15000 });
+                    if (!res.ok) {
+                        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                    }
+                    
+                    allComponents = await res.json();
+                    
+                    // Merge custom local components if any
+                    const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+                    if (localCustom.length > 0) {
+                        allComponents = [...localCustom, ...allComponents];
+                    }
+
+                    // Populate library selector dropdown with all unique libraries
+                    populateLibrarySelector();
+                    
+                    // Initial render of Interactive Stage
+                    renderActiveInteractiveComponent();
+                    
+                    // Populate comparison lists
+                    populateCompareSelects();
+                    updateFavoritesUI();
+                    
+                    // Initial filter applied
+                    applyFilter();
+                    
+                    // Setup infinite scroll listener
+                    window.addEventListener('scroll', handleInfiniteScroll);
+                    
+                    // Success - break out of retry loop
+                    break;
+                } catch (err) {
+                    retryCount++;
+                    console.error(`Failed to load components data (attempt ${retryCount}/${maxRetries}):`, err);
+                    
+                    if (retryCount >= maxRetries) {
+                        document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index after multiple attempts. Please check your connection and try refreshing the page.</p>';
+                        break;
+                    }
+                    
+                    // Wait before retrying
+                    await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
                 }
-
-                // Populate library selector dropdown with all unique libraries
-                populateLibrarySelector();
-
-                // Initial render of Interactive Stage
-                renderActiveInteractiveComponent();
-                
-                // Populate comparison lists
-                populateCompareSelects();
-                updateFavoritesUI();
-                
-                // Initial filter applied
-                applyFilter();
-
-                // Setup infinite scroll listener
-                window.addEventListener('scroll', handleInfiniteScroll);
-            } catch (err) {
-                console.error("Failed to load components data", err);
-                document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index. Please verify your connection.</p>';
             }
         }
 
