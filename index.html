@@ -517,11 +517,47 @@
             isHovered: false
         };
 
-        async function init() {
-                populateLibrarySelector();
+        
+        // Populate library selector dropdown with all unique libraries
+        function populateLibrarySelector() {
+            const selector = document.getElementById('librarySelector');
+            if (!selector) return;
+            const uniqueLibraries = [...new Set(allComponents.map(c => c.name))].sort();
+            uniqueLibraries.forEach(libName => {
+                const option = document.createElement('option');
+                option.value = libName;
+                option.textContent = libName;
+                selector.appendChild(option);
+            });
+            const libraryCount = document.getElementById('libraryCount');
+            if (libraryCount) {
+                libraryCount.textContent = uniqueLibraries.length.toLocaleString();
+            }
+        }
+
+        // Change library filter
+        function changeLibrary(libraryName) {
+            if (libraryName === 'All') {
+                applyFilter();
+                return;
+            }
+            if (libraryName === 'Custom') {
+                const customComps = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+                displayedComponents = customComps;
+            } else {
+                displayedComponents = allComponents.filter(c => c.name === libraryName);
+            }
+            document.getElementById('activeCount').textContent = displayedComponents.length.toLocaleString();
+            pageOffset = 0;
+            document.getElementById('resultsContainer').innerHTML = '';
+            loadNextSlice();
+        }
+
+async function init() {
             try {
                 const res = await fetch('ui-components-data.json');
                 allComponents = await res.json();
+                populateLibrarySelector();
                 
                 // Merge custom local components if any
                 const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
