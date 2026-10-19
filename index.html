@@ -857,6 +857,12 @@
                             <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${escapeHtml(safeDesc)}</p>
                         </div>
 
+                        <!-- In-Card Live Auto-Preview Frame (Loads on hover without clicking any button) -->
+                        <div class="card-preview-area hidden group-hover:block transition-all duration-300 rounded-xl overflow-hidden border border-indigo-500/30 bg-slate-950 p-2 text-center text-xs">
+                            <iframe src="${escapeHtml(safeWebsite)}" loading="lazy" class="w-full h-36 rounded-lg border-0 bg-slate-900 pointer-events-auto"></iframe>
+                            <span class="text-[10px] font-mono text-indigo-400 block pt-1">Live Auto-Preview</span>
+                        </div>
+
                         <!-- Card Action Buttons -->
                         <div class="flex items-center justify-between pt-3 border-t border-slate-800/80">
                             <div class="flex space-x-2">
@@ -1165,6 +1171,19 @@
         function escapeHtml(str) {
             return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
+
+        // Global Keyboard Shortcut: Cmd+K / Ctrl+K for Search
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                const search = document.getElementById('searchInput');
+                if (search) {
+                    search.focus();
+                    search.select();
+                    showToast('🔍 Command Palette: Type to search components');
+                }
+            }
+        });
 
         window.addEventListener('DOMContentLoaded', init);
     </script>
