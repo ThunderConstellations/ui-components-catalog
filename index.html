@@ -1296,6 +1296,91 @@
             return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
+        // ==========================================
+        // Instant Demo Mode System (URL + localStorage)
+        // ==========================================
+        const INSTANT_DEMO_STORAGE_KEY = 'omniui_instant_demo';
+        
+        function isInstantDemoMode() {
+            // Check URL first (highest priority)
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('preview') || params.has('instant-demo')) {
+                return params.get('preview') === 'true' || params.get('instant-demo') === 'true';
+            }
+            // Fall back to localStorage
+            return localStorage.getItem(INSTANT_DEMO_STORAGE_KEY) === 'true';
+        }
+
+        function setInstantDemoMode(enabled) {
+            localStorage.setItem(INSTANT_DEMO_STORAGE_KEY, enabled.toString());
+            document.body.classList.toggle('instant-demo-active', enabled);
+            
+            const btn = document.getElementById('instantDemoToggle');
+            if (btn) {
+                if (enabled) {
+                    btn.className = 'bg-emerald-500 hover:bg-emerald-400 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-950 border border-emerald-400 transition flex items-center space-x-1.5';
+                    btn.innerHTML = '<i class="fa-solid fa-bolt text-amber-300"></i><span>Instant Demo: ON</span>';
+                } else {
+                    btn.className = 'bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-emerald-400 border border-emerald-500/3  transition flex items-center space-x-1.5';
+                    btn.innerHTML = '<i class="fa-solid fa-bolt"></i><span>Instant Demo</span>';
+                }
+            }
+            
+            showToast(enabled ? '⚡ Instant Demo Mode: Enabled' : 'Instant Demo Mode: Disabled');
+        }
+
+        function toggleInstantDemoMode() {
+            setInstantDemoMode(!isInstantDemoMode());
+        }
+
+        // ==========================================
+        // Preview Cache System (LRU, 5min TTL)
+        // ==========================================
+        class PreviewCache {
+            constructor(maxSize = 50, ttlMs = 5 * 60 * 1000) {
+                this.cache = new Map();
+                this.maxSize = maxSize;
+                this.ttlMs = ttlMs;
+                this.accessTimes = new Map();
+            }
+            get(key) {
+                const entry = this.cache.get(key);
+                if (!entry) return null;
+                if (Date.now() - entry.timestamp > this.ttlMs) {
+                    this.cache.delete(key);
+                    this.accessTimes.delete(key);
+                    return null;
+                }
+                this.accessTimes.set(key, Date.now());
+                return entry.value;
+            }
+            set(key, value) {
+                const now = Date.now();
+                if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
+                    let oldestKey = null;
+                    let oldestTime = Infinity;
+                    for (const [k, t] of this.accessTimes) {
+                        if (t < oldestTime) { oldestTime = t; oldestKey = k; }
+                    }
+                    if (oldestKey) { this.cache.delete(oldestKey); this.accessTimes.delete(oldestKey); }
+                }
+                this.cache.set(key, { value, timestamp: now });
+                this.accessTimes.set(key, now);
+            }
+            clear() { this.cache.clear(); this.accessTimes.clear(); }
+            size() { return this.cache.size; }
+        }
+
+        const previewCache = new PreviewCache(50, 5 * 60 * 1000);
+
+        // Initialize instant demo mode from URL or localStorage on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isInstantDemoMode()) {
+                setInstantDemoMode(true);
+            }
+            init();
+        });
+
         // Theme Toggle Function
         function toggleTheme() {
             const htmlElement = document.documentElement;
