@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Fetch Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-flex flex items-center justify-center p-4">
+    <div id="test-result" class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 max-w-xl">
+        <div class="text-center space-y-4">
+            <h2 class="text-2xl font-bold">Testing JSON Fetch...</h2>
+            <div id="status" class="text-slate-400">Loading...</div>
+            <div id="data" class="text-sm text-slate-400 whitespace-pre-wrap">Waiting for data...</div>
+            <button onclick="location.reload()" 
+                    class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition">
+                Reload Test
+            </button>
+        </div>
+    </div>
+
+    <script>
+        async function testFetch() {
+            const statusEl = document.getElementById('status');
+            const dataEl = document.getElementById('data');
+            
+            try {
+                statusEl.textContent = 'Fetching ui-components-data.json...';
+                const response = await fetch('ui-components-data.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                statusEl.textContent = 'Parsing JSON...';
+                const data = await response.json();
+                
+                statusEl.textContent = `✅ Success! Loaded ${data.length} components`;
+                dataEl.textContent = `First 3 components:\n${data.slice(0, 3).map(c => `- ${c.name} (${c.category})`).join('\n')}\n\nLast 3 components:\n${data.slice(-3).map(c => `- ${c.name} (${c.category})`).join('\n')}`;
+                
+                // Show some interactive components
+                const interactive = data.filter(c => c.code && c.code.length > 50);
+                if (interactive.length > 0) {
+                    dataEl.textContent += `\n\n🎯 Interactive components found: ${interactive.length}`;
+                    dataEl.textContent += `\nExamples: ${interactive.slice(0, 3).map(c => c.name).join(', ')}`;
+                }
+            } catch (error) {
+                statusEl.textContent = `❌ Error: ${error.message}`;
+                dataEl.textContent = `Please check:\n1. Network connection\n2. File exists at correct path\n3. Browser console for details\n\nTry: https://ThunderConstellations.github.io/ui-components-catalog/ui-components-data.json`;
+                dataEl.classList.add('text-red-400');
+            }
+        }
+        
+        // Start test when page loads
+        window.addEventListener('DOMContentLoaded', testFetch);
+    </script>
+</body>
+</html>
