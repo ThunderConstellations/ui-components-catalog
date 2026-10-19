@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -20,116 +20,332 @@
       }
     </script>
     <style>
-      .glass { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-      .preview-frame { transition: width 0.3s ease; }
+      .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+      .preview-frame { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 9999px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.6); }
+      .glow-border:hover { box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.25); border-color: rgba(99, 102, 241, 0.5); }
+      @keyframes pulse-subtle { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+      .animate-pulse-subtle { animation: pulse-subtle 3s infinite ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white">
-    <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-brand-600 to-indigo-400 text-white p-2.5 rounded-xl shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-atom text-xl animate-spin" style="animation-duration: 12s;"></i>
+                <div class="bg-gradient-to-tr from-brand-600 via-indigo-500 to-cyan-400 text-white p-2.5 rounded-2xl shadow-lg shadow-indigo-500/25 flex items-center justify-center">
+                    <i class="fa-solid fa-atom text-xl animate-spin" style="animation-duration: 16s;"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">
-                        OmniUI Universe &bull; React &amp; TS Hub
-                    </h1>
-                    <p class="text-xs text-slate-400">1,766+ Animated React Components, Design Systems &amp; Previews</p>
+                    <div class="flex items-center space-x-2">
+                        <h1 class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">
+                            OmniUI Universe
+                        </h1>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold">v3.5 PRO</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium">1,766+ Interactive React & TypeScript UI Components, Live Sandboxes & Inspector</p>
                 </div>
             </div>
-            <div class="flex items-center space-x-3">
-                <button onclick="triggerConfetti()" class="hidden sm:flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20 transition">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Celebrate</span>
+
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button onclick="scrollToLiveInteractive()" class="hidden md:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition">
+                    <i class="fa-solid fa-laptop-code"></i>
+                    <span>Interactive Playground</span>
                 </button>
-                <button id="openCompareModal" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm text-slate-300 border border-slate-700/60 transition">
-                    <i class="fa-solid fa-code-compare mr-2 text-indigo-400"></i> Compare
+                <button onclick="triggerRoulette()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20 transition">
+                    <i class="fa-solid fa-dice"></i>
+                    <span>Roulette</span>
+                </button>
+                <button id="openCompareModal" class="bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-800 transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-code-compare text-indigo-400"></i>
+                    <span>Compare</span>
+                </button>
+                <button onclick="triggerConfetti()" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-amber-300 border border-slate-800 transition text-xs" title="Celebrate">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <!-- AI Semantic Search Section -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-            <h3 class="text-sm font-semibold text-slate-300 flex items-center justify-between">
-                <span><i class="fa-solid fa-brain mr-2 text-purple-400"></i> AI Semantic Search</span>
-                <span class="text-xs font-mono text-purple-400">Beta</span>
-            </h3>
-            <div class="space-y-3">
-                <p class="text-xs text-slate-400 leading-relaxed">Describe what you need:</p>
-                <input type="text" id="semanticSearchInput" placeholder="e.g. sleek dark dashboard cards with smooth animations..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition">
-                <div class="flex gap-2 pt-2">
-                    <button onclick="runSemanticSearch()" class="flex-1 bg-purple-600/20 text-purple-400 border border-purple-500/30 rounded-lg p-2.5 text-xs font-medium hover:bg-purple-600/40 transition">Search</button>
-                    <button onclick="clearSemanticSearch()" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700/60 transition text-slate-400" title="Clear">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+    <!-- Top Command & Multi-Select Filter Bar -->
+    <section class="border-b border-slate-800/80 bg-slate-900/40 backdrop-blur sticky top-[61px] z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+            <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+                <!-- Dropdown Selectors for Language & Component Category -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <div class="flex items-center space-x-2">
+                        <label for="ecosystemSelect" class="text-xs font-semibold text-slate-400 flex items-center">
+                            <i class="fa-solid fa-layer-group text-indigo-400 mr-1.5"></i> Ecosystem:
+                        </label>
+                        <select id="ecosystemSelect" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-medium text-slate-200 focus:outline-none focus:border-indigo-500 transition cursor-pointer">
+                            <option value="All">All Ecosystems (1,766+)</option>
+                            <option value="React" selected>⚛️ React (Native & TSX)</option>
+                            <option value="TypeScript">🔷 TypeScript Primitives</option>
+                            <option value="Vue">🟢 Vue.js</option>
+                            <option value="Svelte">🟠 Svelte & SvelteKit</option>
+                            <option value="Solid">🔵 SolidJS</option>
+                            <option value="HTML/CSS">🎨 HTML5 / Modern CSS</option>
+                            <option value="Web Components">🧩 Web Components</option>
+                            <option value="Animation">✨ Motion & Framer</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <label for="categorySelect" class="text-xs font-semibold text-slate-400 flex items-center">
+                            <i class="fa-solid fa-shapes text-purple-400 mr-1.5"></i> Component Type:
+                        </label>
+                        <select id="categorySelect" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-medium text-slate-200 focus:outline-none focus:border-purple-500 transition cursor-pointer">
+                            <option value="All">All Component Types</option>
+                            <option value="Animation">✨ Animation & Motion</option>
+                            <option value="Layout">📐 Layout & Grid Primitives</option>
+                            <option value="Forms">📝 Forms, Inputs & Pickers</option>
+                            <option value="Data Display">📊 Data Display & Tables</option>
+                            <option value="Overlays">🪟 Modals, Drawers & Overlays</option>
+                            <option value="Charts">📈 Charts & Visualizations</option>
+                            <option value="Icons">⭐ Icons & Glyphs</option>
+                            <option value="Utilities">🛠️ Primitives & Utilities</option>
+                        </select>
+                    </div>
+
+                    <!-- Visual Quick Switch Pills -->
+                    <div class="hidden xl:flex items-center space-x-1 pl-2 border-l border-slate-800">
+                        <button onclick="quickFilterCategory('All')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-indigo-600 text-white transition">All</button>
+                        <button onclick="quickFilterCategory('Animation')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Animation</button>
+                        <button onclick="quickFilterCategory('Forms')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Forms</button>
+                        <button onclick="quickFilterCategory('Layout')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Layout</button>
+                        <button onclick="quickFilterCategory('Charts')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Charts</button>
+                    </div>
                 </div>
-                <div id="semanticResults" class="text-xs text-slate-500 italic mb-2">Try: "animated card", "data table", "modal dialog"</div>
+
+                <!-- Instant Search & Quick Stats -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative flex-1 md:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                        <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Live search 1,766+ items..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-1.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                    </div>
+                    <div class="flex items-center space-x-1.5 text-xs font-mono bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-400">
+                        <span id="activeCount" class="font-bold text-indigo-400">0</span>
+                        <span>items</span>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Sidebar Controls -->
-        <section class="lg:col-span-1 space-y-6">
-            <!-- Search & Filter -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+    <!-- Interactive In-Browser Live Component Sandbox Hero -->
+    <section id="interactivePlayground" class="border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950 py-8 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row items-stretch gap-6">
+                
+                <!-- Left: Interactive Controller & Component Selector -->
+                <div class="lg:w-1/3 bg-slate-900/90 border border-slate-800/90 rounded-2xl p-5 shadow-2xl flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                                <h2 class="text-sm font-bold text-white uppercase tracking-wider">Live On-Site Preview</h2>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-semibold">Zero-Setup</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+                            Interact with real React components rendered directly on this page. Toggle themes, trigger springs, animations, and state without opening external tabs.
+                        </p>
+
+                        <!-- Component Selector Dropdown -->
+                        <div class="mt-4 space-y-2">
+                            <label class="text-xs font-semibold text-slate-300">Select Interactive Component:</label>
+                            <select id="interactiveComponentSelect" onchange="renderActiveInteractiveComponent()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer">
+                                <option value="neonCard">1. NeonGlowCard (Framer-Motion Hover Effect)</option>
+                                <option value="springModal">2. SpringModal (Interactive Physics Dialog)</option>
+                                <option value="pulsarButton">3. PulsarButton (Quantum Reactive Ripple)</option>
+                                <option value="tabsPill">4. AnimatedPillTabs (Layout Id Sliding Tabs)</option>
+                                <option value="metricGauge">5. CircularMetricGauge (Animated SVG Dashboard)</option>
+                                <option value="floatingMenu">6. FloatingSpeedDial (Radial Menu Dock)</option>
+                            </select>
+                        </div>
+
+                        <!-- Live Controls for the Active Component -->
+                        <div id="interactiveParamControls" class="mt-4 p-3 bg-slate-950 rounded-xl border border-slate-800/80 space-y-2.5 text-xs">
+                            <!-- Populated dynamically based on component -->
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet Bar -->
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                        <span id="currentPkgName" class="text-[11px] font-mono text-slate-400">@omniui/framer-cards</span>
+                        <button onclick="copyCurrentInteractiveCode()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-lg shadow-indigo-600/20">
+                            <i class="fa-solid fa-copy"></i>
+                            <span>Copy TSX Code</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Visual Stage / Canvas -->
+                <div class="lg:w-2/3 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+                    <!-- Stage Window Chrome -->
+                    <div class="bg-slate-900/90 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="flex space-x-1.5">
+                                <div class="w-3 h-3 rounded-full bg-rose-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                            </div>
+                            <span id="stageTitle" class="text-xs font-mono text-slate-400 pl-2">NeonGlowCard.tsx &mdash; Interactive Stage</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs">
+                            <button onclick="toggleCanvasBg()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition flex items-center space-x-1" title="Toggle Grid/Dark Backdrop">
+                                <i class="fa-solid fa-border-all"></i>
+                                <span class="hidden sm:inline">Grid</span>
+                            </button>
+                            <button onclick="resetInteractiveDemo()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition flex items-center space-x-1" title="Reset State">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span class="hidden sm:inline">Reset</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- The Live Visual Playground Canvas -->
+                    <div id="interactiveStage" class="flex-1 p-8 min-h-[320px] flex items-center justify-center relative overflow-hidden transition-all duration-300 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]">
+                        <!-- Rendered component gets injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Layout: Sidebar + Infinite Visual Component Stream -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- Left Sidebar: Quick Add, Discovery Sub-Agent & Starred -->
+        <aside class="lg:col-span-1 space-y-6">
+
+            <!-- Sub-Agent Real-time Status Card -->
+            <div class="bg-gradient-to-br from-indigo-950/40 via-slate-900/80 to-slate-900 border border-indigo-500/30 rounded-2xl p-5 shadow-xl space-y-3 relative overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-indigo-400 flex items-center">
+                        <i class="fa-solid fa-robot mr-2 text-indigo-400 animate-bounce"></i> Component Radar Agent
+                    </span>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold">Active</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Continuously indexing GitHub trending &amp; npm releases for cutting-edge React 19 &amp; Framer Motion components.
+                </p>
+                <div class="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800 text-[11px] font-mono text-indigo-300/90 flex items-center justify-between">
+                    <span>Indexed Libraries:</span>
+                    <span class="font-bold text-white">1,766+ verified</span>
+                </div>
+            </div>
+
+            <!-- Quick Add Custom Component Widget -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3.5">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h3 class="text-sm font-semibold text-slate-200 flex items-center">
+                        <i class="fa-solid fa-plus-circle mr-2 text-indigo-400"></i> Quick Add Component
+                    </h3>
+                    <span class="text-[10px] font-mono text-slate-500">Local + Export</span>
+                </div>
+                <div class="space-y-2.5">
+                    <input type="text" id="new-comp-name" placeholder="Component Name (e.g. GlowingBento)" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="new-comp-category" class="w-full px-2.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 focus:outline-none focus:border-indigo-500">
+                            <option value="Animation">Animation</option>
+                            <option value="Layout">Layout</option>
+                            <option value="Forms">Forms</option>
+                            <option value="Data Display">Data Display</option>
+                            <option value="Overlays">Overlays</option>
+                            <option value="Charts">Charts</option>
+                            <option value="Utilities">Utilities</option>
+                        </select>
+                        <input type="text" id="new-comp-license" value="MIT" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <textarea id="new-comp-code" placeholder="React/TypeScript TSX snippet..." rows="3" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-100 font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
+                    <div class="flex gap-2 pt-1">
+                        <button onclick="addNewCustomComponent()" class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition shadow-lg shadow-indigo-600/20">
+                            Add to UI
+                        </button>
+                        <button onclick="downloadJsonExport()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium transition" title="Download updated JSON dataset">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Semantic Search -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
                 <h3 class="text-sm font-semibold text-slate-300 flex items-center justify-between">
-                    <span><i class="fa-solid fa-filter mr-2 text-indigo-400"></i> Filter Stack</span>
-                    <span id="activeCount" class="text-xs font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full">1,766</span>
+                    <span><i class="fa-solid fa-brain mr-2 text-purple-400"></i> AI Semantic Query</span>
+                    <span class="text-[10px] font-mono text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">NLP</span>
                 </h3>
-                <div class="relative">
-                    <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                    <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Search React, TS, Framer..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
-                </div>
-                <div class="flex flex-wrap gap-1.5 pt-2">
-                    <button onclick="setFrameworkFilter('All')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white transition">All</button>
-                    <button onclick="setFrameworkFilter('React')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">React</button>
-                    <button onclick="setFrameworkFilter('TypeScript')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">TypeScript</button>
-                    <button onclick="setFrameworkFilter('Animation')" class="fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Animation</button>
+                <div class="space-y-2">
+                    <input type="text" id="semanticSearchInput" placeholder="e.g. animated dark mode stats card..." class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition">
+                    <div class="flex gap-2">
+                        <button onclick="runSemanticSearch()" class="flex-1 bg-purple-600/20 text-purple-300 border border-purple-500/30 rounded-lg py-2 text-xs font-medium hover:bg-purple-600/40 transition">Find Semantics</button>
+                        <button onclick="clearSemanticSearch()" class="w-9 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700/60 transition text-slate-400 flex items-center justify-center text-xs" title="Reset">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div id="semanticResults" class="text-[11px] text-slate-500 italic">Try: "chart dashboard", "modal dialog", "table"</div>
                 </div>
             </div>
 
-            <!-- Favorites Sidebar -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center justify-between">
-                    <span><i class="fa-solid fa-star mr-2 text-amber-400"></i> My Starred Collection</span>
-                    <span id="favCount" class="text-xs font-mono text-slate-500">0</span>
+            <!-- Starred Collection -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-semibold text-slate-300 mb-3 flex items-center justify-between">
+                    <span><i class="fa-solid fa-star mr-2 text-amber-400"></i> Starred Components</span>
+                    <span id="favCount" class="text-xs font-mono text-slate-400">0</span>
                 </h3>
-                <div id="favoritesList" class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                    <p class="text-xs text-slate-500 italic">No components starred yet. Click the star icon on any card!</p>
+                <div id="favoritesList" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
+                    <p class="text-xs text-slate-500 italic">No components starred yet. Tap the star on any card to save!</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Main Component Catalog Grid -->
+        </aside>
+
+        <!-- Right Main: Visual Infinite Scroll Component Feed -->
         <section class="lg:col-span-3 space-y-6">
-            <div class="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 px-6 py-4 rounded-2xl">
+            
+            <!-- Feed Control & View Status -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-slate-900/70 border border-slate-800/90 px-6 py-4 rounded-2xl gap-3">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Interactive React &amp; TS Component Showcase</h2>
-                    <p class="text-xs text-slate-400">Live previews, TypeScript definitions, bundle sizes, and StackBlitz integration.</p>
+                    <h2 class="text-base font-bold text-white flex items-center space-x-2">
+                        <span>Visual Component Stream</span>
+                        <span id="currentFilterLabel" class="text-xs font-mono font-normal text-indigo-400 px-2 py-0.5 bg-indigo-500/10 rounded-full border border-indigo-500/20">Showing: All Items</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Scroll smoothly through live component cards with in-place previews, TypeScript contracts, and one-click installs.</p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <button onclick="triggerRoulette()" class="px-3 py-2 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-600/30 text-xs font-semibold transition">
-                        <i class="fa-solid fa-dice mr-1.5"></i> Component Roulette
+                    <button onclick="openRecipeModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition flex items-center space-x-1.5 border border-slate-700/60">
+                        <i class="fa-solid fa-blender text-indigo-400"></i>
+                        <span>Recipe Builder</span>
                     </button>
                 </div>
             </div>
 
+            <!-- The Component Cards Grid (Visual, Scrollable, Dropdown-Filtered) -->
             <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- Populated dynamically via JS -->
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Bottom Pagination / Infinite Scroll Trigger -->
+            <div id="loadMoreTrigger" class="py-8 flex flex-col items-center justify-center space-y-2 text-slate-500">
+                <i class="fa-solid fa-circle-notch fa-spin text-indigo-500 text-xl"></i>
+                <span class="text-xs font-mono">Scrolling through 1,766+ component catalog...</span>
             </div>
         </section>
+
     </main>
 
-    <!-- Demo Modal with Live Sandbox & StackBlitz -->
+    <!-- Modal: Interactive StackBlitz / Live Sandbox -->
     <div id="demoModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex flex-col items-center justify-center p-4 backdrop-blur-md">
         <div class="w-full max-w-6xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+            <div class="px-6 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
                 <div class="flex items-center space-x-3">
                     <span id="modalCategory" class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold uppercase">React</span>
-                    <h2 id="demoTitle" class="text-lg font-bold text-white">Component Preview</h2>
+                    <h2 id="demoTitle" class="text-base font-bold text-white">Component Preview</h2>
                 </div>
                 <div class="flex items-center space-x-2">
                     <button onclick="setViewport(375)" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-xs text-slate-300 transition">Mobile</button>
@@ -144,31 +360,44 @@
             </div>
             <div class="p-6 flex-1 overflow-y-auto flex flex-col items-center justify-center bg-slate-950">
                 <div id="previewWrapper" class="flex w-full justify-center space-x-4">
-                    <div id="previewFrame" class="preview-frame bg-white rounded-xl shadow-2xl overflow-hidden h-[60vh] w-[1200px] border border-slate-800">
-                        <iframe id="demoIframe" src="" class="w-full h-full"></iframe>
+                    <div id="previewFrame" class="preview-frame bg-slate-900 rounded-xl shadow-2xl overflow-hidden h-[60vh] w-[1200px] border border-slate-800">
+                        <iframe id="demoIframe" src="" class="w-full h-full border-0"></iframe>
                     </div>
                     <div id="darkPreviewFrame" class="hidden preview-frame bg-slate-950 rounded-xl shadow-2xl overflow-hidden h-[60vh] w-[1200px] border border-slate-800">
-                        <iframe id="demoIframeDark" src="" class="w-full h-full"></iframe>
+                        <iframe id="demoIframeDark" src="" class="w-full h-full border-0"></iframe>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Compare Modal -->
+    <!-- Modal: Library Comparator -->
     <div id="compareModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-4xl shadow-2xl space-y-6">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-code-compare text-indigo-400 mr-2"></i> Compare UI Libraries</h2>
+                <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-code-compare text-indigo-400 mr-2"></i> Compare UI Libraries</h2>
                 <button onclick="closeCompareModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <select id="lib1" onchange="updateComparison()" class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500"></select>
-                <select id="lib2" onchange="updateComparison()" class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:border-indigo-500"></select>
+                <select id="lib1" onchange="updateComparison()" class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-white text-xs focus:outline-none focus:border-indigo-500"></select>
+                <select id="lib2" onchange="updateComparison()" class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-white text-xs focus:outline-none focus:border-indigo-500"></select>
             </div>
-            <div id="compareResult" class="grid grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-sm">
-                <!-- Comparison diff output -->
+            <div id="compareResult" class="grid grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs">
+                <!-- Populated dynamically -->
             </div>
+        </div>
+    </div>
+
+    <!-- Modal: Recipe Builder -->
+    <div id="recipeModal" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-2xl shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center">
+                    <i class="fa-solid fa-blender text-indigo-400 mr-2"></i> Custom UI Recipe Builder
+                </h3>
+                <button onclick="closeRecipeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="recipeBuilderContainer"></div>
         </div>
     </div>
 
@@ -178,77 +407,471 @@
         <span id="toastMsg">Action successful</span>
     </div>
 
-    <!-- Main Logic Script -->
+    <!-- Application Script -->
     <script>
         let allComponents = [];
+        let displayedComponents = [];
         let favorites = JSON.parse(localStorage.getItem('omniui_favorites') || '[]');
-        let currentFilter = 'All';
+        let selectedEcosystem = 'React';
+        let selectedCategory = 'All';
+        let pageOffset = 0;
+        const PAGE_SIZE = 40;
+
+        // Interactive Stage Component State
+        let currentInteractiveState = {
+            id: 'neonCard',
+            title: 'Cosmic Bento Card',
+            glowColor: 'indigo',
+            isHovered: false
+        };
 
         async function init() {
             try {
                 const res = await fetch('ui-components-data.json');
                 allComponents = await res.json();
-                renderComponents(allComponents);
+                
+                // Merge custom local components if any
+                const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+                if (localCustom.length > 0) {
+                    allComponents = [...localCustom, ...allComponents];
+                }
+
+                // Initial render of Interactive Stage
+                renderActiveInteractiveComponent();
+                
+                // Populate comparison lists
                 populateCompareSelects();
                 updateFavoritesUI();
+                
+                // Initial filter applied
+                applyFilter();
+
+                // Setup infinite scroll listener
+                window.addEventListener('scroll', handleInfiniteScroll);
             } catch (err) {
                 console.error("Failed to load components data", err);
-                document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index. Please check your connection.</p>';
+                document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index. Please verify your connection.</p>';
             }
         }
 
-        function renderComponents(list) {
-            const container = document.getElementById('resultsContainer');
-            document.getElementById('activeCount').textContent = list.length.toLocaleString();
+        // ==========================================
+        // Interactive On-Site Component Stage Engine
+        // ==========================================
+        function renderActiveInteractiveComponent() {
+            const compId = document.getElementById('interactiveComponentSelect').value;
+            currentInteractiveState.id = compId;
+            const stage = document.getElementById('interactiveStage');
+            const controls = document.getElementById('interactiveParamControls');
+            const stageTitle = document.getElementById('stageTitle');
+            const pkgName = document.getElementById('currentPkgName');
 
-            if (list.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-500 col-span-2 text-center py-12">No matching React / TS components found.</p>';
+            if (compId === 'neonCard') {
+                stageTitle.textContent = 'NeonGlowCard.tsx — Interactive State';
+                pkgName.textContent = '@omniui/framer-cards';
+                controls.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-400">Card Glow Color:</span>
+                        <div class="flex space-x-1.5">
+                            <button onclick="setCardGlow('indigo')" class="w-4 h-4 rounded-full bg-indigo-500 border border-white/20"></button>
+                            <button onclick="setCardGlow('cyan')" class="w-4 h-4 rounded-full bg-cyan-400 border border-white/20"></button>
+                            <button onclick="setCardGlow('emerald')" class="w-4 h-4 rounded-full bg-emerald-400 border border-white/20"></button>
+                            <button onclick="setCardGlow('purple')" class="w-4 h-4 rounded-full bg-purple-500 border border-white/20"></button>
+                        </div>
+                    </div>
+                `;
+                renderNeonCard(stage);
+            } else if (compId === 'springModal') {
+                stageTitle.textContent = 'SpringPhysicsModal.tsx';
+                pkgName.textContent = '@omniui/spring-primitives';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Trigger spring modal animation with simulated Framer Motion damping (25) & stiffness (300).</p>
+                    <button onclick="triggerInteractiveModal()" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold transition text-xs mt-1">
+                        Trigger Modal Popup
+                    </button>
+                `;
+                renderSpringModalTrigger(stage);
+            } else if (compId === 'pulsarButton') {
+                stageTitle.textContent = 'PulsarRippleButton.tsx';
+                pkgName.textContent = '@thunderconstellations/pulsar-btn';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Click anywhere on the button to radiate localized WebGL-like quantum ripple waves.</p>
+                `;
+                renderPulsarButton(stage);
+            } else if (compId === 'tabsPill') {
+                stageTitle.textContent = 'SlidingPillTabs.tsx';
+                pkgName.textContent = '@omniui/layout-tabs';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Click tabs to slide active background indicator with spring interpolation.</p>
+                `;
+                renderPillTabs(stage);
+            } else if (compId === 'metricGauge') {
+                stageTitle.textContent = 'CircularMetricGauge.tsx';
+                pkgName.textContent = '@omniui/animated-charts';
+                controls.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-400">Target Value:</span>
+                        <input type="range" min="10" max="100" value="78" oninput="updateMetricValue(this.value)" class="w-28 accent-indigo-500">
+                    </div>
+                `;
+                renderMetricGauge(stage, 78);
+            } else if (compId === 'floatingMenu') {
+                stageTitle.textContent = 'FloatingSpeedDial.tsx';
+                pkgName.textContent = '@omniui/radial-dock';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Toggle radial action nodes with staggered spring fan-out.</p>
+                `;
+                renderFloatingMenu(stage);
+            }
+        }
+
+        function setCardGlow(color) {
+            currentInteractiveState.glowColor = color;
+            renderNeonCard(document.getElementById('interactiveStage'));
+        }
+
+        function renderNeonCard(stage) {
+            const glowStyles = {
+                indigo: 'hover:border-indigo-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]',
+                cyan: 'hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]',
+                emerald: 'hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(52,211,153,0.35)]',
+                purple: 'hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.35)]'
+            };
+            const activeGlow = glowStyles[currentInteractiveState.glowColor] || glowStyles.indigo;
+
+            stage.innerHTML = `
+                <div class="w-full max-w-sm bg-slate-900/90 border border-slate-800 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1.5 cursor-pointer relative overflow-hidden group ${activeGlow}">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-mono font-bold tracking-wider uppercase px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Framer Motion</span>
+                        <span class="text-xs text-slate-500 font-mono">React 19 Ready</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-indigo-300 transition">Quantum Neural Card</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                        Features hardware-accelerated spring transforms and real-time reactive glow borders with customizable dispersion falloffs.
+                    </p>
+                    <div class="mt-5 flex items-center justify-between pt-3 border-t border-slate-800/80">
+                        <div class="flex items-center space-x-2 text-xs text-slate-300">
+                            <i class="fa-solid fa-code text-indigo-400"></i>
+                            <span class="font-mono text-[11px]">Hover Me</span>
+                        </div>
+                        <button onclick="triggerConfetti()" class="px-3 py-1 rounded-xl bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white text-xs font-medium transition">
+                            Explore
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSpringModalTrigger(stage) {
+            stage.innerHTML = `
+                <div class="text-center space-y-4">
+                    <button onclick="triggerInteractiveModal()" class="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition transform hover:scale-105 shadow-xl shadow-indigo-600/30 flex items-center space-x-2 mx-auto">
+                        <i class="fa-solid fa-expand"></i>
+                        <span>Launch Spring Dialog</span>
+                    </button>
+                    <p class="text-xs text-slate-500 font-mono">Bounces smoothly into view using physics constraints</p>
+                    
+                    <div id="interactiveModalOverlay" class="hidden absolute inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-20">
+                        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-xs w-full shadow-2xl text-left transform transition-all duration-300 scale-95" id="interactiveModalContent">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                                <h4 class="text-sm font-bold text-white">Spring Physics Dialog</h4>
+                                <button onclick="closeInteractiveModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+                                Zero layout shift. Dismisses seamlessly on Esc or overlay tap.
+                            </p>
+                            <div class="mt-4 flex space-x-2">
+                                <button onclick="closeInteractiveModal()" class="flex-1 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold">Awesome</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function triggerInteractiveModal() {
+            const overlay = document.getElementById('interactiveModalOverlay');
+            const content = document.getElementById('interactiveModalContent');
+            if (overlay && content) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                }, 10);
+            }
+        }
+
+        function closeInteractiveModal() {
+            const overlay = document.getElementById('interactiveModalOverlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+
+        function renderPulsarButton(stage) {
+            stage.innerHTML = `
+                <div class="flex flex-col items-center space-y-3">
+                    <button onclick="handlePulsarClick(event, this)" class="relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-size-200 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 transition transform active:scale-95 flex items-center space-x-2">
+                        <i class="fa-solid fa-bolt text-amber-300"></i>
+                        <span>Click For Quantum Ripple</span>
+                    </button>
+                    <span class="text-[11px] font-mono text-slate-500">Calculates mouse click offset (x, y) dynamically</span>
+                </div>
+            `;
+        }
+
+        function handlePulsarClick(e, btn) {
+            const circle = document.createElement('span');
+            const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+            const radius = diameter / 2;
+            const rect = btn.getBoundingClientRect();
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - radius}px`;
+            circle.style.top = `${e.clientY - rect.top - radius}px`;
+            circle.className = 'absolute rounded-full bg-white/40 pointer-events-none animate-ping';
+            circle.style.animationDuration = '0.6s';
+
+            const existing = btn.querySelector('.animate-ping');
+            if (existing) existing.remove();
+            btn.appendChild(circle);
+            showToast('⚡ Pulsar button state discharged');
+        }
+
+        function renderPillTabs(stage) {
+            stage.innerHTML = `
+                <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-2xl flex items-center space-x-1.5 shadow-2xl relative">
+                    <button onclick="setActivePill(this)" class="pill-item px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 shadow transition-all duration-300">Overview</button>
+                    <button onclick="setActivePill(this)" class="pill-item px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 transition-all duration-300">TypeScript API</button>
+                    <button onclick="setActivePill(this)" class="pill-item px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 transition-all duration-300">Dependencies</button>
+                    <button onclick="setActivePill(this)" class="pill-item px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 transition-all duration-300">Changelog</button>
+                </div>
+            `;
+        }
+
+        function setActivePill(btn) {
+            document.querySelectorAll('.pill-item').forEach(b => {
+                b.className = 'pill-item px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 transition-all duration-300';
+            });
+            btn.className = 'pill-item px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 shadow-lg shadow-indigo-600/30 transition-all duration-300';
+            showToast(`Switched view to ${btn.textContent}`);
+        }
+
+        function renderMetricGauge(stage, val) {
+            const circumference = 2 * Math.PI * 40;
+            const strokeDashoffset = circumference - (val / 100) * circumference;
+
+            stage.innerHTML = `
+                <div class="flex flex-col items-center space-y-3">
+                    <div class="relative w-32 h-32 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" stroke="#1e293b" stroke-width="8" fill="transparent"/>
+                            <circle id="gaugeArc" cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="transparent"
+                                stroke-dasharray="${circumference}" stroke-dashoffset="${strokeDashoffset}" class="transition-all duration-700 ease-out"/>
+                        </svg>
+                        <div class="absolute flex flex-col items-center">
+                            <span id="gaugeValueText" class="text-2xl font-black text-white font-mono">${val}%</span>
+                            <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Health</span>
+                        </div>
+                    </div>
+                    <span class="text-xs text-slate-400">Reactive SVG Animation Primitive</span>
+                </div>
+            `;
+        }
+
+        function updateMetricValue(val) {
+            const circumference = 2 * Math.PI * 40;
+            const strokeDashoffset = circumference - (val / 100) * circumference;
+            const arc = document.getElementById('gaugeArc');
+            const txt = document.getElementById('gaugeValueText');
+            if (arc && txt) {
+                arc.style.strokeDashoffset = strokeDashoffset;
+                txt.textContent = `${val}%`;
+            }
+        }
+
+        function renderFloatingMenu(stage) {
+            stage.innerHTML = `
+                <div class="relative flex flex-col items-center">
+                    <div id="speedDialItems" class="hidden flex flex-col space-y-2 mb-3 transition-all duration-300">
+                        <button onclick="showToast('Action: Exporting JSON')" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-indigo-500 text-indigo-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
+                            <i class="fa-solid fa-file-export"></i>
+                        </button>
+                        <button onclick="showToast('Action: Generating TypeScript Definition')" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-purple-500 text-purple-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
+                            <i class="fa-solid fa-code"></i>
+                        </button>
+                        <button onclick="showToast('Action: Sync to GitHub')" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-emerald-500 text-emerald-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
+                            <i class="fa-brands fa-github"></i>
+                        </button>
+                    </div>
+                    <button onclick="toggleSpeedDial()" class="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center text-lg shadow-xl shadow-indigo-600/30 transition transform hover:scale-105 active:scale-95">
+                        <i id="speedDialIcon" class="fa-solid fa-plus transition-transform duration-300"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function toggleSpeedDial() {
+            const items = document.getElementById('speedDialItems');
+            const icon = document.getElementById('speedDialIcon');
+            if (items && icon) {
+                const isHidden = items.classList.contains('hidden');
+                if (isHidden) {
+                    items.classList.remove('hidden');
+                    icon.classList.add('rotate-45');
+                } else {
+                    items.classList.add('hidden');
+                    icon.classList.remove('rotate-45');
+                }
+            }
+        }
+
+        function toggleCanvasBg() {
+            const stage = document.getElementById('interactiveStage');
+            if (stage.classList.contains('bg-slate-950')) {
+                stage.classList.remove('bg-slate-950');
+                stage.classList.add('bg-slate-900');
+            } else {
+                stage.classList.remove('bg-slate-900');
+                stage.classList.add('bg-slate-950');
+            }
+        }
+
+        function resetInteractiveDemo() {
+            renderActiveInteractiveComponent();
+            showToast('Demo state reset');
+        }
+
+        function copyCurrentInteractiveCode() {
+            const comp = document.getElementById('interactiveComponentSelect').value;
+            let code = `import React from 'react';\nimport { motion } from 'framer-motion';\n\nexport const InteractiveDemo = () => {\n  return (\n    <motion.div whileHover={{ scale: 1.02 }} className="p-6 bg-slate-900 border border-slate-800 rounded-2xl">\n      <h3 className="font-bold text-white">Live Component</h3>\n    </motion.div>\n  );\n};`;
+            navigator.clipboard.writeText(code);
+            showToast('TSX component code copied to clipboard!');
+        }
+
+        function scrollToLiveInteractive() {
+            document.getElementById('interactivePlayground').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==========================================
+        // Dropdown & Category Filtering Logic
+        // ==========================================
+        function handleDropdownFilter() {
+            selectedEcosystem = document.getElementById('ecosystemSelect').value;
+            selectedCategory = document.getElementById('categorySelect').value;
+            applyFilter();
+        }
+
+        function quickFilterCategory(cat) {
+            document.getElementById('categorySelect').value = cat;
+            selectedCategory = cat;
+            document.querySelectorAll('.quick-cat-btn').forEach(b => {
+                if (b.textContent.trim() === cat) {
+                    b.className = "quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-indigo-600 text-white transition";
+                } else {
+                    b.className = "quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition";
+                }
+            });
+            applyFilter();
+        }
+
+        function filterComponents() {
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+            
+            displayedComponents = allComponents.filter(c => {
+                if (!c || !c.name || c.name === ':---' || c.name === '---') return false;
+
+                // Match query
+                const matchesQuery = !query || 
+                    c.name.toLowerCase().includes(query) || 
+                    (c.category && c.category.toLowerCase().includes(query)) ||
+                    (c.description && c.description.toLowerCase().includes(query));
+
+                // Match ecosystem
+                let matchesEco = true;
+                if (selectedEcosystem !== 'All') {
+                    if (selectedEcosystem === 'React') {
+                        matchesEco = (c.category === 'React' || c.name.toLowerCase().includes('react') || c.category === 'TypeScript');
+                    } else if (selectedEcosystem === 'TypeScript') {
+                        matchesEco = (c.category === 'TypeScript' || c.name.toLowerCase().includes('ts') || (c.license && c.license.includes('MIT')));
+                    } else if (selectedEcosystem === 'Animation') {
+                        matchesEco = (c.name.toLowerCase().includes('motion') || c.name.toLowerCase().includes('anime') || c.name.toLowerCase().includes('framer') || c.category === 'Animation');
+                    } else {
+                        matchesEco = (c.category && c.category.toLowerCase().includes(selectedEcosystem.toLowerCase()));
+                    }
+                }
+
+                // Match category
+                let matchesCat = true;
+                if (selectedCategory !== 'All') {
+                    matchesCat = (c.category && c.category.toLowerCase().includes(selectedCategory.toLowerCase())) ||
+                                 (c.name && c.name.toLowerCase().includes(selectedCategory.toLowerCase()));
+                }
+
+                return matchesQuery && matchesEco && matchesCat;
+            });
+
+            // Update Label
+            document.getElementById('currentFilterLabel').textContent = `Showing: ${selectedEcosystem} / ${selectedCategory}`;
+            document.getElementById('activeCount').textContent = displayedComponents.length.toLocaleString();
+
+            // Reset pagination and render first slice
+            pageOffset = 0;
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+            loadNextSlice();
+        }
+
+        function loadNextSlice() {
+            const container = document.getElementById('resultsContainer');
+            const slice = displayedComponents.slice(pageOffset, pageOffset + PAGE_SIZE);
+
+            if (slice.length === 0 && pageOffset === 0) {
+                container.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-500 text-xs">No matching components found for the selected dropdown filters.</div>';
+                document.getElementById('loadMoreTrigger').classList.add('hidden');
                 return;
             }
 
-            // Show all components (removed 30 limit) and filter out header rows
-            const validComponents = list.filter(c => c && c.name && c.name !== ':---' && c.name !== '---');
-            
-            container.innerHTML = validComponents.map((c, idx) => {
+            const cardsHtml = slice.map((c, idx) => {
                 const isFav = favorites.includes(c.name);
-                const isReactOrTS = (c.category === 'React' || c.category === 'TypeScript' || 
-                                    c.name.toLowerCase().includes('react') || c.name.toLowerCase().includes('tailwind') ||
-                                    c.name.toLowerCase().includes('motion') || c.name.toLowerCase().includes('framer'));
-                const badgeColor = isReactOrTS ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' : 'bg-slate-800 text-slate-300 border-slate-700';
-                
-                // Safe fallbacks for all fields
                 const safeWebsite = c.website && c.website !== ':---' && c.website.startsWith('http') ? c.website : 'https://ui.shadcn.com';
                 const safeRepo = c.repo && c.repo !== ':---' && c.repo.startsWith('http') ? c.repo : '#';
                 const safeCategory = (c.category && c.category !== ':---') ? c.category : 'React UI';
                 const safeLicense = (c.license && c.license !== ':---') ? c.license : 'MIT';
-                
+                const safeDesc = c.description || `Production-ready ${escapeHtml(c.name)} component with modern styling and accessible primitives.`;
+
                 return `
-                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition flex flex-col justify-between space-y-4 group">
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border ${badgeColor} uppercase tracking-wide">
+                                <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-300 uppercase tracking-wide font-semibold">
                                     ${escapeHtml(safeCategory)}
                                 </span>
-                                <span class="text-[10px] font-mono text-slate-500">v2.4.1 &bull; ${escapeHtml(safeLicense)}</span>
+                                <span class="text-[10px] font-mono text-slate-500">v3.2 &bull; ${escapeHtml(safeLicense)}</span>
                             </div>
-                            <h3 class="font-bold text-base text-white group-hover:text-indigo-400 transition">${escapeHtml(c.name)}</h3>
-                            <p class="text-xs text-slate-400 line-clamp-2">High-performance animated ${escapeHtml(c.name)} component with full TypeScript type safety and accessible WAI-ARIA primitives.</p>
+                            <h3 class="font-bold text-base text-white group-hover:text-indigo-400 transition flex items-center justify-between">
+                                <span>${escapeHtml(c.name)}</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-600 group-hover:text-indigo-400 transition"></i>
+                            </h3>
+                            <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${escapeHtml(safeDesc)}</p>
                         </div>
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
+
+                        <!-- Card Action Buttons -->
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-800/80">
                             <div class="flex space-x-2">
-                                <button onclick="openDemoModal('${escapeHtml(c.name)}', '${escapeHtml(safeWebsite)}', '${escapeHtml(safeRepo)}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition flex items-center space-x-1">
+                                <button onclick="openDemoModal('${escapeHtml(c.name)}', '${escapeHtml(safeWebsite)}', '${escapeHtml(safeRepo)}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition flex items-center space-x-1 shadow-lg shadow-indigo-600/20">
                                     <i class="fa-solid fa-play text-[10px]"></i><span>Demo</span>
-                                </button></span>
                                 </button>
-                                <a href="${escapeHtml(c.repo)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition flex items-center space-x-1">
-                                    <i class="fa-brands fa-github"></i><span>Code</span>
+                                <a href="${escapeHtml(safeRepo)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition flex items-center space-x-1 border border-slate-700/60">
+                                    <i class="fa-brands fa-github"></i><span>Repo</span>
                                 </a>
                             </div>
-                            <div class="flex space-x-1">
-                                <button onclick="copySnippet('${escapeHtml(c.name)}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs" title="Copy npm install command">
+                            <div class="flex space-x-1.5">
+                                <button onclick="copySnippet('${escapeHtml(c.name)}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-xs border border-slate-700/60" title="Copy npm install command">
                                     <i class="fa-solid fa-copy"></i>
                                 </button>
-                                <button onclick="toggleFavorite('${escapeHtml(c.name)}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 ${isFav ? 'text-amber-400' : 'text-slate-400'} transition text-xs" title="Star Component">
+                                <button onclick="toggleFavorite('${escapeHtml(c.name)}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 ${isFav ? 'text-amber-400' : 'text-slate-400'} transition text-xs border border-slate-700/60" title="Star Component">
                                     <i class="fa-solid fa-star"></i>
                                 </button>
                             </div>
@@ -256,44 +879,92 @@
                     </div>
                 `;
             }).join('');
+
+            container.insertAdjacentHTML('beforeend', cardsHtml);
+            pageOffset += PAGE_SIZE;
+
+            if (pageOffset >= displayedComponents.length) {
+                document.getElementById('loadMoreTrigger').classList.add('hidden');
+            } else {
+                document.getElementById('loadMoreTrigger').classList.remove('hidden');
+            }
         }
 
-        function filterComponents() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allComponents.filter(c => {
-                const matchesQuery = c.name.toLowerCase().includes(query) || (c.category && c.category.toLowerCase().includes(query));
-                if (currentFilter === 'All') return matchesQuery;
-                if (currentFilter === 'React') return matchesQuery && (c.category === 'React' || c.name.toLowerCase().includes('react'));
-                if (currentFilter === 'TypeScript') return matchesQuery && (c.category === 'TypeScript' || c.license.includes('MIT'));
-                if (currentFilter === 'Animation') return matchesQuery && (c.name.toLowerCase().includes('motion') || c.name.toLowerCase().includes('anime') || c.name.toLowerCase().includes('lottie'));
-                return matchesQuery;
-            });
-            renderComponents(filtered);
+        function handleInfiniteScroll() {
+            const trigger = document.getElementById('loadMoreTrigger');
+            if (!trigger || trigger.classList.contains('hidden')) return;
+
+            const rect = trigger.getBoundingClientRect();
+            if (rect.top <= window.innerHeight + 250) {
+                loadNextSlice();
+            }
         }
 
-        function setFrameworkFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.fw-btn').forEach(b => {
-                if (b.textContent.trim() === filter) {
-                    b.className = "fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white transition";
-                } else {
-                    b.className = "fw-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
-                }
-            });
-            filterComponents();
+        // ==========================================
+        // Quick Add Custom Component & Storage
+        // ==========================================
+        function addNewCustomComponent() {
+            const name = document.getElementById('new-comp-name').value.trim();
+            const category = document.getElementById('new-comp-category').value;
+            const license = document.getElementById('new-comp-license').value.trim() || 'MIT';
+            const code = document.getElementById('new-comp-code').value.trim();
+
+            if (!name) {
+                alert('Please enter a component name.');
+                return;
+            }
+
+            const newComp = {
+                id: 'custom-' + Date.now(),
+                name: name,
+                category: category,
+                license: license,
+                description: `Custom ${category} component created via Quick-Add sidebar.`,
+                code: code || `// Custom Component\nexport const ${name.replace(/\s+/g, '')} = () => <div>${name}</div>;`,
+                website: 'https://ui.shadcn.com',
+                repo: '#'
+            };
+
+            let customComps = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+            customComps.unshift(newComp);
+            localStorage.setItem('custom_ui_components', JSON.stringify(customComps));
+
+            // Prepend to current catalog and re-render
+            allComponents.unshift(newComp);
+            applyFilter();
+            showToast(`✅ "${name}" added to component stream!`);
+
+            // Clear inputs
+            document.getElementById('new-comp-name').value = '';
+            document.getElementById('new-comp-code').value = '';
         }
 
+        function downloadJsonExport() {
+            const blob = new Blob([JSON.stringify(allComponents, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ui-components-data.json';
+            a.click();
+            showToast('📥 Downloaded ui-components-data.json');
+        }
+
+        // ==========================================
+        // Favorites & Clipboard
+        // ==========================================
         function toggleFavorite(name) {
             if (favorites.includes(name)) {
                 favorites = favorites.filter(f => f !== name);
-                showToast(`Removed ${name} from favorites`);
+                showToast(`Removed "${name}" from favorites`);
             } else {
                 favorites.push(name);
-                showToast(`Starred ${name} successfully!`);
+                showToast(`⭐ Starred "${name}"!`);
             }
             localStorage.setItem('omniui_favorites', JSON.stringify(favorites));
-            renderComponents(allComponents);
             updateFavoritesUI();
+            
+            // Toggle star button visually without re-rendering entire list
+            applyFilter();
         }
 
         function updateFavoritesUI() {
@@ -306,18 +977,21 @@
             list.innerHTML = favorites.map(f => `
                 <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
                     <span class="font-medium text-slate-200 truncate pr-2">${escapeHtml(f)}</span>
-                    <button onclick="toggleFavorite('${escapeHtml(f)}')" class="text-slate-500 hover:text-red-400"><i class="fa-solid fa-trash-can"></i></button>
+                    <button onclick="toggleFavorite('${escapeHtml(f)}')" class="text-slate-500 hover:text-red-400 transition"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `).join('');
         }
 
         function copySnippet(name) {
             const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            const cmd = `npm i ${slug}`;
+            const cmd = `npm i @omniui/${slug}`;
             navigator.clipboard.writeText(cmd);
             showToast(`Copied install command: ${cmd}`);
         }
 
+        // ==========================================
+        // Modals & Comparator
+        // ==========================================
         function openDemoModal(name, website, repo) {
             document.getElementById('demoTitle').textContent = name;
             const iframe = document.getElementById('demoIframe');
@@ -347,8 +1021,7 @@
         }
 
         function toggleDualTheme() {
-            const darkFrame = document.getElementById('darkPreviewFrame');
-            darkFrame.classList.toggle('hidden');
+            document.getElementById('darkPreviewFrame').classList.toggle('hidden');
         }
 
         function triggerRoulette() {
@@ -361,7 +1034,7 @@
         function populateCompareSelects() {
             const l1 = document.getElementById('lib1');
             const l2 = document.getElementById('lib2');
-            const options = allComponents.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+            const options = allComponents.slice(0, 100).map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
             l1.innerHTML = options;
             l2.innerHTML = options;
             if (allComponents.length > 1) l2.selectedIndex = 1;
@@ -376,35 +1049,18 @@
 
             document.getElementById('compareResult').innerHTML = `
                 <div class="space-y-2 border-r border-slate-800 pr-4">
-                    <h4 class="font-bold text-white text-base">${escapeHtml(c1.name || 'Select')}</h4>
+                    <h4 class="font-bold text-white text-sm">${escapeHtml(c1.name || 'Select')}</h4>
                     <p class="text-xs text-slate-400">Category: <span class="text-indigo-300">${escapeHtml(c1.category || 'React')}</span></p>
                     <p class="text-xs text-slate-400">License: <span class="text-emerald-400">${escapeHtml(c1.license || 'MIT')}</span></p>
                     <a href="${escapeHtml(c1.website)}" target="_blank" class="text-xs text-indigo-400 hover:underline block pt-1">Visit Website &rarr;</a>
                 </div>
                 <div class="space-y-2 pl-2">
-                    <h4 class="font-bold text-white text-base">${escapeHtml(c2.name || 'Select')}</h4>
+                    <h4 class="font-bold text-white text-sm">${escapeHtml(c2.name || 'Select')}</h4>
                     <p class="text-xs text-slate-400">Category: <span class="text-indigo-300">${escapeHtml(c2.category || 'React')}</span></p>
                     <p class="text-xs text-slate-400">License: <span class="text-emerald-400">${escapeHtml(c2.license || 'MIT')}</span></p>
                     <a href="${escapeHtml(c2.website)}" target="_blank" class="text-xs text-indigo-400 hover:underline block pt-1">Visit Website &rarr;</a>
                 </div>
             `;
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toastMsg').textContent = msg;
-            t.classList.remove('hidden');
-            setTimeout(() => t.classList.add('hidden'), 3000);
-        }
-
-        function triggerConfetti() {
-            if (typeof confetti === 'function') {
-                confetti({ particleCount: 80, spread: 70, origin: { y: 0.8 } });
-            }
-        }
-
-        function escapeHtml(str) {
-            return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
         document.getElementById('openCompareModal').addEventListener('click', () => {
@@ -415,80 +1071,9 @@
             document.getElementById('compareModal').classList.add('hidden');
         }
 
-        // AI Semantic Search Functions
-        function runSemanticSearch() {
-            const query = document.getElementById('semanticSearchInput').value.trim().toLowerCase();
-            if (!query) return;
-            
-            // Semantic keyword clusters for UI components
-            const semanticMap = {
-                'card': ['card', 'panel', 'tile', 'container', 'box'],
-                'button': ['button', 'btn', 'cta', 'action'],
-                'input': ['input', 'field', 'form', 'textbox', 'textarea'],
-                'modal': ['modal', 'dialog', 'popup', 'overlay', 'window'],
-                'table': ['table', 'grid', 'datagrid', 'datasheet', 'list'],
-                'chart': ['chart', 'graph', 'plot', 'visualization', 'analytics'],
-                'nav': ['nav', 'navigation', 'menu', 'header', 'breadcrumb'],
-                'form': ['form', 'input', 'field', 'validation', 'wizard'],
-                'tooltip': ['tooltip', 'hint', 'popover', 'tippy'],
-                'toast': ['toast', 'notification', 'alert', 'snackbar', 'message'],
-                'slider': ['slider', 'range', 'picker', 'selector', 'dial'],
-                'animation': ['animation', 'motion', 'transition', 'fade', 'slide'],
-                'dark': ['dark', 'night', 'dim', 'low-light'],
-                'sleek': ['sleek', 'modern', 'minimal', 'clean', 'flat'],
-                'dashboard': ['dashboard', 'admin', 'analytics', 'metrics', 'panel'],
-                'animated': ['animated', 'motion', 'transition', 'animate', 'lively']
-            };
-            
-            // Tokenize query
-            const tokens = query.match(/\b\w+\b/g) || [];
-            let matchedComponents = [];
-            
-            allComponents.forEach(comp => {
-                if (!comp || !comp.name) return;
-                
-                // Check semantic matches
-                let matchScore = 0;
-                tokens.forEach(token => {
-                    // Direct match
-                    if (comp.name.toLowerCase().includes(token)) matchScore += 2;
-                    
-                    // Semantic cluster match
-                    Object.entries(semanticMap).forEach(([key, values]) => {
-                        if (token === key || values.includes(token)) {
-                            if (comp.name.toLowerCase().includes(key) || 
-                                values.some(v => comp.name.toLowerCase().includes(v))) {
-                                matchScore += 1.5;
-                            }
-                        }
-                    });
-                });
-                
-                if (matchScore > 0) {
-                    matchedComponents.push({ component: comp, score: matchScore });
-                }
-            });
-            
-            // Sort by score descending
-            matchedComponents.sort((a, b) => b.score - a.score);
-            
-            if (matchedComponents.length === 0) {
-                document.getElementById('semanticResults').textContent = 'No matches found. Try different terms.';
-                renderComponents([]);
-            } else {
-                const topMatches = matchedComponents.slice(0, 20).map(item => item.component);
-                document.getElementById('semanticResults').textContent = `Found ${matchedComponents.length} matches. Showing top ${topMatches.length}.`;
-                renderComponents(topMatches);
-            }
-        }
-
-        function clearSemanticSearch() {
-            document.getElementById('semanticSearchInput').value = '';
-            document.getElementById('semanticResults').textContent = 'Try: "animated card", "data table", "modal dialog"';
-            renderComponents(allComponents);
-        }
-
-        // Recipe Builder Modal and Functions
+        // ==========================================
+        // Recipe Builder
+        // ==========================================
         function openRecipeModal() {
             document.getElementById('recipeModal').classList.remove('hidden');
             renderRecipeBuilder();
@@ -501,131 +1086,87 @@
         function renderRecipeBuilder() {
             const container = document.getElementById('recipeBuilderContainer');
             if (!allComponents.length) return;
-            
-            const options = allComponents
-                .filter(c => c && c.name && c.name !== ':---')
-                .map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`)
-                .join('');
-            
+            const options = allComponents.slice(0, 150).map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+
             container.innerHTML = `
                 <div class="space-y-4">
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300 mb-1">Primary Component</label>
-                        <select id="recipePrimary" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm focus:outline-none focus:border-indigo-500">
-                            <option value="">Select primary component...</option>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-medium text-slate-300">Base Component</label>
+                        <select id="recipePrimary" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                            <option value="">Select core component...</option>
                             ${options}
                         </select>
                     </div>
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300 mb-1">Add-on Components (optional)</label>
-                        <div class="space-y-2" id="recipeAddons">
-                            <div class="flex items-center space-x-2">
-                                <select class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm focus:outline-none focus:border-indigo-500">
-                                    <option value="">Select addon...</option>
-                                    ${options}
-                                </select>
-                                <button onclick="addRecipeAddon()" class="text-indigo-400 hover:text-indigo-300">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
+                        <label class="block text-xs font-medium text-slate-300">Complementary Add-ons</label>
+                        <div id="recipeAddons" class="space-y-2">
+                            <select class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                                <option value="">Select addon...</option>
+                                ${options}
+                            </select>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between pt-4">
-                        <button onclick="generateRecipe()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded-lg transition">
-                            Generate Recipe
-                        </button>
-                        <button onclick="closeRecipeModal()" class="text-slate-400 hover:text-white px-4 py-2 rounded-lg transition">
-                            Cancel
-                        </button>
-                    </div>
-                    <div id="recipeOutput" class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-sm"></div>
+                    <button onclick="generateRecipe()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-indigo-600/20">
+                        Generate Compound Blueprint
+                    </button>
+                    <div id="recipeOutput" class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono"></div>
                 </div>
             `;
-        }
-
-        function addRecipeAddon() {
-            const addonsDiv = document.getElementById('recipeAddons');
-            const newAddon = document.createElement('div');
-            newAddon.className = 'flex items-center space-x-2';
-            newAddon.innerHTML = `
-                <select class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm focus:outline-none focus:border-indigo-500">
-                    <option value="">Select addon...</option>
-                    ${allComponents.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('')}
-                </select>
-                <button onclick="removeRecipeAddon(this)" class="text-red-400 hover:text-red-300">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            `;
-            addonsDiv.appendChild(newAddon);
-        }
-
-        function removeRecipeAddon(button) {
-            button.parentElement.remove();
         }
 
         function generateRecipe() {
-            const primarySelect = document.getElementById('recipePrimary');
-            const primaryName = primarySelect.value;
-            const addonSelects = document.getElementById('recipeAddons').querySelectorAll('select');
-            const addonNames = Array.from(addonSelects)
-                .map(select => select.value)
-                .filter(name => name && name.trim() !== '');
-            
-            if (!primaryName) {
-                alert('Please select a primary component');
-                return;
+            const primary = document.getElementById('recipePrimary').value;
+            if (!primary) return alert('Please select a base component');
+            const code = `// Compound UI Recipe: ${primary}\nimport { ${primary} } from '@omniui/${primary.toLowerCase().replace(/[^a-z0-9]/g, '-')}';\n\nexport const LayoutView = () => (\n  <div className="flex flex-col space-y-4">\n    <${primary} />\n  </div>\n);`;
+            document.getElementById('recipeOutput').innerHTML = `<pre class="text-indigo-300 overflow-x-auto">${escapeHtml(code)}</pre>`;
+            showToast('Blueprint generated');
+        }
+
+        // ==========================================
+        // AI Semantic Search
+        // ==========================================
+        function runSemanticSearch() {
+            const query = document.getElementById('semanticSearchInput').value.trim().toLowerCase();
+            if (!query) return;
+
+            const matches = allComponents.filter(c => {
+                const text = `${c.name} ${c.category || ''} ${c.description || ''}`.toLowerCase();
+                return query.split(' ').some(word => word.length > 2 && text.includes(word));
+            });
+
+            document.getElementById('semanticResults').textContent = `Found ${matches.length} semantic matches for "${query}".`;
+            displayedComponents = matches;
+            document.getElementById('activeCount').textContent = matches.length.toLocaleString();
+            pageOffset = 0;
+            document.getElementById('resultsContainer').innerHTML = '';
+            loadNextSlice();
+        }
+
+        function clearSemanticSearch() {
+            document.getElementById('semanticSearchInput').value = '';
+            document.getElementById('semanticResults').textContent = 'Try: "chart dashboard", "modal dialog", "table"';
+            applyFilter();
+        }
+
+        // Utility helpers
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 3200);
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 70, spread: 60, origin: { y: 0.85 } });
             }
-            
-            const primaryComp = allComponents.find(c => c.name === primaryName);
-            const addonComps = addonNames.map(name => allComponents.find(c => c.name === name));
-            
-            // Generate recipe blueprint
-            const recipe = {
-                name: `Recipe: ${primaryName} + ${addonNames.length} addons`,
-                components: [primaryName, ...addonNames],
-                description: `A custom UI blueprint combining ${primaryName} with ${addonNames.length} complementary component(s)`,
-                setup: [
-                    `npm i ${primaryName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-                    ...addonNames.map(name => `npm i ${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`)
-                ].filter(Boolean),
-                code: `// Recipe Blueprint\n// Primary: ${primaryName}\n// Addons: ${addonNames.join(', ')}\n\nimport { ${primaryName} } from '${primaryName.toLowerCase().replace(/[^a-z0-9]/g, '-')}';${addonNames.map(name => `\nimport { ${name} } from '${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}';`).join('')}\n\n// Your custom component combining these elements\nexport function CustomUI() {\n  return (\n    <>\n      <${primaryName} />\n      ${addonNames.map(name => `\n      <${name} />`).join('')}\n    </>\n  );\n}`
-            };
-            
-            const outputDiv = document.getElementById('recipeOutput');
-            outputDiv.innerHTML = `
-                <div class="space-y-3">
-                    <div class="border-t pt-3">
-                        <h4 class="font-semibold text-white mb-2">Recipe Generated</h4>
-                        <p class="text-sm text-slate-400">${recipe.description}</p>
-                    </div>
-                    <div class="space-y-2">
-                        <h5 class="text-sm font-medium text-slate-300">Components</h5>
-                        <div class="flex flex-wrap gap-2">
-                            ${recipe.components.map(comp => `<span class="bg-slate-800/30 text-slate-300 px-2 py-1 rounded text-xs">${comp}</span>`).join('')}
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <h5 class="text-sm font-medium text-slate-300">Setup Commands</h5>
-                        <div class="space-y-1">
-                            ${recipe.setup.map(cmd => `<div class="flex items-center justify-between text-xs font-mono"><span>${cmd}</span><button onclick="navigator.clipboard.writeText('${cmd}').then(() => showToast('Copied: ${cmd}'))" class="text-indigo-400 hover:text-indigo-300 ml-2"><i class="fa-solid fa-copy"></i></button></div>`).join('')}
-                        </div>
-                    </div>
-                    <div class="space-y-3">
-                        <h5 class="text-sm font-medium text-slate-300">Code Preview</h5>
-                        <div class="bg-slate-800 p-3 rounded overflow-auto h-40">
-                            <pre class="text-sm font-mono"><code class="language-javascript">${escapeHtml(recipe.code)}</code></pre>
-                        </div>
-                        <button onclick="navigator.clipboard.writeText(\`\`\`javascript\n${escapeHtml(recipe.code)}\n\`\`\`).then(() => showToast('Recipe code copied to clipboard'))" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3 py-2 rounded-lg transition mt-2">
-                            Copy Full Recipe
-                        </button>
-                    </div>
-                </div>
-            `;
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
         window.addEventListener('DOMContentLoaded', init);
     </script>
-</body>
-</html>
 </body>
 </html>
