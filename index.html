@@ -131,51 +131,63 @@
         </div>
     </header>
 
-    <!-- Top Primary Library Selector & Autosuggest Bar -->
-    <section class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur sticky top-[61px] z-40">
+    <!-- Top Command & Multi-Select Filter Bar -->
+    <section class="border-b border-slate-800/80 bg-slate-900/40 backdrop-blur sticky top-[61px] z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
             <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-                
-                <!-- Primary Library Selector Dropdown (Default at Top) -->
-                <div class="flex items-center space-x-3 flex-1">
-                    <div class="flex items-center space-x-2 min-w-[260px]">
-                        <label for="librarySelectorTop" class="text-xs font-bold text-indigo-400 flex items-center">
-                            <i class="fa-solid fa-layer-group mr-1.5"></i> Library:
+                <!-- Dropdown Selectors for Language & Component Category -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <div class="flex items-center space-x-2">
+                        <label for="ecosystemSelect" class="text-xs font-semibold text-slate-400 flex items-center">
+                            <i class="fa-solid fa-layer-group text-indigo-400 mr-1.5"></i> Ecosystem:
                         </label>
-                        <select id="librarySelectorTop" onchange="changeLibrary(this.value)" class="bg-slate-950 border border-indigo-500/40 text-white text-xs py-2 px-3 rounded-xl focus:outline-none focus:border-indigo-500 w-full font-medium cursor-pointer shadow-lg shadow-indigo-500/10">
-                            <option value="All" selected>⚡ All Libraries &amp; Components (1,400+)</option>
-                            <option value="Custom">📦 Custom Library (My Components)</option>
-                            <option value="OmniUI Universe">🌌 OmniUI Universe (Featured)</option>
-                            <option value="Aceternity UI">✨ Aceternity UI</option>
-                            <option value="Magic UI">🪄 Magic UI</option>
-                            <option value="Shadcn UI">🧱 Shadcn UI</option>
-                            <option value="Mantine">📐 Mantine UI</option>
-                            <option value="Chakra UI">🧩 Chakra UI</option>
-                            <option value="NextUI">⚡ NextUI</option>
+                        <select id="ecosystemSelect" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-medium text-slate-200 focus:outline-none focus:border-indigo-500 transition cursor-pointer">
+                            <option value="All">All Ecosystems (1,766+)</option>
+                            <option value="React" selected>⚛️ React (Native & TSX)</option>
+                            <option value="TypeScript">🔷 TypeScript Primitives</option>
+                            <option value="Vue">🟢 Vue.js</option>
+                            <option value="Svelte">🟠 Svelte & SvelteKit</option>
+                            <option value="Solid">🔵 SolidJS</option>
+                            <option value="HTML/CSS">🎨 HTML5 / Modern CSS</option>
+                            <option value="Web Components">🧩 Web Components</option>
+                            <option value="Animation">✨ Motion & Framer</option>
                         </select>
                     </div>
 
-                    <!-- Category Filter Dropdown -->
-                    <div class="hidden sm:flex items-center space-x-2">
-                        <select id="categorySelectTop" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs py-2 px-3 rounded-xl focus:outline-none focus:border-purple-500 cursor-pointer">
-                            <option value="All">All Categories</option>
-                            <option value="Animation">✨ Animation</option>
-                            <option value="Layout">📐 Layout</option>
-                            <option value="Forms">📝 Forms & Inputs</option>
-                            <option value="Data Display">📊 Data Display</option>
-                            <option value="Overlays">🪟 Overlays & Modals</option>
-                            <option value="Charts">📈 Charts</option>
+                    <div class="flex items-center space-x-2">
+                        <label for="categorySelect" class="text-xs font-semibold text-slate-400 flex items-center">
+                            <i class="fa-solid fa-shapes text-purple-400 mr-1.5"></i> Component Type:
+                        </label>
+                        <select id="categorySelect" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-medium text-slate-200 focus:outline-none focus:border-purple-500 transition cursor-pointer">
+                            <option value="All">All Component Types</option>
+                            <option value="Animation">✨ Animation & Motion</option>
+                            <option value="Layout">📐 Layout & Grid Primitives</option>
+                            <option value="Forms">📝 Forms, Inputs & Pickers</option>
+                            <option value="Data Display">📊 Data Display & Tables</option>
+                            <option value="Overlays">🪟 Modals, Drawers & Overlays</option>
+                            <option value="Charts">📈 Charts & Visualizations</option>
+                            <option value="Icons">⭐ Icons & Glyphs</option>
+                            <option value="Utilities">🛠️ Primitives & Utilities</option>
                         </select>
+                    </div>
+
+                    <!-- Visual Quick Switch Pills -->
+                    <div class="hidden xl:flex items-center space-x-1 pl-2 border-l border-slate-800">
+                        <button onclick="quickFilterCategory('All')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-indigo-600 text-white transition">All</button>
+                        <button onclick="quickFilterCategory('Animation')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Animation</button>
+                        <button onclick="quickFilterCategory('Forms')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Forms</button>
+                        <button onclick="quickFilterCategory('Layout')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Layout</button>
+                        <button onclick="quickFilterCategory('Charts')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Charts</button>
                     </div>
                 </div>
 
-                <!-- Autosuggest Search & Count -->
+                <!-- Instant Search & Quick Stats -->
                 <div class="flex items-center space-x-3">
-                    <div class="relative flex-1 md:w-72">
+                    <div class="relative flex-1 md:w-64">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                        <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Autosuggest search components..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-2 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                        <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Live search 1,766+ items..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-1.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
                     </div>
-                    <div class="flex items-center space-x-1.5 text-xs font-mono bg-slate-950 border border-slate-800 px-3 py-2 rounded-xl text-slate-400">
+                    <div class="flex items-center space-x-1.5 text-xs font-mono bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-400">
                         <span id="activeCount" class="font-bold text-indigo-400">0</span>
                         <span>items</span>
                     </div>
@@ -206,27 +218,13 @@
                         <!-- Component Selector Dropdown -->
                         <div class="mt-4 space-y-2">
                             <label class="text-xs font-semibold text-slate-300">Select Interactive Component:</label>
-                            <select id="interactiveComponentSelect" onchange="renderActiveInteractiveComponent()" class="w-full bg-slate-950 border border-indigo-500/40 rounded-xl px-3 py-2 text-xs font-medium text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer shadow-lg shadow-indigo-500/10">
-                                <option value="neonCard">✨ 1. NeonGlowCard (Framer-Motion Glow)</option>
-                                <option value="springModal">🪟 2. SpringModal (Physics Dialog)</option>
-                                <option value="pulsarButton">⚡ 3. PulsarButton (Quantum Ripple)</option>
-                                <option value="tabsPill">📑 4. AnimatedPillTabs (Sliding Tabs)</option>
-                                <option value="metricGauge">📈 5. CircularMetricGauge (SVG Dashboard)</option>
-                                <option value="floatingMenu">🧭 6. FloatingSpeedDial (Radial Menu Dock)</option>
-                                <option value="cosmicBento">🪐 7. Cosmic Bento Grid (Glassmorphism)</option>
-                                <option value="quantumLoader">🌀 8. Quantum Particle Loader</option>
-                                <option value="neuralGraph">🕸️ 9. Neural Network Graph</option>
-                                <option value="glassSidebar">📐 10. Glassmorphic Sidebar</option>
-                                <option value="morphingModal">🔮 11. Morphing Modal</option>
-                                <option value="aiChat">🤖 12. AI Chat Streamer</option>
-                                <option value="floatingIcon">🎈 13. 3D Floating Icon</option>
-                                <option value="magneticBtn">🧲 14. Magnetic Button</option>
-                                <option value="dashWidget">📊 15. Dynamic Dashboard Widget</option>
-                                <option value="textReveal">✨ 16. Staggered Text Reveal</option>
-                                <option value="holoBar">💎 17. Holographic Progress Bar</option>
-                                <option value="cmdPalette">⌘ 18. Command Palette Plus</option>
-                                <option value="softToggle">🔘 19. Animated Toggle Switch</option>
-                                <option value="terminalBox">💻 20. Interactive Code Terminal</option>
+                            <select id="interactiveComponentSelect" onchange="renderActiveInteractiveComponent()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer">
+                                <option value="neonCard">1. NeonGlowCard (Framer-Motion Hover Effect)</option>
+                                <option value="springModal">2. SpringModal (Interactive Physics Dialog)</option>
+                                <option value="pulsarButton">3. PulsarButton (Quantum Reactive Ripple)</option>
+                                <option value="tabsPill">4. AnimatedPillTabs (Layout Id Sliding Tabs)</option>
+                                <option value="metricGauge">5. CircularMetricGauge (Animated SVG Dashboard)</option>
+                                <option value="floatingMenu">6. FloatingSpeedDial (Radial Menu Dock)</option>
                             </select>
                         </div>
 
@@ -300,22 +298,20 @@
                     <span>Indexed Libraries:</span>
                     <span class="font-bold text-white">1,766+ verified</span>
                 </div>
-            </div>
-
             <!-- Library Selector Dropdown -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl mb-4">
                 <h3 class="text-sm font-semibold text-slate-300 mb-3 flex items-center justify-between">
                     <span><i class="fa-solid fa-list mr-2 text-indigo-400"></i> Library Selector</span>
-                    <span id="libraryCount" class="text-xs font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full">1,766</span>
+                    <span id="libraryCount" class="text-xs font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full">0</span>
                 </h3>
                 <div class="relative">
                     <select id="librarySelector" onchange="changeLibrary(this.value)" class="bg-slate-950 border border-slate-800 text-white text-sm py-2.5 px-4 rounded-xl focus:outline-none focus:border-indigo-500 w-full">
                         <option value="All" selected>All Libraries</option>
                         <option value="Custom">Custom Library (My Components)</option>
-                        <!-- Dynamic options populated from JSON data -->
                     </select>
                     <i class="fa-solid fa-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
                 </div>
+            </div>
             </div>
 
             <!-- Quick Add Custom Component Widget -->
@@ -521,298 +517,109 @@
             isHovered: false
         };
 
-        
-        // Populate library selector dropdown with all unique libraries
-        function populateLibrarySelector() {
-            const selector = document.getElementById('librarySelector');
-            if (!selector) return;
-            
-            // Get unique library names from all components
-            const uniqueLibraries = [...new Set(allComponents.map(c => c.name))].sort();
-            
-            // Add each library as an option
-            uniqueLibraries.forEach(libName => {
-                const option = document.createElement('option');
-                option.value = libName;
-                option.textContent = libName;
-                selector.appendChild(option);
-            });
-            
-            // Update library count
-            const libraryCount = document.getElementById('libraryCount');
-            if (libraryCount) {
-                libraryCount.textContent = uniqueLibraries.length.toLocaleString();
-            }
-        }
-
-        // Change library filter
-        function changeLibrary(libraryName) {
-            if (libraryName === 'All') {
-                applyFilter();
-                return;
-            }
-            
-            if (libraryName === 'Custom') {
-                // Show only custom components
-                const customComps = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
-                displayedComponents = customComps;
-                document.getElementById('currentFilterLabel').textContent = 'Showing: Custom Library';
-                document.getElementById('activeCount').textContent = customComps.length.toLocaleString();
-                
-                pageOffset = 0;
-                document.getElementById('resultsContainer').innerHTML = '';
-                loadNextSlice();
-                return;
-            }
-            
-            // Show only components from the selected library
-            const filtered = allComponents.filter(c => c.name === libraryName);
-            displayedComponents = filtered;
-            document.getElementById('currentFilterLabel').textContent = `Showing: ${libraryName}`;
-            document.getElementById('activeCount').textContent = filtered.length.toLocaleString();
-            
-            pageOffset = 0;
-            document.getElementById('resultsContainer').innerHTML = '';
-            loadNextSlice();
-        }
-
-
-
-            try {
-                // Fetch with timeout
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000);
-                
-                const response = await fetch('ui-components-data.json', { 
-                    signal: controller.signal,
-                    cache: 'no-store'
-                });
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) throw new Error("Data fetch failed");
-                allComponents = await response.json();
-
-                // Merge custom local components
-                const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
-                allComponents = [...localCustom, ...allComponents];
-
-                // Setup UI
+        async function init() {
                 populateLibrarySelector();
+            try {
+                const res = await fetch('ui-components-data.json');
+                allComponents = await res.json();
+                
+                // Merge custom local components if any
+                const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+                if (localCustom.length > 0) {
+                    allComponents = [...localCustom, ...allComponents];
+                }
+
+                // Initial render of Interactive Stage
                 renderActiveInteractiveComponent();
+                
+                // Populate comparison lists
                 populateCompareSelects();
                 updateFavoritesUI();
+                
+                // Initial filter applied
                 applyFilter();
+
+                // Setup infinite scroll listener
                 window.addEventListener('scroll', handleInfiniteScroll);
-                console.log(`Successfully loaded ${allComponents.length} components.`);
-
             } catch (err) {
-                console.error("Critical loading error:", err);
-                if (resultsContainer) {
-                    resultsContainer.innerHTML = `
-                        <div class="col-span-full py-20 text-center text-red-400 space-y-4">
-                            <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                            <p class="text-sm">Failed to load component index.</p>
-                            <button onclick="location.reload()" class="px-4 py-2 bg-red-900/30 border border-red-500/50 rounded-lg hover:bg-red-900/50 transition">Retry Connection</button>
-                        </div>`;
-                }
+                console.error("Failed to load components data", err);
+                document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index. Please verify your connection.</p>';
             }
         }
 
-            try {
-                const res = await fetch('ui-components-data.json', { cache: 'no-store' });
-                if (!res.ok) throw new Error("Network response was not ok");
-                allComponents = await res.json();
-            } catch (err) {
-                console.warn("Failed to fetch JSON, using embedded fallback data", err);
-                allComponents = [
-                    {"name": "Cosmic Bento Grid", "category": "Layout", "description": "Interactive glassmorphic bento grid with mouse-follow tilt effects.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Quantum Particle Loader", "category": "Animations", "description": "WebGL-powered particle swarm that reacts to cursor position.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Neon Glow Card", "category": "Animation", "description": "A glowing card component with Framer Motion hover effects.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Spring Physics Modal", "category": "Overlays", "description": "A spring-animated modal dialog built with Framer Motion physics.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Pulsar Ripple Button", "category": "Buttons", "description": "A button with quantum ripple effect and animated pulsar waves.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Aceternity UI", "category": "React", "description": "Modern landing page components built with Tailwind CSS and Framer Motion.", "website": "https://ui.aceternity.com", "repo": "https://github.com/aceternity/ui", "license": "MIT"},
-                    {"name": "Magic UI", "category": "React", "description": "UI library for Design Engineers, built with React, Tailwind CSS, and Framer Motion.", "website": "https://magicui.design", "repo": "https://github.com/magicuidesign/magicui", "license": "MIT"},
-                    {"name": "Shadcn UI", "category": "React", "description": "Re-usable components built using Radix UI and Tailwind CSS.", "website": "https://ui.shadcn.com", "repo": "https://github.com/shadcn-ui/ui", "license": "MIT"}
-                ];
-            }
-
-            // Merge custom local components if any
-            const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
-            if (localCustom.length > 0) {
-                allComponents = [...localCustom, ...allComponents];
-            }
-
-            // Populate library selector dropdown with all unique libraries
-            populateLibrarySelector();
-            
-            // Initial render of Interactive Stage
-            renderActiveInteractiveComponent();
-            
-            // Populate comparison lists
-            populateCompareSelects();
-            updateFavoritesUI();
-            
-            // Initial filter applied
-            applyFilter();
-            
-            // Setup infinite scroll listener
-            window.addEventListener('scroll', handleInfiniteScroll);
-        });
-                    } catch (netErr) {
-                        console.warn("Network fetch failed, attempting CDN fallback...", netErr);
-                        res = await fetch('https://raw.githubusercontent.com/ThunderConstellations/ui-components-catalog/main/ui-components-data.json');
-                    }
-
-                    if (!res.ok) {
-                        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-                    }
-                    
-                    allComponents = await res.json();
-                    
-                    // Merge custom local components if any
-                    const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
-                    if (localCustom.length > 0) {
-                        allComponents = [...localCustom, ...allComponents];
-                    }
-
-                    // Populate library selector dropdown with all unique libraries
-                    populateLibrarySelector();
-                    
-                    // Initial render of Interactive Stage
-                    renderActiveInteractiveComponent();
-                    
-                    // Populate comparison lists
-                    populateCompareSelects();
-                    updateFavoritesUI();
-                    
-                    // Initial filter applied
-                    applyFilter();
-                    
-                    // Setup infinite scroll listener
-                    window.addEventListener('scroll', handleInfiniteScroll);
-                    
-                    // Success - break out of retry loop
-                    break;
-                } catch (err) {
-                    retryCount++;
-                    console.error(`Failed to load components data (attempt ${retryCount}/${maxRetries}):`, err);
-                    
-                    if (retryCount >= maxRetries) {
-                        document.getElementById('resultsContainer').innerHTML = '<p class="text-xs text-red-400 col-span-2 text-center py-8">Failed to load component index after multiple attempts. Please check your connection and try refreshing the page.</p>';
-                        break;
-                    }
-                    
-                    // Wait before retrying
-                    await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-                }
-            }
-        }
-
-        
         // ==========================================
-        // Advanced On-Site Native Component Playground Engine
+        // Interactive On-Site Component Stage Engine
         // ==========================================
-        const PLAYGROUND_REGISTRY = {
-            'neonCard': {
-                name: 'Neon Glow Card',
-                pkg: '@omniui/framer-cards',
-                props: {
-                    title: { type: 'text', default: 'Quantum Neural Card' },
-                    desc: { type: 'text', default: 'Hardware-accelerated spring transforms and real-time reactive glow borders.' },
-                    color: { type: 'select', options: ['indigo', 'cyan', 'emerald', 'purple'], default: 'indigo' }
-                },
-                render: (props) => `
-                    <div class="w-full max-w-sm bg-slate-900/90 border border-slate-800 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1.5 cursor-pointer relative overflow-hidden group shadow-2xl hover:border-${props.color}-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-full bg-${props.color}-500/10 text-${props.color}-400 border border-${props.color}-500/20">Framer Motion</span>
-                            <span class="text-xs text-slate-500 font-mono">React 19</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-${props.color}-300 transition">${escapeHtml(props.title)}</h3>
-                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">${escapeHtml(props.desc)}</p>
-                    </div>`
-            },
-            'pulsarButton': {
-                name: 'Pulsar Ripple Button',
-                pkg: '@thunderconstellations/pulsar-btn',
-                props: {
-                    label: { type: 'text', default: 'Quantum Ripple Effect' },
-                    speed: { type: 'range', min: 200, max: 1000, default: 600 }
-                },
-                render: (props) => `
-                    <button onclick="handlePulsarClick(event, this)" class="relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-bold text-sm shadow-xl transition transform active:scale-95 flex items-center space-x-2">
-                        <i class="fa-solid fa-bolt text-amber-300"></i>
-                        <span>${escapeHtml(props.label)}</span>
-                    </button>`
-            },
-            'metricGauge': {
-                name: 'Circular Metric Gauge',
-                pkg: '@omniui/animated-charts',
-                props: {
-                    value: { type: 'range', min: 0, max: 100, default: 85 }
-                },
-                render: (props) => {
-                    const circumference = 2 * Math.PI * 40;
-                    const strokeDashoffset = circumference - (props.value / 100) * circumference;
-                    return `
-                        <div class="relative w-36 h-36 flex items-center justify-center">
-                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" stroke="#1e293b" stroke-width="8" fill="transparent"/>
-                                <circle cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="transparent"
-                                    stroke-dasharray="${circumference}" stroke-dashoffset="${strokeDashoffset}" class="transition-all duration-700 ease-out"/>
-                            </svg>
-                            <div class="absolute flex flex-col items-center">
-                                <span class="text-2xl font-black text-white font-mono">${props.value}%</span>
-                                <span class="text-[9px] uppercase text-slate-400 font-bold">Value</span>
-                            </div>
-                        </div>`;
-                }
-            }
-        };
-
         function renderActiveInteractiveComponent() {
             const compId = document.getElementById('interactiveComponentSelect').value;
-            const meta = PLAYGROUND_REGISTRY[compId] || PLAYGROUND_REGISTRY['neonCard'];
-            
-            // Build Controls
-            const controlsContainer = document.getElementById('interactiveParamControls');
-            if (controlsContainer) {
-                controlsContainer.innerHTML = Object.entries(meta.props).map(([propName, config]) => {
-                    if (config.type === 'text') {
-                        return `<div class="space-y-1"><label class="text-slate-400 font-medium capitalize">${propName}:</label><input type="text" value="${config.default}" oninput="updatePlaygroundProp('${compId}', '${propName}', this.value)" class="w-full px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-200"></div>`;
-                    } else if (config.type === 'range') {
-                        return `<div class="flex items-center justify-between"><span class="text-slate-400 capitalize">${propName}:</span><input type="range" min="${config.min}" max="${config.max}" value="${config.default}" oninput="updatePlaygroundProp('${compId}', '${propName}', this.value)" class="w-28 accent-indigo-500"></div>`;
-                    } else if (config.type === 'select') {
-                        return `<div class="flex items-center justify-between"><span class="text-slate-400 capitalize">${propName}:</span><select onchange="updatePlaygroundProp('${compId}', '${propName}', this.value)" class="bg-slate-900 border border-slate-800 rounded px-2 py-1 text-slate-200">${config.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}</select></div>`;
-                    }
-                }).join('');
-            }
-
-            // Update Current Props State
-            if (!currentInteractiveState[compId]) {
-                currentInteractiveState[compId] = Object.fromEntries(
-                    Object.entries(meta.props).map(([k, v]) => [k, v.default])
-                );
-            }
-
-            // Render Stage
+            currentInteractiveState.id = compId;
             const stage = document.getElementById('interactiveStage');
-            if (stage) {
-                stage.innerHTML = meta.render(currentInteractiveState[compId]);
-            }
+            const controls = document.getElementById('interactiveParamControls');
+            const stageTitle = document.getElementById('stageTitle');
+            const pkgName = document.getElementById('currentPkgName');
 
-            // Update Titles
-            document.getElementById('stageTitle').textContent = `${meta.name} — Interactive Stage`;
-            document.getElementById('currentPkgName').textContent = meta.pkg;
+            if (compId === 'neonCard') {
+                stageTitle.textContent = 'NeonGlowCard.tsx — Interactive State';
+                pkgName.textContent = '@omniui/framer-cards';
+                controls.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-400">Card Glow Color:</span>
+                        <div class="flex space-x-1.5">
+                            <button onclick="setCardGlow('indigo')" class="w-4 h-4 rounded-full bg-indigo-500 border border-white/20"></button>
+                            <button onclick="setCardGlow('cyan')" class="w-4 h-4 rounded-full bg-cyan-400 border border-white/20"></button>
+                            <button onclick="setCardGlow('emerald')" class="w-4 h-4 rounded-full bg-emerald-400 border border-white/20"></button>
+                            <button onclick="setCardGlow('purple')" class="w-4 h-4 rounded-full bg-purple-500 border border-white/20"></button>
+                        </div>
+                    </div>
+                `;
+                renderNeonCard(stage);
+            } else if (compId === 'springModal') {
+                stageTitle.textContent = 'SpringPhysicsModal.tsx';
+                pkgName.textContent = '@omniui/spring-primitives';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Trigger spring modal animation with simulated Framer Motion damping (25) & stiffness (300).</p>
+                    <button onclick="triggerInteractiveModal()" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold transition text-xs mt-1">
+                        Trigger Modal Popup
+                    </button>
+                `;
+                renderSpringModalTrigger(stage);
+            } else if (compId === 'pulsarButton') {
+                stageTitle.textContent = 'PulsarRippleButton.tsx';
+                pkgName.textContent = '@thunderconstellations/pulsar-btn';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Click anywhere on the button to radiate localized WebGL-like quantum ripple waves.</p>
+                `;
+                renderPulsarButton(stage);
+            } else if (compId === 'tabsPill') {
+                stageTitle.textContent = 'SlidingPillTabs.tsx';
+                pkgName.textContent = '@omniui/layout-tabs';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Click tabs to slide active background indicator with spring interpolation.</p>
+                `;
+                renderPillTabs(stage);
+            } else if (compId === 'metricGauge') {
+                stageTitle.textContent = 'CircularMetricGauge.tsx';
+                pkgName.textContent = '@omniui/animated-charts';
+                controls.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-400">Target Value:</span>
+                        <input type="range" min="10" max="100" value="78" oninput="updateMetricValue(this.value)" class="w-28 accent-indigo-500">
+                    </div>
+                `;
+                renderMetricGauge(stage, 78);
+            } else if (compId === 'floatingMenu') {
+                stageTitle.textContent = 'FloatingSpeedDial.tsx';
+                pkgName.textContent = '@omniui/radial-dock';
+                controls.innerHTML = `
+                    <p class="text-slate-400">Toggle radial action nodes with staggered spring fan-out.</p>
+                `;
+                renderFloatingMenu(stage);
+            }
         }
 
-        function updatePlaygroundProp(compId, propName, value) {
-            if (!currentInteractiveState[compId]) currentInteractiveState[compId] = {};
-            currentInteractiveState[compId][propName] = value;
-            
-            const meta = PLAYGROUND_REGISTRY[compId];
-            if (meta) {
-                document.getElementById('interactiveStage').innerHTML = meta.render(currentInteractiveState[compId]);
-            }
+        function setCardGlow(color) {
+            currentInteractiveState.glowColor = color;
+            renderNeonCard(document.getElementById('interactiveStage'));
         }
 
         function renderNeonCard(stage) {
@@ -1062,7 +869,24 @@
             applyFilter();
         }
 
-         else if (selectedEcosystem === 'TypeScript') {
+        function applyFilter() {
+            const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+            
+            displayedComponents = allComponents.filter(c => {
+                if (!c || !c.name || c.name === ':---' || c.name === '---') return false;
+
+                // Match query
+                const matchesQuery = !query || 
+                    c.name.toLowerCase().includes(query) || 
+                    (c.category && c.category.toLowerCase().includes(query)) ||
+                    (c.description && c.description.toLowerCase().includes(query));
+
+                // Match ecosystem
+                let matchesEco = true;
+                if (selectedEcosystem !== 'All') {
+                    if (selectedEcosystem === 'React') {
+                        matchesEco = (c.category === 'React' || c.name.toLowerCase().includes('react') || c.category === 'TypeScript');
+                    } else if (selectedEcosystem === 'TypeScript') {
                         matchesEco = (c.category === 'TypeScript' || c.name.toLowerCase().includes('ts') || (c.license && c.license.includes('MIT')));
                     } else if (selectedEcosystem === 'Animation') {
                         matchesEco = (c.name.toLowerCase().includes('motion') || c.name.toLowerCase().includes('anime') || c.name.toLowerCase().includes('framer') || c.category === 'Animation');
@@ -1110,20 +934,8 @@
                 const safeLicense = (c.license && c.license !== ':---') ? c.license : 'MIT';
                 const safeDesc = c.description || `Production-ready ${escapeHtml(c.name)} component with modern styling and accessible primitives.`;
 
-                // Check if this component has a custom interactive demo
-                const hasInteractiveDemo = c.name.toLowerCase().includes('neonglow') || 
-                                          c.name.toLowerCase().includes('springmodal') || 
-                                          c.name.toLowerCase().includes('pulsarbutton') ||
-                                          c.name.toLowerCase().includes('tablist') ||
-                                          c.name.toLowerCase().includes('metrictank') ||
-                                          c.name.toLowerCase().includes('speeddial') ||
-                                          c.name.toLowerCase().includes('colorpicker');
-                
-                // Extract component code pattern from name/code fields
-                const codeExample = c.code || getCodeExample(c.name);
-                
                 return `
-                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl hover-preview-wrapper" data-component="${escapeHtml(c.name)}">
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl hover-preview-wrapper">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-300 uppercase tracking-wide font-semibold">
@@ -1138,29 +950,10 @@
                             <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${escapeHtml(safeDesc)}</p>
                         </div>
 
-                        <!-- Interactive Component Preview Area -->
-                        <div id="component-preview-${idx}" class="preview-card-area group-hover:slide-down transition-all duration-300 rounded-xl overflow-hidden border border-indigo-500/30 bg-slate-950 p-3 text-left text-xs transform group-hover:translate-y-0">
-                            <div class="flex flex-col space-y-2 max-h-[180px] overflow-y-auto">
-                                <!-- Component Demo Placeholder -->
-                                <div class="demo-placeholder flex-1 bg-slate-950 rounded-lg p-4 text-center text-slate-500">
-                                    <i class="fa-solid fa-play text-indigo-400 mb-2"></i>
-                                    <span>Click "Play Component" to interact</span>
-                                </div>
-                                <div id="interactive-demo-${idx}" class="hidden demo-content bg-slate-900 rounded-lg p-3 text-xs">
-                                    <!-- Interactive component will be rendered here -->
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between pt-2">
-                                <button onclick="playComponent('${escapeHtml(c.name)}', ${idx})" class="px-2.5 py-1 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition flex items-center space-x-1">
-                                    <i class="fa-solid fa-play"></i> Play
-                                </button>
-                                <a href="${escapeHtml(safeWebsite)}" target="_blank" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
-                                    <i class="fa-solid fa-globe"></i> Site
-                                </a>
-                                <a href="${escapeHtml(safeRepo)}" target="_blank" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
-                                    <i class="fa-brands fa-github"></i> Repo
-                                </a>
-                            </div>
+                        <!-- In-Card Live Auto-Preview Frame (Loads on hover without clicking any button) -->
+                        <div class="card-preview-area hidden group-hover:block transition-all duration-300 rounded-xl overflow-hidden border border-indigo-500/30 bg-slate-950 p-2 text-center text-xs">
+                            <iframe src="${escapeHtml(safeWebsite)}" loading="lazy" class="w-full h-36 rounded-lg border-0 bg-slate-900 pointer-events-auto"></iframe>
+                            <span class="text-[10px] font-mono text-indigo-400 block pt-1">Live Auto-Preview</span>
                         </div>
 
                         <!-- Hover Preview Tooltip -->
@@ -1169,7 +962,7 @@
                             <span class="block text-[9px]">${escapeHtml(safeCategory)}</span>
                             <span class="block text-[9px] text-slate-400">• ${escapeHtml(safeLicense)} license</span>
                             <span class="block text-[9px] text-slate-400">${safeDesc.split('.')[0]}.</span>
-                            <span class="block text-[8px] text-indigo-400 mt-1">Click "Play" to interact • Open site for full library</span>
+                            <span class="block text-[8px] text-indigo-400 mt-1">Hover for live preview • Click Demo for full sandbox</span>
                         </div>
 
                         <!-- Card Action Buttons -->
@@ -1204,222 +997,6 @@
                 document.getElementById('loadMoreTrigger').classList.remove('hidden');
             }
         }
-
-        // Code examples database for interactive components
-        function getCodeExample(componentName) {
-            const examples = {
-                'neonglowcard': `import React from 'react';
-import { motion } from 'framer-motion';
-
-export const NeonGlowCard = ({ title, description }) => (
-  <motion.div
-    whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)' }}
-    className="p-6 bg-zinc-900 border border-zinc-800 rounded-2xl relative overflow-hidden"
-  >
-    <div className="absolute -inset-px bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-0 hover:opacity-20 transition duration-500 pointer-events-none" />
-    <h3 className="text-lg font-bold text-zinc-100">{title}</h3>
-    <p className="text-sm text-zinc-400 mt-2">{description}</p>
-  </motion.div>
-);`,
-                'springmodal': `import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-export const SpringModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <>
-      <button onClick={() => setIsOpen(true)} className="px-4 py-2 bg-indigo-600 text-white rounded-xl font-medium">
-        Open Modal
-      </button>
-      <AnimatePresence>
-        {isOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
-            <div className="relative bg-zinc-900 border border-zinc-800 p-6 rounded-2xl w-80 text-zinc-100 shadow-2xl">
-              <h3 className="text-lg font-bold">Spring Modal</h3>
-              <p className="text-sm text-zinc-400 mt-2">Smooth bouncy spring physics built with Framer Motion.</p>
-              <button onClick={() => setIsOpen(false)} className="mt-4 w-full py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm">Close</button>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-};`,
-                'pulsarbutton': `import React from 'react';
-
-export const PulsarButton = ({ onClick, children }) => {
-  const handleClick = (e) => {
-    const circle = document.createElement('span');
-    const diameter = Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight);
-    const radius = diameter / 2;
-    const rect = e.currentTarget.getBoundingClientRect();
-    
-    circle.style.width = circle.style.height = \`\${diameter}px\`;
-    circle.style.left = \`\${e.clientX - rect.left - radius}px\`;
-    circle.style.top = \`\${e.clientY - rect.top - radius}px\`;
-    circle.className = 'absolute rounded-full bg-white/40 pointer-events-none animate-ping';
-    circle.style.animationDuration = '0.6s';
-    
-    e.currentTarget.appendChild(circle);
-    setTimeout(() => circle.remove(), 600);
-    onClick?.(e);
-  };
-  
-  return (
-    <button 
-      onClick={handleClick}
-      className="relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-bold text-sm transition transform active:scale-95 flex items-center space-x-2"
-    >
-      <i className="fa-solid fa-bolt text-amber-300"></i>
-      <span>{children}</span>
-    </button>
-  );
-};`,
-                'tablist': `import React from 'react';
-import { useState } from 'react';
-
-export const SlidingPillTabs = ({ tabs, children }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  
-  const handleTabChange = (index) => {
-    setActiveTab(index);
-  };
-  
-  return (
-    <div className="bg-slate-900/90 border border-slate-800 p-2 rounded-2xl flex items-center space-x-1.5 shadow-2xl">
-      {tabs.map((tab, index) => (
-        <button 
-          key={index}
-          onClick={() => handleTabChange(index)}
-          className={\`pill-item px-4 py-2 rounded-xl text-xs font-medium text-\${index === activeTab ? 'white' : 'slate-400'} bg-indigo-600 \${index !== activeTab ? 'shadow' : 'shadow-none'} \${index !== activeTab ? 'hover:text-slate-200' : 'transition-all duration-300'}\`
-        >
-          {tab}
-        </button>
-      ))}
-    </div>
-    <div className="mt-4">{children}</div>
-  );
-};`,
-                'metrictank': `import React from 'react';
-import { motion } from 'framer-motion';
-
-export const CircularMetricGauge = ({ value, title }) => {
-  const circumference = 2 * Math.PI * 40;
-  const strokeDashoffset = circumference - (value / 100) * circumference;
-  
-  return (
-    <div className="text-center">
-      <svg className="w-32 h-32 flex items-center justify-center transform -rotate-90" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="40" stroke="#1e293b" stroke-width="8" fill="transparent"/>
-        <circle id="gaugeArc" cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="transparent"
-          stroke-dasharray="${circumference}" stroke-dashoffset="${strokeDashoffset}" class="transition-all duration-700 ease-out"/>
-      </svg>
-      <div className="absolute flex flex-col items-center">
-        <span id="gaugeValue" className="text-2xl font-black text-white font-mono">{value}%</span>
-        <span className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Health</span>
-      </div>
-    </div>
-  );
-};`,
-                'speeddial': `import React, { useState } from 'react';
-
-export const FloatingSpeedDial = () => {
-  const [open, setOpen] = useState(false);
-  
-  return (
-    <div className="relative flex flex-col items-center">
-      <button onClick={() => setOpen(!open)} className="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center text-lg shadow-xl shadow-indigo-600/30 transition transform hover:scale-105 active:scale-95">
-        <i className="fa-solid fa-plus transition-transform duration-300"></i>
-      </button>
-      {open && (
-        <div className="hidden flex flex-col space-y-2 mb-3">
-          <button className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-indigo-500 text-indigo-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
-            <i className="fa-solid fa-file-export"></i>
-          </button>
-          <button className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-purple-500 text-purple-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
-            <i className="fa-solid fa-code"></i>
-          </button>
-          <button className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-emerald-500 text-emerald-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
-            <i className="fa-brands fa-github"></i>
-          </button>
-        </div>
-      )}
-    </div>
-  );
-};`,
-                'colorpicker': `import React, { useState } from 'react';
-
-export const ColorPicker = ({ onColorSelect }) => {
-  const [color, setColor] = useState('#6366f1');
-  
-  const handleSwatchClick = (swatchColor) => {
-    setColor(swatchColor);
-    onColorSelect?.(swatchColor);
-  };
-  
-  return (
-    <div className="space-y-2">
-      <div className="flex space-x-2">
-        <button 
-          onClick={() => handleSwatchClick('#6366f1')}
-          className={\`w-8 h-8 rounded-full bg-indigo-600 border-2 border-slate-900 \${color === '#6366f1' ? 'outline-indigo-500' : ''}\`}
-        />
-        <button 
-          onClick={() => handleSwatchClick('#f472b6')}
-          className={\`w-8 h-8 rounded-full bg-pink-500 border-2 border-slate-900 \${color === '#f472b6' ? 'outline-pink-500' : ''}\`}
-        />
-        <button 
-          onClick={() => handleSwatchClick('#10b981')}
-          className={\`w-8 h-8 rounded-full bg-emerald-500 border-2 border-slate-900 \${color === '#10b981' ? 'outline-emerald-500' : ''}\`}
-        />
-        <button 
-          onClick={() => handleSwatchClick('#facc15')}
-          className={\`w-8 h-8 rounded-full bg-yellow-500 border-2 border-slate-900 \${color === '#facc15' ? 'outline-yellow-500' : ''}\`}
-        />
-      </div>
-      <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-indigo-600 to-purple-500 w-full"></div>
-      </div>
-    </div>
-  );
-};`
-            };
-            
-            return examples[componentName.toLowerCase().replace(/\s+/g, '')] || '';
-        }
-
-        // Play component in preview
-        window.playComponent = function(componentName, idx) {
-            const demoContent = document.getElementById(`interactive-demo-${idx}`);
-            const previewPlaceholder = document.querySelector(`#component-preview-${idx} .demo-placeholder`);
-            
-            if (!demoContent || !previewPlaceholder) return;
-            
-            // Show loading state
-            demoContent.innerHTML = '<div class="p-3 text-indigo-400">Loading component...</div>';
-            demoContent.classList.add('hidden');
-            
-            // Get code example
-            const codeExample = getCodeExample(componentName);
-            
-            if (codeExample) {
-                // Render the component with basic styling
-                demoContent.innerHTML = `
-                    <div class="prose max-w-none text-slate-200">
-                        ${codeExample}
-                    </div>
-                    <div class="mt-3 p-3 bg-slate-950 rounded-lg text-xs text-slate-400 font-mono">
-                        <strong>Code:</strong> <code class="text-indigo-300">${codeExample.substring(0, 200)}...</code>
-                    </div>
-                `;
-            } else {
-                demoContent.innerHTML = '<div class="p-3 text-zinc-400">Component demo coming soon - add custom code to ui-components-data.json</div>';
-            }
-            
-            // Toggle visibility
-            demoContent.classList.toggle('hidden');
-            previewPlaceholder.classList.toggle('hidden');
-        };
 
         // ==========================================
         // Instant Demo Mode Toggle (No more button clicks needed)
@@ -1734,91 +1311,6 @@ export const ColorPicker = ({ onColorSelect }) => {
             return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
-        // ==========================================
-        // Instant Demo Mode System (URL + localStorage)
-        // ==========================================
-        const INSTANT_DEMO_STORAGE_KEY = 'omniui_instant_demo';
-        
-        function isInstantDemoMode() {
-            // Check URL first (highest priority)
-            const params = new URLSearchParams(window.location.search);
-            if (params.has('preview') || params.has('instant-demo')) {
-                return params.get('preview') === 'true' || params.get('instant-demo') === 'true';
-            }
-            // Fall back to localStorage
-            return localStorage.getItem(INSTANT_DEMO_STORAGE_KEY) === 'true';
-        }
-
-        function setInstantDemoMode(enabled) {
-            localStorage.setItem(INSTANT_DEMO_STORAGE_KEY, enabled.toString());
-            document.body.classList.toggle('instant-demo-active', enabled);
-            
-            const btn = document.getElementById('instantDemoToggle');
-            if (btn) {
-                if (enabled) {
-                    btn.className = 'bg-emerald-500 hover:bg-emerald-400 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-950 border border-emerald-400 transition flex items-center space-x-1.5';
-                    btn.innerHTML = '<i class="fa-solid fa-bolt text-amber-300"></i><span>Instant Demo: ON</span>';
-                } else {
-                    btn.className = 'bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-emerald-400 border border-emerald-500/3  transition flex items-center space-x-1.5';
-                    btn.innerHTML = '<i class="fa-solid fa-bolt"></i><span>Instant Demo</span>';
-                }
-            }
-            
-            showToast(enabled ? '⚡ Instant Demo Mode: Enabled' : 'Instant Demo Mode: Disabled');
-        }
-
-        function toggleInstantDemoMode() {
-            setInstantDemoMode(!isInstantDemoMode());
-        }
-
-        // ==========================================
-        // Preview Cache System (LRU, 5min TTL)
-        // ==========================================
-        class PreviewCache {
-            constructor(maxSize = 50, ttlMs = 5 * 60 * 1000) {
-                this.cache = new Map();
-                this.maxSize = maxSize;
-                this.ttlMs = ttlMs;
-                this.accessTimes = new Map();
-            }
-            get(key) {
-                const entry = this.cache.get(key);
-                if (!entry) return null;
-                if (Date.now() - entry.timestamp > this.ttlMs) {
-                    this.cache.delete(key);
-                    this.accessTimes.delete(key);
-                    return null;
-                }
-                this.accessTimes.set(key, Date.now());
-                return entry.value;
-            }
-            set(key, value) {
-                const now = Date.now();
-                if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
-                    let oldestKey = null;
-                    let oldestTime = Infinity;
-                    for (const [k, t] of this.accessTimes) {
-                        if (t < oldestTime) { oldestTime = t; oldestKey = k; }
-                    }
-                    if (oldestKey) { this.cache.delete(oldestKey); this.accessTimes.delete(oldestKey); }
-                }
-                this.cache.set(key, { value, timestamp: now });
-                this.accessTimes.set(key, now);
-            }
-            clear() { this.cache.clear(); this.accessTimes.clear(); }
-            size() { return this.cache.size; }
-        }
-
-        const previewCache = new PreviewCache(50, 5 * 60 * 1000);
-
-        // Initialize instant demo mode from URL or localStorage on load
-        document.addEventListener('DOMContentLoaded', () => {
-            if (isInstantDemoMode()) {
-                setInstantDemoMode(true);
-            }
-            init();
-        });
-
         // Theme Toggle Function
         function toggleTheme() {
             const htmlElement = document.documentElement;
@@ -1868,85 +1360,7 @@ export const ColorPicker = ({ onColorSelect }) => {
             }
         });
 
-        async function init() {
-            console.log("Initializing OmniUI Universe (Robust Mode)...");
-            const resultsContainer = document.getElementById('resultsContainer');
-            
-            if (resultsContainer) {
-                resultsContainer.innerHTML = `
-                    <div class="col-span-full py-20 flex flex-col items-center justify-center text-slate-400">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mb-4"></div>
-                        <p class="text-sm font-medium">Loading 1,424+ UI Components...</p>
-                    </div>`;
-            }
-
-            try {
-                const response = await fetch('ui-components-data.json', { cache: 'no-store' });
-                if (!response.ok) throw new Error("Network response failed");
-                allComponents = await response.json();
-            } catch (err) {
-                console.warn("Using embedded high-performance fallback dataset due to network restrictions:", err);
-                allComponents = [
-                    {"name": "Cosmic Bento Grid", "category": "Layout", "description": "Interactive glassmorphic bento grid with mouse-follow tilt effects.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Quantum Particle Loader", "category": "Animations", "description": "WebGL-powered particle swarm that reacts to cursor position.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Neon Glow Card", "category": "Animation", "description": "A glowing card component with Framer Motion hover effects.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Spring Physics Modal", "category": "Overlays", "description": "A spring-animated modal dialog built with Framer Motion physics.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Pulsar Ripple Button", "category": "Buttons", "description": "A button with quantum ripple effect and animated pulsar waves.", "website": "https://ui.shadcn.com", "repo": "#", "license": "MIT"},
-                    {"name": "Aceternity UI", "category": "React", "description": "Modern landing page components built with Tailwind CSS and Framer Motion.", "website": "https://ui.aceternity.com", "repo": "https://github.com/aceternity/ui", "license": "MIT"},
-                    {"name": "Magic UI", "category": "React", "description": "UI library for Design Engineers, built with React, Tailwind CSS, and Framer Motion.", "website": "https://magicui.design", "repo": "https://github.com/magicuidesign/magicui", "license": "MIT"},
-                    {"name": "Shadcn UI", "category": "React", "description": "Re-usable components built using Radix UI and Tailwind CSS.", "website": "https://ui.shadcn.com", "repo": "https://github.com/shadcn-ui/ui", "license": "MIT"}
-                ];
-            }
-
-            // Merge local custom components
-            const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
-            if (localCustom.length > 0) {
-                allComponents = [...localCustom, ...allComponents];
-            }
-
-            // Populate library selector
-            populateLibrarySelector();
-            
-            // Initial render of interactive playground stage
-            renderActiveInteractiveComponent();
-            
-            // Set displayed components to all by default so user sees items immediately
-            displayedComponents = allComponents;
-            
-            // Render first slice
-            pageOffset = 0;
-            if (resultsContainer) resultsContainer.innerHTML = '';
-            loadNextSlice();
-            
-            // Update counts
-            const activeCount = document.getElementById('activeCount');
-            if (activeCount) activeCount.textContent = allComponents.length.toLocaleString();
-
-            window.addEventListener('scroll', handleInfiniteScroll);
-        }
-
-        function applyFilter() {
-            const query = (document.getElementById('searchInput') ? document.getElementById('searchInput').value : '').trim().toLowerCase();
-            
-            displayedComponents = allComponents.filter(c => {
-                if (!c || !c.name || c.name === ':---' || c.name === '---') return false;
-                const matchesQuery = !query || 
-                    c.name.toLowerCase().includes(query) || 
-                    (c.category && c.category.toLowerCase().includes(query)) ||
-                    (c.description && c.description.toLowerCase().includes(query));
-                return matchesQuery;
-            });
-
-            const activeCount = document.getElementById('activeCount');
-            if (activeCount) activeCount.textContent = displayedComponents.length.toLocaleString();
-
-            pageOffset = 0;
-            const container = document.getElementById('resultsContainer');
-            if (container) container.innerHTML = '';
-            loadNextSlice();
-        }
-
-window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             initializeTheme();
             init();
         });

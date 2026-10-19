@@ -32,14 +32,6 @@
     "category": "Other"
   },
   {
-    "name": "98.css",
-    "website": "https://jdan.github.io/98.css",
-    "docs": "https://jdan.github.io/98.css",
-    "repo": "https://github.com/jdan/98.css",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
     "name": "98.css React",
     "website": "https://botoxparty.github.io/98.css",
     "docs": "https://botoxparty.github.io/98.css",
@@ -85,14 +77,6 @@
     "docs": "https://ace.c9.io/build/kitchen-sink.html",
     "repo": "https://github.com/ajaxorg/ace",
     "license": "BSD-3-Clause",
-    "category": "Other"
-  },
-  {
-    "name": "Aceternity UI",
-    "website": "https://ui.aceternity.com",
-    "docs": "https://ui.aceternity.com",
-    "repo": "https://github.com/aceternity/ui",
-    "license": "MIT",
     "category": "Other"
   },
   {
@@ -2400,14 +2384,6 @@
     "category": "Other"
   },
   {
-    "name": "Float UI",
-    "website": "https://floatui.com",
-    "docs": "https://floatui.com",
-    "repo": "https://github.com/floatui/floatui",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
     "name": "Float UI Blocks",
     "website": "https://floatui.com/templates",
     "docs": "https://floatui.com",
@@ -2444,14 +2420,6 @@
     "website": "https://www.flotcharts.org",
     "docs": "https://www.flotcharts.org",
     "repo": "https://github.com/flot/flot",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
-    "name": "Flowbite",
-    "website": "https://flowbite.com",
-    "docs": "https://flowbite.com",
-    "repo": "https://github.com/themesberg/flowbite",
     "license": "MIT",
     "category": "Other"
   },
@@ -2686,14 +2654,6 @@
     "repo": "https://github.com/foundation/foundation-sites",
     "license": "MIT",
     "category": "Other"
-  },
-  {
-    "name": "Framer Motion",
-    "website": "https://www.framer.com/motion",
-    "docs": "https://www.framer.com/motion",
-    "repo": "https://github.com/framer/motion",
-    "license": "MIT",
-    "category": "Animation"
   },
   {
     "name": "Framer Motion",
@@ -3174,14 +3134,6 @@
     "repo": "https://github.com/tailwindlabs/heroicons",
     "license": "MIT",
     "category": "Icons"
-  },
-  {
-    "name": "HeroUI",
-    "website": "https://heroui.com",
-    "docs": "https://heroui.com",
-    "repo": "https://github.com/heroui-inc/heroui",
-    "license": "MIT",
-    "category": "Other"
   },
   {
     "name": "HeroUI",
@@ -4224,14 +4176,6 @@
     "category": "Other"
   },
   {
-    "name": "Magic UI",
-    "website": "https://magicui.design",
-    "docs": "https://magicui.design",
-    "repo": "https://github.com/magicuidesign/magicui",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
     "name": "Magnific Popup",
     "website": "https://dimsemenov.com/plugins/magnific-popup",
     "docs": "https://dimsemenov.com/plugins/magnific-popup/documentation.html",
@@ -4566,14 +4510,6 @@
     "repo": "https://github.com/melt-ui/melt-ui",
     "license": "MIT",
     "category": "Svelte"
-  },
-  {
-    "name": "Meraki UI",
-    "website": "https://merakiui.com",
-    "docs": "https://merakiui.com",
-    "repo": "https://github.com/merakiui/merakiui",
-    "license": "MIT",
-    "category": "Other"
   },
   {
     "name": "Meraki UI",
@@ -4968,14 +4904,6 @@
     "category": "Other"
   },
   {
-    "name": "NES.css",
-    "website": "https://nostalgic-css.github.io/NES.css",
-    "docs": "https://nostalgic-css.github.io/NES.css",
-    "repo": "https://github.com/nostalgic-css/NES.css",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
     "name": "Neumorphism.io",
     "website": "https://neumorphism.io",
     "docs": "https://neumorphism.io",
@@ -4988,14 +4916,6 @@
     "website": "https://newcss.net",
     "docs": "https://newcss.net",
     "repo": "https://github.com/xz/new.css",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
-    "name": "NextUI",
-    "website": "https://nextui.org",
-    "docs": "https://nextui.org",
-    "repo": "https://github.com/nextui-org/nextui",
     "license": "MIT",
     "category": "Other"
   },
@@ -5720,14 +5640,6 @@
     "category": "Other"
   },
   {
-    "name": "Pixel CSS",
-    "website": "https://pixel-css.com",
-    "docs": "https://pixel-css.com",
-    "repo": "https://github.com/pixel-css/pixel-css",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
     "name": "Pixelarticons",
     "website": "https://pixelarticons.com",
     "docs": "https://pixelarticons.com",
@@ -5882,14 +5794,6 @@
   {
     "name": "Preline Blocks",
     "website": "https://preline.co/templates.html",
-    "docs": "https://preline.co",
-    "repo": "https://github.com/htmlstreamofficial/preline",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
-    "name": "Preline UI",
-    "website": "https://preline.co",
     "docs": "https://preline.co",
     "repo": "https://github.com/htmlstreamofficial/preline",
     "license": "MIT",
@@ -6416,14 +6320,6 @@
     "category": "React"
   },
   {
-    "name": "React Data Grid",
-    "website": "https://adazzle.github.io/react-data-grid",
-    "docs": "https://adazzle.github.io/react-data-grid",
-    "repo": "https://github.com/adazzle/react-data-grid",
-    "license": "MIT",
-    "category": "React"
-  },
-  {
     "name": "React Datepicker",
     "website": "https://reactdatepicker.com",
     "docs": "https://reactdatepicker.com",
@@ -6468,14 +6364,6 @@
     "website": "https://github.com/react-grid-layout/react-draggable",
     "docs": "https://react-grid-layout.github.io/react-draggable/example",
     "repo": "https://github.com/react-grid-layout/react-draggable",
-    "license": "MIT",
-    "category": "React"
-  },
-  {
-    "name": "React Dropzone",
-    "website": "https://react-dropzone.js.org",
-    "docs": "https://react-dropzone.js.org",
-    "repo": "https://github.com/react-dropzone/react-dropzone",
     "license": "MIT",
     "category": "React"
   },
@@ -7152,14 +7040,6 @@
     "category": "React"
   },
   {
-    "name": "React Select",
-    "website": "https://react-select.com",
-    "docs": "https://react-select.com",
-    "repo": "https://github.com/JedWatson/react-select",
-    "license": "MIT",
-    "category": "React"
-  },
-  {
     "name": "React Signature Canvas",
     "website": "https://agilgur5.github.io/react-signature-canvas",
     "docs": "https://agilgur5.github.io/react-signature-canvas",
@@ -7468,14 +7348,6 @@
     "website": "https://github.com/uber/react-vis",
     "docs": "https://uber.github.io/react-vis",
     "repo": "https://github.com/uber/react-vis",
-    "license": "MIT",
-    "category": "React"
-  },
-  {
-    "name": "React Window",
-    "website": "https://github.com/bvaughn/react-window",
-    "docs": "N/A",
-    "repo": "https://github.com/bvaughn/react-window",
     "license": "MIT",
     "category": "React"
   },
@@ -9064,14 +8936,6 @@
     "category": "Other"
   },
   {
-    "name": "SweetAlert2",
-    "website": "https://sweetalert2.github.io",
-    "docs": "https://sweetalert2.github.io",
-    "repo": "https://github.com/sweetalert2/sweetalert2",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
     "name": "Swiffy Slider",
     "website": "https://swiffyslider.com",
     "docs": "https://swiffyslider.com/slider-examples",
@@ -9598,14 +9462,6 @@
     "repo": "https://github.com/Kabbouchi/vue-tippy",
     "license": "MIT",
     "category": "Vue"
-  },
-  {
-    "name": "Tiptap",
-    "website": "https://tiptap.dev",
-    "docs": "https://tiptap.dev",
-    "repo": "https://github.com/ueberdosis/tiptap",
-    "license": "MIT",
-    "category": "Other"
   },
   {
     "name": "Tiptap",
@@ -10244,14 +10100,6 @@
     "website": "https://jariz.github.io/vibrant.js",
     "docs": "https://jariz.github.io/vibrant.js",
     "repo": "https://github.com/jariz/vibrant.js",
-    "license": "MIT",
-    "category": "Other"
-  },
-  {
-    "name": "Victory",
-    "website": "https://formidable.com/open-source/victory",
-    "docs": "https://formidable.com/open-source/victory",
-    "repo": "https://github.com/FormidableLabs/victory",
     "license": "MIT",
     "category": "Other"
   },
@@ -10978,7 +10826,7 @@
     "description": "Interactive Lottie animations component for React apps.",
     "demo_url": "https://lottiefiles.com",
     "github_url": "https://github.com/LottieFiles/lottie-react",
-    "category": "Animations",
+    "category": "Animation",
     "languages": [
       "TypeScript",
       "JavaScript"
@@ -11118,7 +10966,7 @@
   },
   {
     "name": "Quantum Particle Loader",
-    "category": "Animations",
+    "category": "Animation",
     "description": "WebGL-powered particle swarm that reacts to cursor position.",
     "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
     "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
@@ -11163,7 +11011,7 @@
   },
   {
     "name": "3D Floating Icon",
-    "category": "Animations",
+    "category": "Animation",
     "description": "Three.js-rendered icon that floats and rotates on scroll.",
     "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
     "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
@@ -11190,7 +11038,7 @@
   },
   {
     "name": "Staggered Text Reveal",
-    "category": "Animations",
+    "category": "Animation",
     "description": "High-performance text animation with character-level delay.",
     "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
     "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
@@ -11244,7 +11092,7 @@
   },
   {
     "name": "Scroll-Triggered Reveal",
-    "category": "Animations",
+    "category": "Animation",
     "description": "Components that animate based on their viewport position.",
     "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
     "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
@@ -11253,7 +11101,7 @@
   },
   {
     "name": "Fluid Background Wave",
-    "category": "Animations",
+    "category": "Animation",
     "description": "SVG-based wave background that flows continuously.",
     "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
     "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
@@ -11343,7 +11191,7 @@
   },
   {
     "name": "Neural Particle Field",
-    "category": "Animations",
+    "category": "Animation",
     "description": "WebGL particle system connected by lines that react to cursor movement.",
     "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
     "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
