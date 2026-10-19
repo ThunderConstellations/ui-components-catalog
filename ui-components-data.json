@@ -10894,5 +10894,13 @@
     "repo": "https://github.com/zxing-js/library",
     "license": "MIT",
     "category": "Other"
+  },
+  {
+    "name": "Univer UI",
+    "website": "https://univer.ai/",
+    "docs": "https://univer.ai",
+    "repo": "https://github.com/dream-num/univer",
+    "license": "MIT",
+    "category": "Application Framework"
   }
 ]

@@ -919,8 +919,20 @@
                 const safeLicense = (c.license && c.license !== ':---') ? c.license : 'MIT';
                 const safeDesc = c.description || `Production-ready ${escapeHtml(c.name)} component with modern styling and accessible primitives.`;
 
+                // Check if this component has a custom interactive demo
+                const hasInteractiveDemo = c.name.toLowerCase().includes('neonglow') || 
+                                          c.name.toLowerCase().includes('springmodal') || 
+                                          c.name.toLowerCase().includes('pulsarbutton') ||
+                                          c.name.toLowerCase().includes('tablist') ||
+                                          c.name.toLowerCase().includes('metrictank') ||
+                                          c.name.toLowerCase().includes('speeddial') ||
+                                          c.name.toLowerCase().includes('colorpicker');
+                
+                // Extract component code pattern from name/code fields
+                const codeExample = c.code || getCodeExample(c.name);
+                
                 return `
-                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl hover-preview-wrapper">
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl hover-preview-wrapper" data-component="${escapeHtml(c.name)}">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-300 uppercase tracking-wide font-semibold">
@@ -935,10 +947,29 @@
                             <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${escapeHtml(safeDesc)}</p>
                         </div>
 
-                        <!-- In-Card Live Auto-Preview Frame (Loads on hover without clicking any button) -->
-                        <div class="card-preview-area hidden group-hover:block transition-all duration-300 rounded-xl overflow-hidden border border-indigo-500/30 bg-slate-950 p-2 text-center text-xs">
-                            <iframe src="${escapeHtml(safeWebsite)}" loading="lazy" class="w-full h-36 rounded-lg border-0 bg-slate-900 pointer-events-auto"></iframe>
-                            <span class="text-[10px] font-mono text-indigo-400 block pt-1">Live Auto-Preview</span>
+                        <!-- Interactive Component Preview Area -->
+                        <div id="component-preview-${idx}" class="preview-card-area group-hover:slide-down transition-all duration-300 rounded-xl overflow-hidden border border-indigo-500/30 bg-slate-950 p-3 text-left text-xs transform group-hover:translate-y-0">
+                            <div class="flex flex-col space-y-2 max-h-[180px] overflow-y-auto">
+                                <!-- Component Demo Placeholder -->
+                                <div class="demo-placeholder flex-1 bg-slate-950 rounded-lg p-4 text-center text-slate-500">
+                                    <i class="fa-solid fa-play text-indigo-400 mb-2"></i>
+                                    <span>Click "Play Component" to interact</span>
+                                </div>
+                                <div id="interactive-demo-${idx}" class="hidden demo-content bg-slate-900 rounded-lg p-3 text-xs">
+                                    <!-- Interactive component will be rendered here -->
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between pt-2">
+                                <button onclick="playComponent('${escapeHtml(c.name)}', ${idx})" class="px-2.5 py-1 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition flex items-center space-x-1">
+                                    <i class="fa-solid fa-play"></i> Play
+                                </button>
+                                <a href="${escapeHtml(safeWebsite)}" target="_blank" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+                                    <i class="fa-solid fa-globe"></i> Site
+                                </a>
+                                <a href="${escapeHtml(safeRepo)}" target="_blank" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+                                    <i class="fa-brands fa-github"></i> Repo
+                                </a>
+                            </div>
                         </div>
 
                         <!-- Hover Preview Tooltip -->
@@ -947,7 +978,7 @@
                             <span class="block text-[9px]">${escapeHtml(safeCategory)}</span>
                             <span class="block text-[9px] text-slate-400">• ${escapeHtml(safeLicense)} license</span>
                             <span class="block text-[9px] text-slate-400">${safeDesc.split('.')[0]}.</span>
-                            <span class="block text-[8px] text-indigo-400 mt-1">Hover for live preview • Click Demo for full sandbox</span>
+                            <span class="block text-[8px] text-indigo-400 mt-1">Click "Play" to interact • Open site for full library</span>
                         </div>
 
                         <!-- Card Action Buttons -->
@@ -982,6 +1013,222 @@
                 document.getElementById('loadMoreTrigger').classList.remove('hidden');
             }
         }
+
+        // Code examples database for interactive components
+        function getCodeExample(componentName) {
+            const examples = {
+                'neonglowcard': `import React from 'react';
+import { motion } from 'framer-motion';
+
+export const NeonGlowCard = ({ title, description }) => (
+  <motion.div
+    whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)' }}
+    className="p-6 bg-zinc-900 border border-zinc-800 rounded-2xl relative overflow-hidden"
+  >
+    <div className="absolute -inset-px bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-0 hover:opacity-20 transition duration-500 pointer-events-none" />
+    <h3 className="text-lg font-bold text-zinc-100">{title}</h3>
+    <p className="text-sm text-zinc-400 mt-2">{description}</p>
+  </motion.div>
+);`,
+                'springmodal': `import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export const SpringModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)} className="px-4 py-2 bg-indigo-600 text-white rounded-xl font-medium">
+        Open Modal
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
+            <div className="relative bg-zinc-900 border border-zinc-800 p-6 rounded-2xl w-80 text-zinc-100 shadow-2xl">
+              <h3 className="text-lg font-bold">Spring Modal</h3>
+              <p className="text-sm text-zinc-400 mt-2">Smooth bouncy spring physics built with Framer Motion.</p>
+              <button onClick={() => setIsOpen(false)} className="mt-4 w-full py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm">Close</button>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};`,
+                'pulsarbutton': `import React from 'react';
+
+export const PulsarButton = ({ onClick, children }) => {
+  const handleClick = (e) => {
+    const circle = document.createElement('span');
+    const diameter = Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight);
+    const radius = diameter / 2;
+    const rect = e.currentTarget.getBoundingClientRect();
+    
+    circle.style.width = circle.style.height = \`\${diameter}px\`;
+    circle.style.left = \`\${e.clientX - rect.left - radius}px\`;
+    circle.style.top = \`\${e.clientY - rect.top - radius}px\`;
+    circle.className = 'absolute rounded-full bg-white/40 pointer-events-none animate-ping';
+    circle.style.animationDuration = '0.6s';
+    
+    e.currentTarget.appendChild(circle);
+    setTimeout(() => circle.remove(), 600);
+    onClick?.(e);
+  };
+  
+  return (
+    <button 
+      onClick={handleClick}
+      className="relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-bold text-sm transition transform active:scale-95 flex items-center space-x-2"
+    >
+      <i className="fa-solid fa-bolt text-amber-300"></i>
+      <span>{children}</span>
+    </button>
+  );
+};`,
+                'tablist': `import React from 'react';
+import { useState } from 'react';
+
+export const SlidingPillTabs = ({ tabs, children }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  
+  const handleTabChange = (index) => {
+    setActiveTab(index);
+  };
+  
+  return (
+    <div className="bg-slate-900/90 border border-slate-800 p-2 rounded-2xl flex items-center space-x-1.5 shadow-2xl">
+      {tabs.map((tab, index) => (
+        <button 
+          key={index}
+          onClick={() => handleTabChange(index)}
+          className={\`pill-item px-4 py-2 rounded-xl text-xs font-medium text-\${index === activeTab ? 'white' : 'slate-400'} bg-indigo-600 \${index !== activeTab ? 'shadow' : 'shadow-none'} \${index !== activeTab ? 'hover:text-slate-200' : 'transition-all duration-300'}\`
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+    <div className="mt-4">{children}</div>
+  );
+};`,
+                'metrictank': `import React from 'react';
+import { motion } from 'framer-motion';
+
+export const CircularMetricGauge = ({ value, title }) => {
+  const circumference = 2 * Math.PI * 40;
+  const strokeDashoffset = circumference - (value / 100) * circumference;
+  
+  return (
+    <div className="text-center">
+      <svg className="w-32 h-32 flex items-center justify-center transform -rotate-90" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" stroke="#1e293b" stroke-width="8" fill="transparent"/>
+        <circle id="gaugeArc" cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="transparent"
+          stroke-dasharray="${circumference}" stroke-dashoffset="${strokeDashoffset}" class="transition-all duration-700 ease-out"/>
+      </svg>
+      <div className="absolute flex flex-col items-center">
+        <span id="gaugeValue" className="text-2xl font-black text-white font-mono">{value}%</span>
+        <span className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Health</span>
+      </div>
+    </div>
+  );
+};`,
+                'speeddial': `import React, { useState } from 'react';
+
+export const FloatingSpeedDial = () => {
+  const [open, setOpen] = useState(false);
+  
+  return (
+    <div className="relative flex flex-col items-center">
+      <button onClick={() => setOpen(!open)} className="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center text-lg shadow-xl shadow-indigo-600/30 transition transform hover:scale-105 active:scale-95">
+        <i className="fa-solid fa-plus transition-transform duration-300"></i>
+      </button>
+      {open && (
+        <div className="hidden flex flex-col space-y-2 mb-3">
+          <button className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-indigo-500 text-indigo-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
+            <i className="fa-solid fa-file-export"></i>
+          </button>
+          <button className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-purple-500 text-purple-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
+            <i className="fa-solid fa-code"></i>
+          </button>
+          <button className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-emerald-500 text-emerald-400 flex items-center justify-center text-xs shadow-xl transition transform hover:scale-110">
+            <i className="fa-brands fa-github"></i>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};`,
+                'colorpicker': `import React, { useState } from 'react';
+
+export const ColorPicker = ({ onColorSelect }) => {
+  const [color, setColor] = useState('#6366f1');
+  
+  const handleSwatchClick = (swatchColor) => {
+    setColor(swatchColor);
+    onColorSelect?.(swatchColor);
+  };
+  
+  return (
+    <div className="space-y-2">
+      <div className="flex space-x-2">
+        <button 
+          onClick={() => handleSwatchClick('#6366f1')}
+          className={\`w-8 h-8 rounded-full bg-indigo-600 border-2 border-slate-900 \${color === '#6366f1' ? 'outline-indigo-500' : ''}\`}
+        />
+        <button 
+          onClick={() => handleSwatchClick('#f472b6')}
+          className={\`w-8 h-8 rounded-full bg-pink-500 border-2 border-slate-900 \${color === '#f472b6' ? 'outline-pink-500' : ''}\`}
+        />
+        <button 
+          onClick={() => handleSwatchClick('#10b981')}
+          className={\`w-8 h-8 rounded-full bg-emerald-500 border-2 border-slate-900 \${color === '#10b981' ? 'outline-emerald-500' : ''}\`}
+        />
+        <button 
+          onClick={() => handleSwatchClick('#facc15')}
+          className={\`w-8 h-8 rounded-full bg-yellow-500 border-2 border-slate-900 \${color === '#facc15' ? 'outline-yellow-500' : ''}\`}
+        />
+      </div>
+      <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-indigo-600 to-purple-500 w-full"></div>
+      </div>
+    </div>
+  );
+};`
+            };
+            
+            return examples[componentName.toLowerCase().replace(/\s+/g, '')] || '';
+        }
+
+        // Play component in preview
+        window.playComponent = function(componentName, idx) {
+            const demoContent = document.getElementById(`interactive-demo-${idx}`);
+            const previewPlaceholder = document.querySelector(`#component-preview-${idx} .demo-placeholder`);
+            
+            if (!demoContent || !previewPlaceholder) return;
+            
+            // Show loading state
+            demoContent.innerHTML = '<div class="p-3 text-indigo-400">Loading component...</div>';
+            demoContent.classList.add('hidden');
+            
+            // Get code example
+            const codeExample = getCodeExample(componentName);
+            
+            if (codeExample) {
+                // Render the component with basic styling
+                demoContent.innerHTML = `
+                    <div class="prose max-w-none text-slate-200">
+                        ${codeExample}
+                    </div>
+                    <div class="mt-3 p-3 bg-slate-950 rounded-lg text-xs text-slate-400 font-mono">
+                        <strong>Code:</strong> <code class="text-indigo-300">${codeExample.substring(0, 200)}...</code>
+                    </div>
+                `;
+            } else {
+                demoContent.innerHTML = '<div class="p-3 text-zinc-400">Component demo coming soon - add custom code to ui-components-data.json</div>';
+            }
+            
+            // Toggle visibility
+            demoContent.classList.toggle('hidden');
+            previewPlaceholder.classList.toggle('hidden');
+        };
 
         // ==========================================
         // Instant Demo Mode Toggle (No more button clicks needed)
