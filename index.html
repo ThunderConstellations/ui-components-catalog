@@ -577,13 +577,58 @@
         }
 
 async function init() {
-            console.log("Initializing component catalog...");
+            console.log("Initializing OmniUI Universe...");
+            const resultsContainer = document.getElementById('resultsContainer');
             
             // Show loading state
-            const resultsContainer = document.getElementById('resultsContainer');
             if (resultsContainer) {
-                resultsContainer.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-500 text-xs flex flex-col items-center justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div><p class="mt-4 text-sm">Loading component catalog...</p></div>';
+                resultsContainer.innerHTML = `
+                    <div class="col-span-full py-20 flex flex-col items-center justify-center text-slate-500">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mb-4"></div>
+                        <p class="text-sm font-medium">Catalog initializing...</p>
+                        <button onclick="location.reload()" class="mt-4 text-xs text-indigo-400 hover:text-indigo-300 underline">Refresh connection</button>
+                    </div>`;
             }
+
+            try {
+                // Fetch with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
+                const response = await fetch('ui-components-data.json', { 
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) throw new Error("Data fetch failed");
+                allComponents = await response.json();
+
+                // Merge custom local components
+                const localCustom = JSON.parse(localStorage.getItem('custom_ui_components') || '[]');
+                allComponents = [...localCustom, ...allComponents];
+
+                // Setup UI
+                populateLibrarySelector();
+                renderActiveInteractiveComponent();
+                populateCompareSelects();
+                updateFavoritesUI();
+                applyFilter();
+                window.addEventListener('scroll', handleInfiniteScroll);
+                console.log(`Successfully loaded ${allComponents.length} components.`);
+
+            } catch (err) {
+                console.error("Critical loading error:", err);
+                if (resultsContainer) {
+                    resultsContainer.innerHTML = `
+                        <div class="col-span-full py-20 text-center text-red-400 space-y-4">
+                            <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
+                            <p class="text-sm">Failed to load component index.</p>
+                            <button onclick="location.reload()" class="px-4 py-2 bg-red-900/30 border border-red-500/50 rounded-lg hover:bg-red-900/50 transition">Retry Connection</button>
+                        </div>`;
+                }
+            }
+        }
 
             try {
                 const res = await fetch('ui-components-data.json', { cache: 'no-store' });
