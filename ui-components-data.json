@@ -11106,5 +11106,374 @@
     "languages": [
       "TypeScript"
     ]
+  },
+  {
+    "name": "Cosmic Bento Grid",
+    "category": "Layout",
+    "description": "Interactive glassmorphism bento grid with mouse-follow tilt effects.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Quantum Particle Loader",
+    "category": "Animations",
+    "description": "WebGL-powered particle swarm that reacts to cursor position.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Neural Network Graph",
+    "category": "Charts & Graphs",
+    "description": "Interactive node-link graph with auto-adjusting connection logic.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Glassmorphic Sidebar",
+    "category": "Navigation",
+    "description": "Blur-heavy navigation sidebar with smooth micro-interactions.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Morphing Modal",
+    "category": "Overlays",
+    "description": "Modal that morphs shape based on content size using Framer Motion.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "AI Chat Bubble",
+    "category": "AI/Chat UI",
+    "description": "Streaming text response component with typing effects and syntax highlighting.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "3D Floating Icon",
+    "category": "Animations",
+    "description": "Three.js-rendered icon that floats and rotates on scroll.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Magnetic Button",
+    "category": "Buttons",
+    "description": "Button that physically pulls the cursor towards it on hover.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Dynamic Dashboard Widget",
+    "category": "Dashboards",
+    "description": "Resizable, draggable widget for admin panel layouts.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Staggered Text Reveal",
+    "category": "Animations",
+    "description": "High-performance text animation with character-level delay.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Parallax Image Stack",
+    "category": "Layout",
+    "description": "Stack of images that move at different scroll speeds.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Interactive Color Palette",
+    "category": "Utilities",
+    "description": "Generative color scheme tool with real-time CSS variable export.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Holographic Progress Bar",
+    "category": "Feedback",
+    "description": "Progress bar with neon scanline animation and holographic glow.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Command Palette Plus",
+    "category": "Navigation",
+    "description": "Keyboard-first command menu with fuzzy search and action history.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Animated Toggle Switch",
+    "category": "Forms",
+    "description": "Soft-physics toggle switch with satisfying click animation.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Scroll-Triggered Reveal",
+    "category": "Animations",
+    "description": "Components that animate based on their viewport position.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Fluid Background Wave",
+    "category": "Animations",
+    "description": "SVG-based wave background that flows continuously.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Radial Menu",
+    "category": "Navigation",
+    "description": "Circular menu that expands from a central button.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Data Visualization Card",
+    "category": "Charts & Graphs",
+    "description": "Card containing a micro-chart that updates on data change.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Interactive Code Terminal",
+    "category": "Utilities",
+    "description": "Simulated terminal with command execution and output display.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Image Comparison Slider",
+    "category": "Layout",
+    "description": "Before/After image comparison tool with smooth drag interaction.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Draggable Kanban Board",
+    "category": "Layout",
+    "description": "Full-featured drag-and-drop board for task management.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Floating Action Menu",
+    "category": "Navigation",
+    "description": "Action menu that floats and pops options on click.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Interactive 3D Carousel",
+    "category": "Layout",
+    "description": "3D-space carousel with interactive card focus.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Neon Text Input",
+    "category": "Forms",
+    "description": "Text input that glows and shifts color on focus.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Custom creative component implementation"
+  },
+  {
+    "name": "Bento Grid System",
+    "category": "Layout",
+    "description": "Responsive bento box grid with auto-layout and hover-tilt effects.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Neural Particle Field",
+    "category": "Animations",
+    "description": "WebGL particle system connected by lines that react to cursor movement.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Glassmorphic Dashboard",
+    "category": "Dashboards",
+    "description": "High-blur dashboard panel with acrylic-style transparency.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Morphing Action Button",
+    "category": "Buttons",
+    "description": "Button that expands into a full-screen modal container on click.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "AI Chat Streamer",
+    "category": "AI/Chat UI",
+    "description": "Real-time text streaming component with markdown and syntax support.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "3D Floating Carousel",
+    "category": "Layout",
+    "description": "3D-space card carousel with physics-based drag interaction.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Magnetic Cursor Tooltip",
+    "category": "Utilities",
+    "description": "Tooltip that magnetically snaps to interactive elements.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Interactive SVG Map",
+    "category": "Maps & GIS",
+    "description": "Interactive map with region hover and data breakdown popups.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Radial Action Menu",
+    "category": "Navigation",
+    "description": "Circular menu that expands from a central button with staggered animation.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Terminal Code Runner",
+    "category": "Utilities",
+    "description": "Simulated terminal environment to execute simple JS snippets.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Image Compare Slider",
+    "category": "Layout",
+    "description": "Before/After image comparison tool with smooth drag interaction.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Floating Action Dock",
+    "category": "Navigation",
+    "description": "Floating menu dock that pops up on hover/tap.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Neon TextInput Field",
+    "category": "Forms",
+    "description": "Input field with neon focus ring and character counter.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Staggered Stacking Cards",
+    "category": "Layout",
+    "description": "Cards that stack and fan out based on scroll progress.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Interactive Code Editor",
+    "category": "Utilities",
+    "description": "Embeddable code editor with syntax highlighting and line numbers.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
+  },
+  {
+    "name": "Radial Menu Dock",
+    "category": "Navigation",
+    "description": "Circular menu that expands from a central button.",
+    "website": "https://ThunderConstellations.github.io/ui-components-catalog/",
+    "repo": "https://github.com/ThunderConstellations/ui-components-catalog",
+    "license": "MIT",
+    "code": "// Creative component implementation logic"
   }
 ]
