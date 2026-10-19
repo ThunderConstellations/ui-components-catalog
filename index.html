@@ -720,79 +720,111 @@ async function init() {
             }
         }
 
+        
         // ==========================================
-        // Interactive On-Site Component Stage Engine
+        // Advanced On-Site Native Component Playground Engine
         // ==========================================
+        const PLAYGROUND_REGISTRY = {
+            'neonCard': {
+                name: 'Neon Glow Card',
+                pkg: '@omniui/framer-cards',
+                props: {
+                    title: { type: 'text', default: 'Quantum Neural Card' },
+                    desc: { type: 'text', default: 'Hardware-accelerated spring transforms and real-time reactive glow borders.' },
+                    color: { type: 'select', options: ['indigo', 'cyan', 'emerald', 'purple'], default: 'indigo' }
+                },
+                render: (props) => `
+                    <div class="w-full max-w-sm bg-slate-900/90 border border-slate-800 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1.5 cursor-pointer relative overflow-hidden group shadow-2xl hover:border-${props.color}-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-full bg-${props.color}-500/10 text-${props.color}-400 border border-${props.color}-500/20">Framer Motion</span>
+                            <span class="text-xs text-slate-500 font-mono">React 19</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-${props.color}-300 transition">${escapeHtml(props.title)}</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">${escapeHtml(props.desc)}</p>
+                    </div>`
+            },
+            'pulsarButton': {
+                name: 'Pulsar Ripple Button',
+                pkg: '@thunderconstellations/pulsar-btn',
+                props: {
+                    label: { type: 'text', default: 'Quantum Ripple Effect' },
+                    speed: { type: 'range', min: 200, max: 1000, default: 600 }
+                },
+                render: (props) => `
+                    <button onclick="handlePulsarClick(event, this)" class="relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-bold text-sm shadow-xl transition transform active:scale-95 flex items-center space-x-2">
+                        <i class="fa-solid fa-bolt text-amber-300"></i>
+                        <span>${escapeHtml(props.label)}</span>
+                    </button>`
+            },
+            'metricGauge': {
+                name: 'Circular Metric Gauge',
+                pkg: '@omniui/animated-charts',
+                props: {
+                    value: { type: 'range', min: 0, max: 100, default: 85 }
+                },
+                render: (props) => {
+                    const circumference = 2 * Math.PI * 40;
+                    const strokeDashoffset = circumference - (props.value / 100) * circumference;
+                    return `
+                        <div class="relative w-36 h-36 flex items-center justify-center">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="#1e293b" stroke-width="8" fill="transparent"/>
+                                <circle cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="transparent"
+                                    stroke-dasharray="${circumference}" stroke-dashoffset="${strokeDashoffset}" class="transition-all duration-700 ease-out"/>
+                            </svg>
+                            <div class="absolute flex flex-col items-center">
+                                <span class="text-2xl font-black text-white font-mono">${props.value}%</span>
+                                <span class="text-[9px] uppercase text-slate-400 font-bold">Value</span>
+                            </div>
+                        </div>`;
+                }
+            }
+        };
+
         function renderActiveInteractiveComponent() {
             const compId = document.getElementById('interactiveComponentSelect').value;
-            currentInteractiveState.id = compId;
-            const stage = document.getElementById('interactiveStage');
-            const controls = document.getElementById('interactiveParamControls');
-            const stageTitle = document.getElementById('stageTitle');
-            const pkgName = document.getElementById('currentPkgName');
-
-            if (compId === 'neonCard') {
-                stageTitle.textContent = 'NeonGlowCard.tsx — Interactive State';
-                pkgName.textContent = '@omniui/framer-cards';
-                controls.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-400">Card Glow Color:</span>
-                        <div class="flex space-x-1.5">
-                            <button onclick="setCardGlow('indigo')" class="w-4 h-4 rounded-full bg-indigo-500 border border-white/20"></button>
-                            <button onclick="setCardGlow('cyan')" class="w-4 h-4 rounded-full bg-cyan-400 border border-white/20"></button>
-                            <button onclick="setCardGlow('emerald')" class="w-4 h-4 rounded-full bg-emerald-400 border border-white/20"></button>
-                            <button onclick="setCardGlow('purple')" class="w-4 h-4 rounded-full bg-purple-500 border border-white/20"></button>
-                        </div>
-                    </div>
-                `;
-                renderNeonCard(stage);
-            } else if (compId === 'springModal') {
-                stageTitle.textContent = 'SpringPhysicsModal.tsx';
-                pkgName.textContent = '@omniui/spring-primitives';
-                controls.innerHTML = `
-                    <p class="text-slate-400">Trigger spring modal animation with simulated Framer Motion damping (25) & stiffness (300).</p>
-                    <button onclick="triggerInteractiveModal()" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold transition text-xs mt-1">
-                        Trigger Modal Popup
-                    </button>
-                `;
-                renderSpringModalTrigger(stage);
-            } else if (compId === 'pulsarButton') {
-                stageTitle.textContent = 'PulsarRippleButton.tsx';
-                pkgName.textContent = '@thunderconstellations/pulsar-btn';
-                controls.innerHTML = `
-                    <p class="text-slate-400">Click anywhere on the button to radiate localized WebGL-like quantum ripple waves.</p>
-                `;
-                renderPulsarButton(stage);
-            } else if (compId === 'tabsPill') {
-                stageTitle.textContent = 'SlidingPillTabs.tsx';
-                pkgName.textContent = '@omniui/layout-tabs';
-                controls.innerHTML = `
-                    <p class="text-slate-400">Click tabs to slide active background indicator with spring interpolation.</p>
-                `;
-                renderPillTabs(stage);
-            } else if (compId === 'metricGauge') {
-                stageTitle.textContent = 'CircularMetricGauge.tsx';
-                pkgName.textContent = '@omniui/animated-charts';
-                controls.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-400">Target Value:</span>
-                        <input type="range" min="10" max="100" value="78" oninput="updateMetricValue(this.value)" class="w-28 accent-indigo-500">
-                    </div>
-                `;
-                renderMetricGauge(stage, 78);
-            } else if (compId === 'floatingMenu') {
-                stageTitle.textContent = 'FloatingSpeedDial.tsx';
-                pkgName.textContent = '@omniui/radial-dock';
-                controls.innerHTML = `
-                    <p class="text-slate-400">Toggle radial action nodes with staggered spring fan-out.</p>
-                `;
-                renderFloatingMenu(stage);
+            const meta = PLAYGROUND_REGISTRY[compId] || PLAYGROUND_REGISTRY['neonCard'];
+            
+            // Build Controls
+            const controlsContainer = document.getElementById('interactiveParamControls');
+            if (controlsContainer) {
+                controlsContainer.innerHTML = Object.entries(meta.props).map(([propName, config]) => {
+                    if (config.type === 'text') {
+                        return `<div class="space-y-1"><label class="text-slate-400 font-medium capitalize">${propName}:</label><input type="text" value="${config.default}" oninput="updatePlaygroundProp('${compId}', '${propName}', this.value)" class="w-full px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-200"></div>`;
+                    } else if (config.type === 'range') {
+                        return `<div class="flex items-center justify-between"><span class="text-slate-400 capitalize">${propName}:</span><input type="range" min="${config.min}" max="${config.max}" value="${config.default}" oninput="updatePlaygroundProp('${compId}', '${propName}', this.value)" class="w-28 accent-indigo-500"></div>`;
+                    } else if (config.type === 'select') {
+                        return `<div class="flex items-center justify-between"><span class="text-slate-400 capitalize">${propName}:</span><select onchange="updatePlaygroundProp('${compId}', '${propName}', this.value)" class="bg-slate-900 border border-slate-800 rounded px-2 py-1 text-slate-200">${config.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}</select></div>`;
+                    }
+                }).join('');
             }
+
+            // Update Current Props State
+            if (!currentInteractiveState[compId]) {
+                currentInteractiveState[compId] = Object.fromEntries(
+                    Object.entries(meta.props).map(([k, v]) => [k, v.default])
+                );
+            }
+
+            // Render Stage
+            const stage = document.getElementById('interactiveStage');
+            if (stage) {
+                stage.innerHTML = meta.render(currentInteractiveState[compId]);
+            }
+
+            // Update Titles
+            document.getElementById('stageTitle').textContent = `${meta.name} — Interactive Stage`;
+            document.getElementById('currentPkgName').textContent = meta.pkg;
         }
 
-        function setCardGlow(color) {
-            currentInteractiveState.glowColor = color;
-            renderNeonCard(document.getElementById('interactiveStage'));
+        function updatePlaygroundProp(compId, propName, value) {
+            if (!currentInteractiveState[compId]) currentInteractiveState[compId] = {};
+            currentInteractiveState[compId][propName] = value;
+            
+            const meta = PLAYGROUND_REGISTRY[compId];
+            if (meta) {
+                document.getElementById('interactiveStage').innerHTML = meta.render(currentInteractiveState[compId]);
+            }
         }
 
         function renderNeonCard(stage) {
