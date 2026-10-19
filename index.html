@@ -131,63 +131,51 @@
         </div>
     </header>
 
-    <!-- Top Command & Multi-Select Filter Bar -->
-    <section class="border-b border-slate-800/80 bg-slate-900/40 backdrop-blur sticky top-[61px] z-40">
+    <!-- Top Primary Library Selector & Autosuggest Bar -->
+    <section class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur sticky top-[61px] z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
             <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-                <!-- Dropdown Selectors for Language & Component Category -->
-                <div class="flex flex-wrap items-center gap-2.5">
-                    <div class="flex items-center space-x-2">
-                        <label for="ecosystemSelect" class="text-xs font-semibold text-slate-400 flex items-center">
-                            <i class="fa-solid fa-layer-group text-indigo-400 mr-1.5"></i> Ecosystem:
+                
+                <!-- Primary Library Selector Dropdown (Default at Top) -->
+                <div class="flex items-center space-x-3 flex-1">
+                    <div class="flex items-center space-x-2 min-w-[260px]">
+                        <label for="librarySelectorTop" class="text-xs font-bold text-indigo-400 flex items-center">
+                            <i class="fa-solid fa-layer-group mr-1.5"></i> Library:
                         </label>
-                        <select id="ecosystemSelect" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-medium text-slate-200 focus:outline-none focus:border-indigo-500 transition cursor-pointer">
-                            <option value="All">All Ecosystems (1,766+)</option>
-                            <option value="React" selected>⚛️ React (Native & TSX)</option>
-                            <option value="TypeScript">🔷 TypeScript Primitives</option>
-                            <option value="Vue">🟢 Vue.js</option>
-                            <option value="Svelte">🟠 Svelte & SvelteKit</option>
-                            <option value="Solid">🔵 SolidJS</option>
-                            <option value="HTML/CSS">🎨 HTML5 / Modern CSS</option>
-                            <option value="Web Components">🧩 Web Components</option>
-                            <option value="Animation">✨ Motion & Framer</option>
+                        <select id="librarySelectorTop" onchange="changeLibrary(this.value)" class="bg-slate-950 border border-indigo-500/40 text-white text-xs py-2 px-3 rounded-xl focus:outline-none focus:border-indigo-500 w-full font-medium cursor-pointer shadow-lg shadow-indigo-500/10">
+                            <option value="All" selected>⚡ All Libraries &amp; Components (1,400+)</option>
+                            <option value="Custom">📦 Custom Library (My Components)</option>
+                            <option value="OmniUI Universe">🌌 OmniUI Universe (Featured)</option>
+                            <option value="Aceternity UI">✨ Aceternity UI</option>
+                            <option value="Magic UI">🪄 Magic UI</option>
+                            <option value="Shadcn UI">🧱 Shadcn UI</option>
+                            <option value="Mantine">📐 Mantine UI</option>
+                            <option value="Chakra UI">🧩 Chakra UI</option>
+                            <option value="NextUI">⚡ NextUI</option>
                         </select>
                     </div>
 
-                    <div class="flex items-center space-x-2">
-                        <label for="categorySelect" class="text-xs font-semibold text-slate-400 flex items-center">
-                            <i class="fa-solid fa-shapes text-purple-400 mr-1.5"></i> Component Type:
-                        </label>
-                        <select id="categorySelect" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-medium text-slate-200 focus:outline-none focus:border-purple-500 transition cursor-pointer">
-                            <option value="All">All Component Types</option>
-                            <option value="Animation">✨ Animation & Motion</option>
-                            <option value="Layout">📐 Layout & Grid Primitives</option>
-                            <option value="Forms">📝 Forms, Inputs & Pickers</option>
-                            <option value="Data Display">📊 Data Display & Tables</option>
-                            <option value="Overlays">🪟 Modals, Drawers & Overlays</option>
-                            <option value="Charts">📈 Charts & Visualizations</option>
-                            <option value="Icons">⭐ Icons & Glyphs</option>
-                            <option value="Utilities">🛠️ Primitives & Utilities</option>
+                    <!-- Category Filter Dropdown -->
+                    <div class="hidden sm:flex items-center space-x-2">
+                        <select id="categorySelectTop" onchange="handleDropdownFilter()" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs py-2 px-3 rounded-xl focus:outline-none focus:border-purple-500 cursor-pointer">
+                            <option value="All">All Categories</option>
+                            <option value="Animation">✨ Animation</option>
+                            <option value="Layout">📐 Layout</option>
+                            <option value="Forms">📝 Forms & Inputs</option>
+                            <option value="Data Display">📊 Data Display</option>
+                            <option value="Overlays">🪟 Overlays & Modals</option>
+                            <option value="Charts">📈 Charts</option>
                         </select>
-                    </div>
-
-                    <!-- Visual Quick Switch Pills -->
-                    <div class="hidden xl:flex items-center space-x-1 pl-2 border-l border-slate-800">
-                        <button onclick="quickFilterCategory('All')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-indigo-600 text-white transition">All</button>
-                        <button onclick="quickFilterCategory('Animation')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Animation</button>
-                        <button onclick="quickFilterCategory('Forms')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Forms</button>
-                        <button onclick="quickFilterCategory('Layout')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Layout</button>
-                        <button onclick="quickFilterCategory('Charts')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition">Charts</button>
                     </div>
                 </div>
 
-                <!-- Instant Search & Quick Stats -->
+                <!-- Autosuggest Search & Count -->
                 <div class="flex items-center space-x-3">
-                    <div class="relative flex-1 md:w-64">
+                    <div class="relative flex-1 md:w-72">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                        <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Live search 1,766+ items..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-1.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                        <input type="text" id="searchInput" oninput="filterComponents()" placeholder="Autosuggest search components..." class="w-full bg-slate-950 border border-slate-800 pl-9 pr-3 py-2 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
                     </div>
-                    <div class="flex items-center space-x-1.5 text-xs font-mono bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-400">
+                    <div class="flex items-center space-x-1.5 text-xs font-mono bg-slate-950 border border-slate-800 px-3 py-2 rounded-xl text-slate-400">
                         <span id="activeCount" class="font-bold text-indigo-400">0</span>
                         <span>items</span>
                     </div>
