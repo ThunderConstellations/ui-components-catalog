@@ -10902,5 +10902,32 @@
     "repo": "https://github.com/dream-num/univer",
     "license": "MIT",
     "category": "Application Framework"
+  },
+  {
+    "name": "Neon Glow Card",
+    "website": "https://example.com",
+    "repo": "https://github.com/ThunderConstellations/neon-glow-card",
+    "license": "MIT",
+    "category": "Animation",
+    "description": "A glowing card component with Framer Motion hover effects and interactive border animations.",
+    "code": "import React from \"react\"; import { motion } from \"framer-motion\"; export const NeonGlowCard = ({ title, description }) => ( <motion.div whileHover={{ scale: 1.02, boxShadow: \"0 0 25px rgba(99, 102, 241, 0.5)\" }} className=\"p-6 bg-zinc-900 border border-zinc-800 rounded-2xl relative overflow-hidden\" > <div className=\"absolute -inset-px bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-0 hover:opacity-20 transition duration-500 pointer-events-none\" /> <h3 className=\"text-lg font-bold text-zinc-100\">{title}</h3> <p className=\"text-sm text-zinc-400 mt-2\">{description}</p> </motion.div> );"
+  },
+  {
+    "name": "Spring Physics Modal",
+    "website": "https://example.com",
+    "repo": "https://github.com/ThunderConstellations/spring-modal",
+    "license": "MIT",
+    "category": "Overlays",
+    "description": "A spring-animated modal dialog built with Framer Motion physics and smooth opening/closing transitions.",
+    "code": "import React, { useState } from \"react\"; import { motion, AnimatePresence } from \"framer-motion\"; export const SpringModal = () => { const [isOpen, setIsOpen] = useState(false); return ( <button onClick={() => setIsOpen(true)} className=\"px-4 py-2 bg-indigo-600 text-white rounded-xl font-medium\">Open Modal</button> <AnimatePresence> {isOpen && ( <div className=\"fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50\" > <div className=\"relative bg-zinc-900 border border-zinc-800 p-6 rounded-2xl w-80 text-zinc-100 shadow-2xl\" > <h3 className=\"text-lg font-bold\">Spring Modal</h3> <p className=\"text-sm text-zinc-400 mt-2\">Smooth bouncy spring physics built with Framer Motion.</p> <button onClick={() => setIsOpen(false)} className=\"mt-4 w-full py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm\">Close</button> </div> </div> </AnimatePresence> ); };"
+  },
+  {
+    "name": "Pulsar Ripple Button",
+    "website": "https://example.com",
+    "repo": "https://github.com/ThunderConstellations/pulsar-button",
+    "license": "MIT",
+    "category": "Buttons",
+    "description": "A button with quantum ripple effect that calculates mouse click offset and displays animated pulsar waves on click.",
+    "code": "import React from \"react\"; export const PulsarButton = ({ onClick, children }) => { const handleClick = (e) => { const circle = document.createElement(\"span\"); const diameter = Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight); const radius = diameter / 2; const rect = e.currentTarget.getBoundingClientRect(); circle.style.width = circle.style.height = `${diameter}px`; circle.style.left = `${e.clientX - rect.left - radius}px`; circle.style.top = `${e.clientY - rect.top - radius}px`; circle.className = \"absolute rounded-full bg-white/40 pointer-events-none animate-ping\"; circle.style.animationDuration = \"0.6s\"; e.currentTarget.appendChild(circle); setTimeout(() => circle.remove(), 600); onClick?.(e); }; return ( <button onClick={handleClick} className=\"relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-bold text-sm transition transform active:scale-95 flex items-center space-x-2\" > <i className=\"fa-solid fa-bolt text-amber-300\"/> <span>{children}</span> </button> ); };"
   }
 ]
