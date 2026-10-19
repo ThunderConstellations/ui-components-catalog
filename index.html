@@ -33,6 +33,11 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col">
 
+    <!-- Skip-to-Content Link (WCAG 2.1 Accessibility) -->
+    <a href="#mainContent" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-slate-950 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg">
+        Skip to main content
+    </a>
+
     <!-- Header Navigation -->
     <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
@@ -66,6 +71,9 @@
                 </button>
                 <button onclick="triggerConfetti()" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-amber-300 border border-slate-800 transition text-xs" title="Celebrate">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </button>
+                <button onclick="toggleTheme()" class="ml-3 p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-amber-300 border border-slate-800 transition text-xs" title="Toggle Theme">
+                    <i id="themeIcon" class="fa-solid moon text-[12px] text-slate-500">🌙</i>
                 </button>
             </div>
         </div>
@@ -300,6 +308,24 @@
                 </h3>
                 <div id="favoritesList" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
                     <p class="text-xs text-slate-500 italic">No components starred yet. Tap the star on any card to save!</p>
+                </div>
+            </div>
+
+            <!-- Getting Started Onboarding -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center">
+                    <i class="fa-solid fa-rocket mr-2 text-amber-400"></i> Getting Started
+                </h3>
+                <div class="bg-slate-950/80 border border-slate-800/60 rounded-xl p-4 space-y-3">
+                    <p class="text-xs text-slate-400">Explore 1,766+ React &amp; TypeScript UI components. Use dropdowns to filter by ecosystem and category.</p>
+                    <div class="flex gap-2 pt-1">
+                        <button onclick="toggleTheme()" class="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium transition flex items-center justify-center">
+                            <i class="fa-solid fa-moon mr-1"></i> Theme
+                        </button>
+                        <button onclick="downloadJsonExport()" class="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium transition flex items-center justify-center">
+                            <i class="fa-solid fa-download mr-1"></i> Export JSON
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -1172,6 +1198,42 @@
             return (str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
+        // Theme Toggle Function
+        function toggleTheme() {
+            const htmlElement = document.documentElement;
+            const isDark = htmlElement.classList.contains('dark');
+            htmlElement.classList.toggle('dark', !isDark);
+            
+            // Update icon
+            const themeIcon = document.getElementById('themeIcon');
+            if (themeIcon) {
+                themeIcon.textContent = isDark ? '☀️' : '🌙';
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('omniui-theme', isDark ? 'light' : 'dark');
+            showToast(`Switched to ${isDark ? 'light' : 'dark'} mode`);
+        }
+
+        // Initialize theme from localStorage or system preference
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('omniui-theme');
+            if (savedTheme) {
+                document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+            } else {
+                // Respect system preference
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.classList.toggle('dark', prefersDark);
+            }
+            
+            // Set initial icon
+            const isDark = document.documentElement.classList.contains('dark');
+            const themeIcon = document.getElementById('themeIcon');
+            if (themeIcon) {
+                themeIcon.textContent = isDark ? '☀️' : '🌙';
+            }
+        }
+
         // Global Keyboard Shortcut: Cmd+K / Ctrl+K for Search
         window.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -1185,7 +1247,10 @@
             }
         });
 
-        window.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            init();
+        });
     </script>
 </body>
 </html>
