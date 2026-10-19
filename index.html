@@ -29,6 +29,54 @@
       .glow-border:hover { box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.25); border-color: rgba(99, 102, 241, 0.5); }
       @keyframes pulse-subtle { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
       .animate-pulse-subtle { animation: pulse-subtle 3s infinite ease-in-out; }
+
+      /* ---- HOVER PREVIEW TOOLTIP ---- */
+      .hover-preview-wrapper { position: relative; cursor: pointer; }
+      .hover-preview-tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        opacity: 0;
+        visibility: hidden;
+        padding: 0.75rem 1rem;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 0.75rem;
+        white-space: nowrap;
+        z-index: 100;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        width: max-content;
+        max-width: 280px;
+        font-size: 0.8rem;
+        color: #cbd5e1;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+      .hover-preview-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
+      }
+      .hover-preview-wrapper:hover .hover-preview-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+      .hover-preview-wrapper:focus .hover-preview-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+      /* Reduce tooltip on mobile */
+      @media (max-width: 640px) {
+        .hover-preview-tooltip { max-width: 100%; }
+      }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col">
@@ -68,6 +116,10 @@
                 <button id="openCompareModal" class="bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 border border-slate-800 transition flex items-center space-x-1.5">
                     <i class="fa-solid fa-code-compare text-indigo-400"></i>
                     <span>Compare</span>
+                </button>
+                <button id="instantDemoToggle" onclick="toggleInstantDemoMode()" class="bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-emerald-400 border border-emerald-500/30 transition flex items-center space-x-1.5" title="Toggle Instant Demo Mode - click any card to preview">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Instant Demo</span>
                 </button>
                 <button onclick="triggerConfetti()" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-amber-300 border border-slate-800 transition text-xs" title="Celebrate">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -868,7 +920,7 @@
                 const safeDesc = c.description || `Production-ready ${escapeHtml(c.name)} component with modern styling and accessible primitives.`;
 
                 return `
-                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl">
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between space-y-4 group glow-border shadow-xl hover-preview-wrapper">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-300 uppercase tracking-wide font-semibold">
@@ -887,6 +939,15 @@
                         <div class="card-preview-area hidden group-hover:block transition-all duration-300 rounded-xl overflow-hidden border border-indigo-500/30 bg-slate-950 p-2 text-center text-xs">
                             <iframe src="${escapeHtml(safeWebsite)}" loading="lazy" class="w-full h-36 rounded-lg border-0 bg-slate-900 pointer-events-auto"></iframe>
                             <span class="text-[10px] font-mono text-indigo-400 block pt-1">Live Auto-Preview</span>
+                        </div>
+
+                        <!-- Hover Preview Tooltip -->
+                        <div class="hover-preview-tooltip">
+                            <strong>${escapeHtml(c.name)}</strong><br>
+                            <span class="block text-[9px]">${escapeHtml(safeCategory)}</span>
+                            <span class="block text-[9px] text-slate-400">• ${escapeHtml(safeLicense)} license</span>
+                            <span class="block text-[9px] text-slate-400">${safeDesc.split('.')[0]}.</span>
+                            <span class="block text-[8px] text-indigo-400 mt-1">Hover for live preview • Click Demo for full sandbox</span>
                         </div>
 
                         <!-- Card Action Buttons -->
@@ -921,6 +982,43 @@
                 document.getElementById('loadMoreTrigger').classList.remove('hidden');
             }
         }
+
+        // ==========================================
+        // Instant Demo Mode Toggle (No more button clicks needed)
+        // ==========================================
+        let instantDemoMode = false;
+
+        function toggleInstantDemoMode() {
+            instantDemoMode = !instantDemoMode;
+            document.body.classList.toggle('instant-demo-active', instantDemoMode);
+            showToast(instantDemoMode ? '⚡ Instant Demo Mode: Click any card to preview instantly' : 'Instant Demo Mode: Disabled');
+        }
+
+        // Auto-open demo on card click when instant mode is active
+        document.addEventListener('click', function(e) {
+            if (!instantDemoMode) return;
+            const card = e.target.closest('.hover-preview-wrapper');
+            if (!card) return;
+            const demoBtn = card.querySelector('button[onclick*="openDemoModal"]');
+            if (demoBtn) {
+                e.preventDefault();
+                demoBtn.click();
+            }
+        });
+
+        // Auto-open demo on Enter key press when card is focused
+        document.addEventListener('keydown', function(e) {
+            if (!instantDemoMode) return;
+            if (e.key !== 'Enter') return;
+            const focused = document.activeElement;
+            const card = focused.closest('.hover-preview-wrapper');
+            if (!card) return;
+            const demoBtn = card.querySelector('button[onclick*="openDemoModal"]');
+            if (demoBtn) {
+                e.preventDefault();
+                demoBtn.click();
+            }
+        });
 
         function handleInfiniteScroll() {
             const trigger = document.getElementById('loadMoreTrigger');
