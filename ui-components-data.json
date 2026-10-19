@@ -10929,5 +10929,182 @@
     "category": "Buttons",
     "description": "A button with quantum ripple effect that calculates mouse click offset and displays animated pulsar waves on click.",
     "code": "import React from \"react\"; export const PulsarButton = ({ onClick, children }) => { const handleClick = (e) => { const circle = document.createElement(\"span\"); const diameter = Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight); const radius = diameter / 2; const rect = e.currentTarget.getBoundingClientRect(); circle.style.width = circle.style.height = `${diameter}px`; circle.style.left = `${e.clientX - rect.left - radius}px`; circle.style.top = `${e.clientY - rect.top - radius}px`; circle.className = \"absolute rounded-full bg-white/40 pointer-events-none animate-ping\"; circle.style.animationDuration = \"0.6s\"; e.currentTarget.appendChild(circle); setTimeout(() => circle.remove(), 600); onClick?.(e); }; return ( <button onClick={handleClick} className=\"relative overflow-hidden px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-bold text-sm transition transform active:scale-95 flex items-center space-x-2\" > <i className=\"fa-solid fa-bolt text-amber-300\"/> <span>{children}</span> </button> ); };"
+  },
+  {
+    "name": "Shadcn UI",
+    "description": "Re-usable components built using Radix UI and Tailwind CSS.",
+    "demo_url": "https://ui.shadcn.com",
+    "github_url": "https://github.com/shadcn-ui/ui",
+    "category": "Design Systems / UI",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "Tailwind Awesome",
+    "description": "Curated list of the best Tailwind CSS templates, UI kits, and components.",
+    "demo_url": "https://www.tailwindawesome.com",
+    "github_url": "https://github.com/tailwindawesome",
+    "category": "Resource Directory",
+    "languages": [
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "Tailwind UI",
+    "description": "Official component library and UI kits by the creators of Tailwind CSS.",
+    "demo_url": "https://tailwindui.com",
+    "github_url": "https://github.com/tailwindlabs",
+    "category": "Design Systems",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "UI Ball",
+    "description": "Loaders and spinners collection built with CSS and React.",
+    "demo_url": "https://uiball.com/loaders",
+    "github_url": "https://github.com/uiball/loaders",
+    "category": "Animations & Loaders",
+    "languages": [
+      "CSS",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "Lottiefiles React",
+    "description": "Interactive Lottie animations component for React apps.",
+    "demo_url": "https://lottiefiles.com",
+    "github_url": "https://github.com/LottieFiles/lottie-react",
+    "category": "Animations",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "Chart.js React",
+    "description": "React wrapper for Chart.js charting library.",
+    "demo_url": "https://react-chartjs-2.js.org",
+    "github_url": "https://github.com/reactchartjs/react-chartjs-2",
+    "category": "Charts & Graphs",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "shadcn-table",
+    "description": "Advanced data tables built with TanStack Table and Shadcn UI.",
+    "demo_url": "https://ui.shadcn.com/docs/components/data-table",
+    "github_url": "https://github.com/tanstack/table",
+    "category": "Data Tables",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Tldraw",
+    "description": "A collaborative canvas SDK and React component library.",
+    "demo_url": "https://tldraw.dev",
+    "github_url": "https://github.com/tldraw/tldraw",
+    "category": "Canvas & Whiteboard",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Excalidraw React",
+    "description": "Virtual whiteboard component for sketching hand-drawn diagrams.",
+    "demo_url": "https://excalidraw.com",
+    "github_url": "https://github.com/excalidraw/excalidraw",
+    "category": "Whiteboard & Sketches",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Mapbox GL React",
+    "description": "React components for Mapbox GL JS maps.",
+    "demo_url": "https://visgl.github.io/react-map-gl",
+    "github_url": "https://github.com/visgl/react-map-gl",
+    "category": "Maps & GIS",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Leaflet React",
+    "description": "React components for Leaflet maps.",
+    "demo_url": "https://react-leaflet.js.org",
+    "github_url": "https://github.com/PaulLeCam/react-leaflet",
+    "category": "Maps & GIS",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "FullCalendar React",
+    "description": "Full-sized drag and drop event calendar component for React.",
+    "demo_url": "https://fullcalendar.io/docs/react",
+    "github_url": "https://github.com/fullcalendar/fullcalendar",
+    "category": "Calendar & Scheduling",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "TipTap React",
+    "description": "Headless rich text editor framework for React.",
+    "demo_url": "https://tiptap.dev",
+    "github_url": "https://github.com/ueberdosis/tiptap",
+    "category": "Rich Text Editors",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Monaco React",
+    "description": "Monaco Editor wrapper for React.",
+    "demo_url": "https://github.com/suren-atoyan/monaco-react",
+    "github_url": "https://github.com/suren-atoyan/monaco-react",
+    "category": "Code Editors",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "CodeMirror React",
+    "description": "React wrapper for CodeMirror 6 code editor.",
+    "demo_url": "https://uiwjs.github.io/react-codemirror/",
+    "github_url": "https://github.com/uiwjs/react-codemirror",
+    "category": "Code Editors",
+    "languages": [
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Uppy React",
+    "description": "Sleek, modular file uploader for web apps.",
+    "demo_url": "https://uppy.io",
+    "github_url": "https://github.com/transloadit/uppy",
+    "category": "File Uploads",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "React Virtuoso",
+    "description": "React component for rendering large lists and tables efficiently.",
+    "demo_url": "https://virtuoso.dev",
+    "github_url": "https://github.com/petyosi/react-virtuoso",
+    "category": "Virtualization",
+    "languages": [
+      "TypeScript"
+    ]
   }
 ]
